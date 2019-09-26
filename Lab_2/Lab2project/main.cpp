@@ -12,6 +12,7 @@ QApplication app (argc, argv);
 
 //comment
 // :)
+//branched
 
 //QGraphicsPixmapItem  * item1 = new QGraphicsPixmapItem();
 //QGraphicsPixmapItem  * item2 = new QGraphicsPixmapItem();
