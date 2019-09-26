@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 QApplication app (argc, argv);
 
 //comment
-
+// :)
 
 //QGraphicsPixmapItem  * item1 = new QGraphicsPixmapItem();
 //QGraphicsPixmapItem  * item2 = new QGraphicsPixmapItem();
