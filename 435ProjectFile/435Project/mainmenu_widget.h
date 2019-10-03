@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QObject>
 #include <QtWidgets>
+#include <strings.h>
 
 
 class MainMenu_Widget : public QWidget
@@ -17,11 +18,16 @@ public:
     QGridLayout * Horizantel;
     QGroupBox * GroupBox;
     QLabel * UsernameL, *PasswordL;
+    QWidget * partner1;
 
 
 signals:
 
 public slots:
+
+    void Open_GameSelection();
+    //void NewUser (string username, string FirstName, string LastName, String Age, String );
+    void OpenRegisterMenu();
 
 };
 

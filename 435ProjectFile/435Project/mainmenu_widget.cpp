@@ -5,6 +5,8 @@
 #include <strings.h>
 #include <QLabel>
 #include <QLayout>
+#include <registermenu.h>
+
 
 MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     QWidget(parent)
@@ -20,46 +22,43 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     PasswordL = new QLabel("Password: ");
 
 
+    //Creating layouts
     VerticalL = new QVBoxLayout();
     Horizantel = new QGridLayout();
-    GroupBox = new QGroupBox();
 
-
-
-
-
-    //Horizantel->addWidget(LoginGuest_Button,4,1);
-    //Horizantel->addWidget(Login_Button,3,1);
-    //Horizantel->addWidget(Register_Button,5,1);
+    //adding widgets to horizantel layout
     Horizantel->addWidget(Username,1,0);
     Horizantel->addWidget(Password,1,2);
     Horizantel->addWidget(UsernameL,0,0);
     Horizantel->addWidget(PasswordL,0,2);
 
-
-
-
-
-
-     //Horizantel->addItem(new QSpacerItem(50,10),0,2,1,1);
-
+    //adding widgets to vertical layout
     VerticalL->addItem(Horizantel);
     VerticalL->addWidget(Login_Button,1,0);
     VerticalL->addWidget(LoginGuest_Button,2,0);
     VerticalL->addWidget(Register_Button,3,0);
-
-
-
-
-
-    setLayout(VerticalL);
-
-
-
-
     this->setLayout(VerticalL);
 
+    //Signal connector to go to REGISTER MENU
+    QObject::connect(Register_Button, SIGNAL(clicked()), this, SLOT(OpenRegisterMenu()) );
 
 
+
+
+}
+
+//Function to open REGISTER MENU
+void MainMenu_Widget :: OpenRegisterMenu()
+{
+    this->close();
+    partner1 = new RegisterMenu();
+    partner1->show();
+
+}
+
+
+//Function to open GAME SELECTION MENU
+void MainMenu_Widget :: Open_GameSelection()
+{
 
 }
