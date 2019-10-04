@@ -13,12 +13,12 @@ class RegisterMenu : public QWidget
     Q_OBJECT
 public:
     explicit RegisterMenu(QWidget *parent = 0);
-    QPushButton * Finish, * Refresh;
+    QPushButton * Register, * InsertImage;
     QLabel * FirstName, * LastName, * Gender, * Age, * MaleLabel, * FemaleLabel;
     QLineEdit * LineEdit1, * LineEdit2;
     QDialogButtonBox * Dialog;
     QRadioButton * Male, * Female;
-    QTextEdit * TextEdit;
+
     QSpinBox * SpinBox;
     QVBoxLayout * VerticalL;
     QGridLayout * Horizantel;
@@ -28,8 +28,8 @@ public:
 signals:
 
 public slots:
-    void fillSummary();
-    void refresh();
+    void RegisterUser();
+    void GetImg();
 
 };
 

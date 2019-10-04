@@ -6,6 +6,8 @@
 #include <QLabel>
 #include <QLayout>
 #include <registermenu.h>
+#include <QFile>
+#include <QTextStream>
 
 
 MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
@@ -50,9 +52,11 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
 //Function to open REGISTER MENU
 void MainMenu_Widget :: OpenRegisterMenu()
 {
+
     this->close();
     partner1 = new RegisterMenu();
     partner1->show();
+
 
 }
 

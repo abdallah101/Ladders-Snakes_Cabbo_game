@@ -3,12 +3,16 @@
 #include <QApplication>
 #include <mainmenu_widget.h>
 #include <QWidget>
+#include <QFile>
+#include <QString>
+#include <QTextStream>
+#include <QDebug>
 
 RegisterMenu::RegisterMenu(QWidget *parent) :
     QWidget(parent)
 {
-    Finish = new QPushButton ("Finish");
-    Refresh = new QPushButton ("Refresh");
+    Register = new QPushButton ("Register");
+    InsertImage = new QPushButton ("Insert Profile Image");
     FirstName = new QLabel ("First Name");
     LastName = new QLabel ("Last Name");
     Gender = new QLabel ("Gender");
@@ -20,7 +24,7 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     Dialog = new QDialogButtonBox();
     Male = new QRadioButton("Male");
     Female = new QRadioButton("Female");
-    TextEdit = new QTextEdit();
+
     SpinBox = new QSpinBox();
 
 
@@ -42,7 +46,7 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     Horizantel->addWidget(LineEdit1,0,1);
     Horizantel->addWidget(LineEdit2,1,1);
     Horizantel->addWidget(SpinBox,0,3);
-    Horizantel->addWidget(Refresh,3,0);
+    Horizantel->addWidget(InsertImage,3,0);
 
 
     Horizantel->addWidget(GroupBox,2,1);
@@ -52,8 +56,8 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
 
     VerticalL->addItem(Horizantel);
 
-    VerticalL->addWidget(TextEdit,2,0);
-    VerticalL->addWidget(Finish,3,0);
+
+    VerticalL->addWidget(Register,2,0);
 
 
 
@@ -65,53 +69,43 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
 
     this->setLayout(VerticalL);
     //window->show();
-    QObject::connect(Finish, SIGNAL(clicked()), this, SLOT(fillSummary()) );
-    QObject::connect(Refresh, SIGNAL(clicked()), this, SLOT(refresh()) );
+    QObject::connect(Register, SIGNAL(clicked()), this, SLOT(RegisterUser()) );
+    QObject::connect(InsertImage, SIGNAL(clicked()), this, SLOT(GetImg()) );
 
 
 }
-void RegisterMenu :: fillSummary()
+void RegisterMenu :: RegisterUser()
 {
-    QString first = LineEdit1->text();
-    QString last = LineEdit2->text();
-    QString ageS = SpinBox->text();
-    QString gender;
-    if(Male->isChecked()==true)
+
+    QString gender = "Not Set";
+    QFile file("UserData.txt");
+    file.open(QIODevice::Append|QIODevice::Text);
+    QTextStream stream(&file);
+
+    if (Male->isChecked())
     {
         gender = "Male";
     }
-    else if (Female->isChecked() == true)
+    if(Female->isChecked())
     {
-        gender = "Female";
-    }
-    else
-    {
-        gender = "Unknown";
+        gender = "female";
     }
 
-    QString summary = first + "\n" + last + "\n" + ageS + "\n" + gender + "\n";
+    //lineEdit1 is firstname and lineEdit2 is last name
+    stream << "First Name: " << LineEdit1->text() << ", Last Name: " << LineEdit2->text() << ", Age: "
+           << SpinBox->text() << ", Gender: " << gender << endl;
 
-    TextEdit->setText(summary);
+    stream.flush();
+    file.close();
+
+
 }
 
-void RegisterMenu :: refresh(){
-
-    //TextEdit->setText("");
-    TextEdit->clear();
-    LineEdit1->clear();
-    LineEdit2->clear();
-
-    Male->setAutoExclusive(false);
-    Male->setChecked(false);
-    Male->setAutoExclusive(true);
-    Female->setAutoExclusive(false);
-    Female->setChecked(false);
-    Female->setAutoExclusive(true);
+void RegisterMenu :: GetImg(){
 
 
 
 
-    SpinBox->clear();
 
 
 }
