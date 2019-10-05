@@ -17,3 +17,6 @@ HEADERS += \
     registermenu.h
 
 OTHER_FILES +=
+
+RESOURCES += \
+    UserProfilePics/ProfilePics.qrc

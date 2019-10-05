@@ -14,11 +14,10 @@ class RegisterMenu : public QWidget
 public:
     explicit RegisterMenu(QWidget *parent = 0);
     QPushButton * Register, * InsertImage;
-    QLabel * FirstName, * LastName, * Gender, * Age, * MaleLabel, * FemaleLabel;
-    QLineEdit * LineEdit1, * LineEdit2;
+    QLabel * FirstName, * LastName, * Gender, * Age, * MaleLabel, * FemaleLabel, * usernameL, * passwordL, *UploadedPicPath;
+    QLineEdit * LineEdit1, * LineEdit2, * username, * password;
     QDialogButtonBox * Dialog;
     QRadioButton * Male, * Female;
-
     QSpinBox * SpinBox;
     QVBoxLayout * VerticalL;
     QGridLayout * Horizantel;
