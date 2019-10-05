@@ -105,22 +105,13 @@ void RegisterMenu :: RegisterUser()
     stream.flush();
     file.close();
 
-
-}
-
-
-//function to save user's image to a file called UserProfilePics which is set up as a resource file
-void RegisterMenu :: GetImg(){
-
-
-
     QString copyto; //saving name of image with its extension
     QString Extension; //saving only the extension
     bool founddash = false; //used for finding "/" in path
     bool foundextension = false; //used in finding "." in path
 
-    //saves the path to a .jpg .jpeg or .png image that a user is promted to give
-    QString imagePath= QFileDialog::getOpenFileName(this,tr("UserProfilePics"),"", tr("JPEG (*.jpg *.jpeg);;PNG (*.png)" ) );
+    QString imagePath = UploadedPicPath->text();
+
 
     //looping to find "/" and "." to save name and extension
     for(int i = imagePath.size()-1, indexdash = 0, indexExt = 0; i != imagePath.size();)
@@ -155,12 +146,6 @@ void RegisterMenu :: GetImg(){
 
     }
 
-
-
-    //showing user his selected item
-    UploadedPicPath->setText(imagePath);
-
-
     //copying the item the user selected into UserProfilePics which is a resource file
     QFile::copy(imagePath,
                 QDir::currentPath() +"/UserProfilePics"+ copyto);
@@ -173,6 +158,27 @@ void RegisterMenu :: GetImg(){
 
     //deleting the original one with bad name
     QFile::remove(QDir::currentPath() +"/UserProfilePics"+ copyto);
+
+
+}
+
+
+//function to save user's image to a file called UserProfilePics which is set up as a resource file
+void RegisterMenu :: GetImg(){
+
+    //saves the path to a .jpg .jpeg or .png image that a user is promted to give
+    QString imagePath= QFileDialog::getOpenFileName(this,tr("UserProfilePics"),"", tr("JPEG (*.jpg *.jpeg);;PNG (*.png)" ) );
+
+
+
+
+
+
+    //showing user his selected item
+    UploadedPicPath->setText(imagePath);
+
+
+
 
 
 
