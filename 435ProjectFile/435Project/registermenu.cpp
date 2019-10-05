@@ -10,11 +10,13 @@
 #include <QFileDialog>
 #include <QImage>
 #include <QPixmap>
+#include <QString>
 
 RegisterMenu::RegisterMenu(QWidget *parent) :
     QWidget(parent)
 {
     //Setting up the interface for registration
+    errorNotice = new QLabel();
     UploadedPicPath = new QLabel("Upload your Profile Picture");
     Register = new QPushButton ("Register");
     InsertImage = new QPushButton ("Insert Profile Image");
@@ -35,7 +37,7 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     usernameL = new QLabel("Username");
     passwordL = new QLabel("Password");
     SpinBox = new QSpinBox();
-
+    back = new QPushButton("back");
 
     //setting up the layout
     VerticalL = new QVBoxLayout();
@@ -61,20 +63,27 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     Horizantel->addWidget(LineEdit2,1,1);
     Horizantel->addWidget(SpinBox,0,3);
     Horizantel->addWidget(InsertImage,5,0);
-    Horizantel->addWidget(GroupBox,4,1);
+    Horizantel->addWidget(GroupBox,4,0);
     Horizantel->addItem(new QSpacerItem(50,10),0,2,1,1);
     Horizantel->addWidget(UploadedPicPath, 5, 1);
+    Horizantel->addWidget(errorNotice,4,1 );
+
+    //Setting up RBL
+    RBL = new QGridLayout();
+    RBL->addWidget(Register, 0 , 0);
+    RBL->addWidget(back, 0, 1);
 
 
     //Setting up vertical layout
     VerticalL->addItem(Horizantel);
-    VerticalL->addWidget(Register,2,0);
+    VerticalL->addItem(RBL);
     setLayout(VerticalL);
     this->setLayout(VerticalL);
 
     //connectors
     QObject::connect(Register, SIGNAL(clicked()), this, SLOT(RegisterUser()) );
     QObject::connect(InsertImage, SIGNAL(clicked()), this, SLOT(GetImg()) );
+    QObject::connect(back, SIGNAL(clicked()), this, SLOT(goBack()) );
 
 
 }
@@ -83,27 +92,84 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
 void RegisterMenu :: RegisterUser()
 {
 
-    QString gender = "Not Set";
+    QString gender = "n";
     QFile file("UserData.txt");
-    file.open(QIODevice::Append|QIODevice::Text);
-    QTextStream stream(&file);
+    bool UsernameUsed = false;
 
     if (Male->isChecked())
-    {
-        gender = "Male";
+     {
+            gender = "Male";
     }
-    if(Female->isChecked())
-    {
+   if(Female->isChecked())
+   {
         gender = "female";
     }
 
-    //lineEdit1 is firstname and lineEdit2 is last name
-    //format is: firstname,lastname,age,gender,username,password
-    stream << LineEdit1->text() << "," << LineEdit2->text() << ","<< SpinBox->text() << "," << gender << "," << username->text() <<
-              "," << password->text() << endl;
 
-    stream.flush();
+   if(LineEdit1->text().isEmpty()==true || username->text().isEmpty() == true || LineEdit2->text().isEmpty() == true ||
+           password->text().isEmpty() == true || gender == "n" || SpinBox->text().isEmpty() == true)
+   {
+       UsernameUsed = true;
+       errorNotice->setText("Please insert all required fields");
+   }
+
+   if(SpinBox->text().toDouble() < 10)
+   {
+       UsernameUsed = true;
+       errorNotice->setText("You have to be above 10 to play this game");
+   }
+
+
+    file.open(QIODevice::ReadOnly|QIODevice::Text);
+    QRegExp rx("(\\ |\\,|\\.|\\:|\\t)"); //RegEx for ' ' or ',' or '.' or ':' or '\t'
+
+
+    QTextStream lite(&file);
+    QString sp;
+    QStringList query;
+
+
+    while(!lite.atEnd())
+    {
+
+        sp = lite.readLine();
+        query = sp.split(rx);
+
+        if(username->text() == query[4])
+        {
+            errorNotice->setText("Username Used");
+            UsernameUsed = true;
+            break;
+        }
+
+
+
+
+
+
+    }
     file.close();
+
+
+    if(UsernameUsed == false)
+    {
+
+
+      file.open(QIODevice::Append|QIODevice::Text);
+      QTextStream stream(&file);
+
+
+
+
+      //lineEdit1 is firstname and lineEdit2 is last name
+       //format is: firstname,lastname,age,gender,username,password seperated by commas
+        stream << LineEdit1->text() << "," << LineEdit2->text() << ","<< SpinBox->text() << "," << gender << "," << username->text() <<
+                  "," << password->text() << endl;
+
+        stream.flush();
+        file.close();
+
+
 
     QString copyto; //saving name of image with its extension
     QString Extension; //saving only the extension
@@ -111,55 +177,62 @@ void RegisterMenu :: RegisterUser()
     bool foundextension = false; //used in finding "." in path
 
     QString imagePath = UploadedPicPath->text();
+    QFile search(imagePath);
 
-
-    //looping to find "/" and "." to save name and extension
-    for(int i = imagePath.size()-1, indexdash = 0, indexExt = 0; i != imagePath.size();)
+    if (search.exists())
     {
-        if(imagePath[i] == '/')
+        //looping to find "/" and "." to save name and extension
+        for(int i = imagePath.size()-1, indexdash = 0, indexExt = 0; i != imagePath.size();)
         {
-            founddash = true;
-
-        }
-        if(founddash == false)
-        {
-            i--;
-        }
-        //when founddash is true, i start taking in the letters ie. everything after "/" and including it
-        else
-        {
-            copyto[indexdash] = imagePath[i];
-            i++;
-            indexdash++;
-            if(imagePath[i] == '.')
+            if(imagePath[i] == '/')
             {
-                foundextension = true;
+                founddash = true;
 
             }
-            //when foundextension is true, i start taking in the letters ie. everything after "." and including it
-            if(foundextension == true)
+            if(founddash == false)
             {
-                Extension[indexExt] = imagePath[i];
-                indexExt++;
+                i--;
             }
+            //when founddash is true, i start taking in the letters ie. everything after "/" and including it
+            else
+            {
+                copyto[indexdash] = imagePath[i];
+                i++;
+                indexdash++;
+                if(imagePath[i] == '.')
+                {
+                    foundextension = true;
+
+                }
+                //when foundextension is true, i start taking in the letters ie. everything after "." and including it
+                if(foundextension == true)
+                {
+                    Extension[indexExt] = imagePath[i];
+                    indexExt++;
+                }
+            }
+
         }
 
+        //copying the item the user selected into UserProfilePics which is a resource file
+        QFile::copy(imagePath,
+                    QDir::currentPath() +"/UserProfilePics"+ copyto);
+
+           //copying it again but changing its name so that we identify it uniquely
+        QFile::copy(QDir::currentPath() + "/UserProfilePics"+ copyto,
+                    QDir::currentPath()+ "/UserProfilePics/" + username->text()
+                    + Extension
+                    );
+
+        //deleting the original one with bad name
+        QFile::remove(QDir::currentPath() +"/UserProfilePics"+ copyto);
     }
 
-    //copying the item the user selected into UserProfilePics which is a resource file
-    QFile::copy(imagePath,
-                QDir::currentPath() +"/UserProfilePics"+ copyto);
 
-    //copying it again but changing its name so that we identify it uniquely
-    QFile::copy(QDir::currentPath() + "/UserProfilePics"+ copyto,
-                QDir::currentPath()+ "/UserProfilePics/" + username->text()
-                + Extension
-                );
-
-    //deleting the original one with bad name
-    QFile::remove(QDir::currentPath() +"/UserProfilePics"+ copyto);
-
-
+    this->close();
+    partner1 = new MainMenu_Widget();
+    partner1->show();
+    }
 }
 
 
@@ -170,22 +243,17 @@ void RegisterMenu :: GetImg(){
     QString imagePath= QFileDialog::getOpenFileName(this,tr("UserProfilePics"),"", tr("JPEG (*.jpg *.jpeg);;PNG (*.png)" ) );
 
 
-
-
-
-
     //showing user his selected item
     UploadedPicPath->setText(imagePath);
 
 
 
+}
 
-
-
-
-
-
-
-
+void RegisterMenu :: goBack()
+{
+    this->close();
+    partner1 = new MainMenu_Widget();
+    partner1->show();
 }
 
