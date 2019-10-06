@@ -31,6 +31,7 @@ public slots:
     void RegisterUser();
     void GetImg();
     void goBack();
+    int CheckPassword(QString);
 };
 
 #endif // REGISTERMENU_H

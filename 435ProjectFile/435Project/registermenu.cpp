@@ -88,6 +88,25 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
 
 }
 
+/**
+  * @brief Check the password
+  * @param string password
+  * @return integer that is 0 if no problem| 1 if password is short| 2 if character is missing.
+  */
+
+int RegisterMenu :: CheckPassword(QString Password)
+{
+    if (Password.length() < 10) return 1;
+    int  small = 0, big = 0;
+    for (int i = 0; i<Password.length(); i++)
+    {
+        if (Password[i] >= 'a' && Password[i] <='z') small++;
+        else if(Password[i] >= 'A' && Password[i] <='Z') big++;
+    }
+    if (small == 0 || big == 0 || (small + big == Password.length())) return 2;
+    return 0;
+}
+
 //function to register user into database which is a .txt file called UserData.txt
 void RegisterMenu :: RegisterUser()
 {
@@ -119,11 +138,14 @@ void RegisterMenu :: RegisterUser()
        errorNotice->setText("You have to be above 10 to play this game");
    }
 
-   if(password->text().length() < 10)
+   int x = CheckPassword(password->text());
+   if (x != 0)
    {
        UsernameUsed = true;
-       errorNotice->setText("Password should consist of at least 10 characters.");
+       if (x == 1) errorNotice->setText("The password must be at least 10 characters.");
+       else errorNotice->setText("The password must contain at least one small letter, one capital letter, and one non-alphabetical character.");
    }
+
 
     file.open(QIODevice::ReadOnly|QIODevice::Text);
     QRegExp rx("(\\ |\\,|\\.|\\:|\\t)"); //RegEx for ' ' or ',' or '.' or ':' or '\t'
@@ -250,8 +272,6 @@ void RegisterMenu :: GetImg(){
 
     //showing user his selected item
     UploadedPicPath->setText(imagePath);
-
-
 
 }
 
