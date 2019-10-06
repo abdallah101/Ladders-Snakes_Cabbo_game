@@ -119,6 +119,11 @@ void RegisterMenu :: RegisterUser()
        errorNotice->setText("You have to be above 10 to play this game");
    }
 
+   if(password->text().length() < 10)
+   {
+       UsernameUsed = true;
+       errorNotice->setText("Password should consist of at least 10 characters.");
+   }
 
     file.open(QIODevice::ReadOnly|QIODevice::Text);
     QRegExp rx("(\\ |\\,|\\.|\\:|\\t)"); //RegEx for ' ' or ',' or '.' or ':' or '\t'
