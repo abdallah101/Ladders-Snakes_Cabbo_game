@@ -112,7 +112,7 @@ void RegisterMenu :: RegisterUser()
 {
 
     QString gender = "n";
-    QFile file("UserData.txt");
+
     bool UsernameUsed = false;
 
     if (Male->isChecked())
@@ -146,9 +146,10 @@ void RegisterMenu :: RegisterUser()
        else errorNotice->setText("The password must contain at least one small letter, one capital letter, and one non-alphabetical character.");
    }
 
-
+    QFile file("UserData.txt");
     file.open(QIODevice::ReadOnly|QIODevice::Text);
     QRegExp rx("(\\ |\\,|\\.|\\:|\\t)"); //RegEx for ' ' or ',' or '.' or ':' or '\t'
+
 
 
     QTextStream lite(&file);
@@ -168,11 +169,6 @@ void RegisterMenu :: RegisterUser()
             UsernameUsed = true;
             break;
         }
-
-
-
-
-
 
     }
     file.close();

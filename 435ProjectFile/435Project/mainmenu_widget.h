@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QtWidgets>
 #include <strings.h>
+#include <mainscreen.h>
 
 
 class MainMenu_Widget : public QWidget
@@ -17,9 +18,10 @@ public:
     QVBoxLayout * VerticalL;
     QGridLayout * Horizantel;
     QGroupBox * GroupBox;
-    QLabel * UsernameL, *PasswordL;
+    QLabel * UsernameL, *PasswordL, *error;
     QWidget * partner1;
 
+    MainScreen * partner2;
 
 signals:
 

@@ -8,6 +8,7 @@
 #include <registermenu.h>
 #include <QFile>
 #include <QTextStream>
+#include <mainscreen.h>
 
 
 MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
@@ -20,8 +21,10 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     LoginGuest_Button = new QPushButton("Login as Guest");
     Username = new QLineEdit();
     Password = new QLineEdit();
+    Password->setEchoMode(QLineEdit::Password);
     UsernameL = new QLabel("Username: ");
     PasswordL = new QLabel("Password: ");
+    error = new QLabel("");
 
 
     //Creating layouts
@@ -34,15 +37,20 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     Horizantel->addWidget(UsernameL,0,0);
     Horizantel->addWidget(PasswordL,0,2);
 
+
     //adding widgets to vertical layout
     VerticalL->addItem(Horizantel);
-    VerticalL->addWidget(Login_Button,1,0);
-    VerticalL->addWidget(LoginGuest_Button,2,0);
-    VerticalL->addWidget(Register_Button,3,0);
+    VerticalL->addWidget(error);
+    VerticalL->addWidget(Login_Button,2,0);
+    VerticalL->addWidget(LoginGuest_Button,3,0);
+    VerticalL->addWidget(Register_Button,4,0);
     this->setLayout(VerticalL);
 
     //Signal connector to go to REGISTER MENU
     QObject::connect(Register_Button, SIGNAL(clicked()), this, SLOT(OpenRegisterMenu()) );
+
+    //Signal connector to mainscreen
+    QObject::connect(Login_Button, SIGNAL(clicked()), this, SLOT(Open_GameSelection()) );
 
 
 
@@ -52,6 +60,7 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
 //Function to open REGISTER MENU
 void MainMenu_Widget :: OpenRegisterMenu()
 {
+
 
     this->close();
     partner1 = new RegisterMenu();
@@ -64,5 +73,46 @@ void MainMenu_Widget :: OpenRegisterMenu()
 //Function to open GAME SELECTION MENU
 void MainMenu_Widget :: Open_GameSelection()
 {
+
+    bool UsernameUsed = false;
+    QFile file("UserData.txt");
+    file.open(QIODevice::ReadOnly|QIODevice::Text);
+    QRegExp rx("(\\ |\\,|\\.|\\:|\\t)"); //RegEx for ' ' or ',' or '.' or ':' or '\t'
+    QTextStream lite(&file);
+    QString sp;
+    QStringList query;
+
+
+    while(!lite.atEnd())
+    {
+
+        sp = lite.readLine();
+        query = sp.split(rx);
+
+        if(Username->text() == query[4] && Password->text() == query[5])
+        {
+
+            UsernameUsed = true;
+            break;
+        }
+
+    }
+    file.close();
+
+    if(UsernameUsed == true)
+    {
+
+
+
+        partner2 = new MainScreen();
+        //partner2->user = Username->text();
+        partner2->setUser(Username->text());
+        this->close();
+        partner2->show();
+    }
+    else
+    {
+        error->setText("Wrong Username or Password");
+    }
 
 }

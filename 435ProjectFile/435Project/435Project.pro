@@ -1,20 +1,24 @@
 SOURCES += \
     main.cpp \
     user.cpp \
+registermenu.cpp \
     mainmenu_widget.cpp \
-    registermenu.cpp
+    mainscreen.cpp
+
 
 QT += \
     widgets \
     core
 
 
-CONFIG += c++11
+
 
 HEADERS += \
     user.h \
+registermenu.h \
     mainmenu_widget.h \
-    registermenu.h
+    mainscreen.h
+
 
 OTHER_FILES +=
 
