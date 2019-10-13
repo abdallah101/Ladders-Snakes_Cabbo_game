@@ -9,7 +9,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <mainscreen.h>
-
+#include <QPalette>
+#include <QPixmap>
 /**
   *\file mainmenu_widget.cpp
   */
@@ -30,6 +31,21 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     UsernameL = new QLabel("Username: ");
     PasswordL = new QLabel("Password: ");
     error = new QLabel("");
+
+    /**
+     * GUI
+     */
+
+    this->setStyleSheet("background-color: 	#550949");
+    //this->setStyleSheet("background-image: url(./home/eece435l/Downloads/Colorful-Geometric-Simple-Background-Image.jpg)");
+    UsernameL->setStyleSheet("QLabel {font: bold; color: #D4AF37}");
+    PasswordL ->setStyleSheet("QLabel {font: bold; color: #D4AF37}");
+    Username->setStyleSheet("QLineEdit {background: #E1C56A}");
+    Password ->setStyleSheet("QLineEdit {background: #E1C56A}");
+    Login_Button->setStyleSheet("QPushButton{font: bold; font-size: 14px;font-family: Arial;color: #550949; background-color: #D4AF37;}");
+    Register_Button->setStyleSheet("QPushButton{font: bold; font-size: 14px;font-family: Arial;color: #550949; background-color: #D4AF37;}");
+    LoginGuest_Button->setStyleSheet("QPushButton{font: bold; font-size: 14px;font-family: Arial;color: #550949; background-color: #D4AF37;}");
+
 
     /**
      * Creating layouts
@@ -59,7 +75,7 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     VerticalL->addWidget(Register_Button,4,0);
     this->setLayout(VerticalL);
 
-    /**
+   /**
      * Signal connector to go to REGISTER MENU
      */
 

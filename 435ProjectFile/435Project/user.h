@@ -13,9 +13,6 @@ public:
     User();
 
 
-
-
-
 };
 
 #endif // USER_H
