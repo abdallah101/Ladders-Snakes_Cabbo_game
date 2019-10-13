@@ -2,6 +2,10 @@
 #define USER_H
 #include <QObject>
 
+/**
+  *\file user.h
+  */
+
 class User : public QObject
 {
     Q_OBJECT

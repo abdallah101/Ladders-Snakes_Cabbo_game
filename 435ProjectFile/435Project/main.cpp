@@ -15,17 +15,21 @@
 #include <fstream>
 using namespace std;
 
+/**
+  * \mainpage Project
+  */
+
 int main(int argc, char **argv)
 {
 
-// hello check again
+    QApplication app (argc, argv);
 
-QApplication app (argc, argv);
+    /**
+     * @brief Initialization
+     */
 
-//initialization
-MainMenu_Widget widget;
-widget.show();
+    MainMenu_Widget widget;
+    widget.show();
 
-
-return app.exec();
+    return app.exec();
 }

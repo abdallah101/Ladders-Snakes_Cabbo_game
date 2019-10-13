@@ -10,12 +10,17 @@
 #include <QTextStream>
 #include <mainscreen.h>
 
+/**
+  *\file mainmenu_widget.cpp
+  */
 
 MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     QWidget(parent)
 {
-    //hey
-    //Creating buttons, input boxes, and Labels
+    /**
+     * Creating buttons, input boxes, and Labels
+     */
+
     Login_Button = new QPushButton("Login");
     Register_Button = new QPushButton("Register");
     LoginGuest_Button = new QPushButton("Login as Guest");
@@ -26,19 +31,27 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     PasswordL = new QLabel("Password: ");
     error = new QLabel("");
 
+    /**
+     * Creating layouts
+     */
 
-    //Creating layouts
     VerticalL = new QVBoxLayout();
     Horizantel = new QGridLayout();
 
-    //adding widgets to horizantel layout
+
+    /**
+     * Adding widgets to horizantel layout
+    */
+
     Horizantel->addWidget(Username,1,0);
     Horizantel->addWidget(Password,1,2);
     Horizantel->addWidget(UsernameL,0,0);
     Horizantel->addWidget(PasswordL,0,2);
 
 
-    //adding widgets to vertical layout
+    /**
+     * Adding widgets to vertical layout
+     */
     VerticalL->addItem(Horizantel);
     VerticalL->addWidget(error);
     VerticalL->addWidget(Login_Button,2,0);
@@ -46,10 +59,15 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     VerticalL->addWidget(Register_Button,4,0);
     this->setLayout(VerticalL);
 
-    //Signal connector to go to REGISTER MENU
+    /**
+     * Signal connector to go to REGISTER MENU
+     */
+
     QObject::connect(Register_Button, SIGNAL(clicked()), this, SLOT(OpenRegisterMenu()) );
 
-    //Signal connector to mainscreen
+    /**
+     * Signal connector to mainscreen
+     */
     QObject::connect(Login_Button, SIGNAL(clicked()), this, SLOT(Open_GameSelection()) );
 
 
@@ -57,20 +75,25 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
 
 }
 
-//Function to open REGISTER MENU
+/**
+ * \brief Function which opens REGISTER MENU
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
+
 void MainMenu_Widget :: OpenRegisterMenu()
 {
-
-
     this->close();
     partner1 = new RegisterMenu();
     partner1->show();
-
-
 }
 
+/**
+ * \brief Function that opens GAME SELECTION MENU
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
 
-//Function to open GAME SELECTION MENU
 void MainMenu_Widget :: Open_GameSelection()
 {
 
@@ -91,7 +114,6 @@ void MainMenu_Widget :: Open_GameSelection()
 
         if(Username->text() == query[4] && Password->text() == query[5])
         {
-
             UsernameUsed = true;
             break;
         }
@@ -101,9 +123,6 @@ void MainMenu_Widget :: Open_GameSelection()
 
     if(UsernameUsed == true)
     {
-
-
-
         partner2 = new MainScreen();
         //partner2->user = Username->text();
         partner2->setUser(Username->text());

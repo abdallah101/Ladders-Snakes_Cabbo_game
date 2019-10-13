@@ -7,6 +7,10 @@
 #include <strings.h>
 #include <mainscreen.h>
 
+/**
+  *\file mainmenu_widget.h
+  */
+
 
 class MainMenu_Widget : public QWidget
 {

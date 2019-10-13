@@ -3,10 +3,14 @@
 #include <mainmenu_widget.h>
 #include <QString>
 
+/**
+  *\file mainscreen.cpp
+  */
+
 MainScreen::MainScreen(QWidget *parent) :
     QWidget(parent)
 {
-    //hey
+
     GameOne = new QPushButton("Game One");
     GameTwo = new QPushButton("Game Two");
     UsernameL = new QLabel(this->user);
@@ -56,6 +60,11 @@ void MainScreen :: GotoSettings()
 {
 
 }
+/**
+ * \brief Function which opens a window with user name and profile picture.
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
 
 void MainScreen :: setUser(QString u)
 {
@@ -75,12 +84,7 @@ void MainScreen :: setUser(QString u)
         sp = lite.readLine();
         query = sp.split(rx);
 
-        if(user == query[4])
-        {
-
-
-            break;
-        }
+        if(user == query[4]) break;
 
     }
     file.close();

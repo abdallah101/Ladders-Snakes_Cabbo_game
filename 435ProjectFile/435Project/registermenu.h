@@ -8,6 +8,12 @@
 #include <QPushButton>
 #include <mainmenu_widget.h>
 
+
+/**
+  *\file registermenu.h
+  */
+
+
 class RegisterMenu : public QWidget
 {
     Q_OBJECT

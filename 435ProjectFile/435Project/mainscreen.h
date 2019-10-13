@@ -8,6 +8,11 @@
 #include <QObject>
 #include <QString>
 
+
+/**
+  *\file mainscreen.h
+  */
+
 class MainScreen : public QWidget
 {
     Q_OBJECT

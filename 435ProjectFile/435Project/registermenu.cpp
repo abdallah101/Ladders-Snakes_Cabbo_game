@@ -12,14 +12,18 @@
 #include <QPixmap>
 #include <QString>
 
+/**
+  *\file registermenu.cpp
+  * Setting up the interface for registration
+  */
+
 RegisterMenu::RegisterMenu(QWidget *parent) :
     QWidget(parent)
 {
-    //Setting up the interface for registration
     errorNotice = new QLabel();
-    UploadedPicPath = new QLabel("Upload your Profile Picture");
+    UploadedPicPath = new QLabel("Upload your Profile Picture.");
     Register = new QPushButton ("Register");
-    InsertImage = new QPushButton ("Insert Profile Image");
+    InsertImage = new QPushButton ("Insert Profile Image.");
     FirstName = new QLabel ("First Name");
     LastName = new QLabel ("Last Name");
     Gender = new QLabel ("Gender");
@@ -39,7 +43,10 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     SpinBox = new QSpinBox();
     back = new QPushButton("back");
 
-    //setting up the layout
+    /**
+     * setting up the layout
+     */
+
     VerticalL = new QVBoxLayout();
     Horizantel = new QGridLayout();
     GroupBox = new QGroupBox();
@@ -50,7 +57,10 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
 
 
 
-    //setting up the horizantel layout by adding widgets
+    /**
+     * setting up the horizantel layout by adding widgets
+     */
+
     Horizantel->addWidget(FirstName,0,0);
     Horizantel->addWidget(LastName,1,0);
     Horizantel->addWidget(usernameL,2,0);
@@ -68,24 +78,30 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     Horizantel->addWidget(UploadedPicPath, 5, 1);
     Horizantel->addWidget(errorNotice,4,1 );
 
-    //Setting up RBL
+    /**
+     * Setting up RBL
+     */
+
     RBL = new QGridLayout();
     RBL->addWidget(Register, 0 , 0);
     RBL->addWidget(back, 0, 1);
 
 
-    //Setting up vertical layout
+    /**
+     * Setting up vertical layout
+     */
+
     VerticalL->addItem(Horizantel);
     VerticalL->addItem(RBL);
     setLayout(VerticalL);
     this->setLayout(VerticalL);
 
-    //connectors
+    /**
+     * connectors
+     */
     QObject::connect(Register, SIGNAL(clicked()), this, SLOT(RegisterUser()) );
     QObject::connect(InsertImage, SIGNAL(clicked()), this, SLOT(GetImg()) );
     QObject::connect(back, SIGNAL(clicked()), this, SLOT(goBack()) );
-
-
 }
 
 /**
@@ -107,7 +123,12 @@ int RegisterMenu :: CheckPassword(QString Password)
     return 0;
 }
 
-//function to register user into database which is a .txt file called UserData.txt
+/**
+  * @brief function to register user into database which is a .txt file called UserData.txt
+  * @param empty
+  * @return void
+  */
+
 void RegisterMenu :: RegisterUser()
 {
 
@@ -184,8 +205,14 @@ void RegisterMenu :: RegisterUser()
 
 
 
-      //lineEdit1 is firstname and lineEdit2 is last name
-       //format is: firstname,lastname,age,gender,username,password seperated by commas
+      /**
+       * lineEdit1 is firstname and lineEdit2 is last name
+       */
+
+      /**
+       *format is: firstname,lastname,age,gender,username,password seperated by commas (csv type)
+        */
+
         stream << LineEdit1->text() << "," << LineEdit2->text() << ","<< SpinBox->text() << "," << gender << "," << username->text() <<
                   "," << password->text() << endl;
 
@@ -193,18 +220,36 @@ void RegisterMenu :: RegisterUser()
         file.close();
 
 
+    /**
+     * saving name of image with its extension
+     */
 
-    QString copyto; //saving name of image with its extension
-    QString Extension; //saving only the extension
-    bool founddash = false; //used for finding "/" in path
-    bool foundextension = false; //used in finding "." in path
+    QString copyto;
+
+    /**
+     * saving only the extension
+     */
+    QString Extension;
+
+    /**
+     * @brief used for finding "/" in path
+     */
+    bool founddash = false;
+
+    /**
+     * @brief used in finding "." in path
+     */
+    bool foundextension = false;
 
     QString imagePath = UploadedPicPath->text();
     QFile search(imagePath);
 
     if (search.exists())
     {
-        //looping to find "/" and "." to save name and extension
+        /**
+         * looping to find "/" and "." to save name and extension
+         */
+
         for(int i = imagePath.size()-1, indexdash = 0, indexExt = 0; i != imagePath.size();)
         {
             if(imagePath[i] == '/')
@@ -216,7 +261,10 @@ void RegisterMenu :: RegisterUser()
             {
                 i--;
             }
-            //when founddash is true, i start taking in the letters ie. everything after "/" and including it
+            /**
+             * when founddash is true, i start taking in the letters ie. everything after "/" and including it
+             */
+
             else
             {
                 copyto[indexdash] = imagePath[i];
@@ -227,7 +275,11 @@ void RegisterMenu :: RegisterUser()
                     foundextension = true;
 
                 }
-                //when foundextension is true, i start taking in the letters ie. everything after "." and including it
+
+                /**
+                 * when foundextension is true, i start taking in the letters ie. everything after "." and including it
+                 */
+
                 if(foundextension == true)
                 {
                     Extension[indexExt] = imagePath[i];
@@ -237,17 +289,26 @@ void RegisterMenu :: RegisterUser()
 
         }
 
-        //copying the item the user selected into UserProfilePics which is a resource file
+        /**
+         * @brief copying the item the user selected into UserProfilePics which is a resource file
+         */
+
         QFile::copy(imagePath,
                     QDir::currentPath() +"/UserProfilePics"+ copyto);
 
-           //copying it again but changing its name so that we identify it uniquely
+        /**
+         * @brief copying it again but changing its name so that we identify it uniquely
+        */
+
         QFile::copy(QDir::currentPath() + "/UserProfilePics"+ copyto,
                     QDir::currentPath()+ "/UserProfilePics/" + username->text()
                     + Extension
                     );
 
-        //deleting the original one with bad name
+        /**
+         * @brief deleting the original one with bad name
+         */
+
         QFile::remove(QDir::currentPath() +"/UserProfilePics"+ copyto);
     }
 
@@ -258,18 +319,34 @@ void RegisterMenu :: RegisterUser()
     }
 }
 
+/**
+ * \brief Function that saves user's image to a file called UserProfilePics which is set up as a resource file
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
 
-//function to save user's image to a file called UserProfilePics which is set up as a resource file
 void RegisterMenu :: GetImg(){
 
-    //saves the path to a .jpg .jpeg or .png image that a user is promted to give
+    /**
+     * saves the path to a .jpg .jpeg or .png image that a user is promted to give
+     */
+
     QString imagePath= QFileDialog::getOpenFileName(this,tr("UserProfilePics"),"", tr("JPEG (*.jpg *.jpeg);;PNG (*.png)" ) );
 
 
-    //showing user his selected item
+    /**
+      * showing user his selected item
+      */
+
     UploadedPicPath->setText(imagePath);
 
 }
+
+/**
+ * \brief Function that takes the user back to main menu
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
 
 void RegisterMenu :: goBack()
 {
