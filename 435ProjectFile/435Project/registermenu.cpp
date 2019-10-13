@@ -146,7 +146,7 @@ void RegisterMenu :: RegisterUser()
        else errorNotice->setText("The password must contain at least one small letter, one capital letter, and one non-alphabetical character.");
    }
 
-    QFile file("UserData.txt");
+    QFile file(QDir::currentPath() + "/UserData.txt");
     file.open(QIODevice::ReadOnly|QIODevice::Text);
     QRegExp rx("(\\ |\\,|\\.|\\:|\\t)"); //RegEx for ' ' or ',' or '.' or ':' or '\t'
 

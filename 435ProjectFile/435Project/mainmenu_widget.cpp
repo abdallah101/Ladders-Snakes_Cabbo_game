@@ -14,7 +14,7 @@
 MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     QWidget(parent)
 {
-
+    //hey
     //Creating buttons, input boxes, and Labels
     Login_Button = new QPushButton("Login");
     Register_Button = new QPushButton("Register");

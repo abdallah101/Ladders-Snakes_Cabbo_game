@@ -24,3 +24,6 @@ OTHER_FILES +=
 
 RESOURCES += \
     UserProfilePics/ProfilePics.qrc
+
+DISTFILES += \
+    UserData.txt

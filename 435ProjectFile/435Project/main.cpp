@@ -18,7 +18,7 @@ using namespace std;
 int main(int argc, char **argv)
 {
 
-// hello check
+// hello check again
 
 QApplication app (argc, argv);
 

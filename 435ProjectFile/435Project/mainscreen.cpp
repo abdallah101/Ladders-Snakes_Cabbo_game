@@ -6,7 +6,7 @@
 MainScreen::MainScreen(QWidget *parent) :
     QWidget(parent)
 {
-
+    //hey
     GameOne = new QPushButton("Game One");
     GameTwo = new QPushButton("Game Two");
     UsernameL = new QLabel(this->user);
