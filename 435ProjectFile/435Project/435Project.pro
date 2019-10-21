@@ -3,7 +3,12 @@ SOURCES += \
     user.cpp \
 registermenu.cpp \
     mainmenu_widget.cpp \
-    mainscreen.cpp
+    mainscreen.cpp \
+    settings.cpp \
+    gameone.cpp \
+    players.cpp \
+    dice.cpp \
+    game1_scene.cpp
 
 
 QT += \
@@ -17,13 +22,24 @@ HEADERS += \
     user.h \
 registermenu.h \
     mainmenu_widget.h \
-    mainscreen.h
+    mainscreen.h \
+    settings.h \
+    gameone.h \
+    players.h \
+    dice.h \
+    game1_scene.h
 
 
 OTHER_FILES +=
 
 RESOURCES += \
-    UserProfilePics/ProfilePics.qrc
+    UserProfilePics/ProfilePics.qrc \
+    Images/Images.qrc
 
 DISTFILES += \
-    UserData.txt
+    UserData.txt \
+    ../../../../Downloads/istockphoto-455302535-612x612.jpg \
+    ../../../../Downloads/SL.jpg
+
+FORMS += \
+    dices.ui

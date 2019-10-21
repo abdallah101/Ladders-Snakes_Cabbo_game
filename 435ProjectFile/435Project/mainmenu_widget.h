@@ -34,6 +34,8 @@ public slots:
     void Open_GameSelection();
     //void NewUser (string username, string FirstName, string LastName, String Age, String );
     void OpenRegisterMenu();
+    void keyPressEvent (QKeyEvent * event);
+    void update();
 
 };
 

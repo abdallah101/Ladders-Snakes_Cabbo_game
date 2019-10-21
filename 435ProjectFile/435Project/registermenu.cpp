@@ -331,7 +331,7 @@ void RegisterMenu :: GetImg(){
      * saves the path to a .jpg .jpeg or .png image that a user is promted to give
      */
 
-    QString imagePath= QFileDialog::getOpenFileName(this,tr("UserProfilePics"),"", tr("JPEG (*.jpg *.jpeg);;PNG (*.png)" ) );
+    QString imagePath= QFileDialog::getOpenFileName(this,tr("UserProfilePics"),"", tr("JPEG (*.jpg *.jpeg)" ) );
 
 
     /**

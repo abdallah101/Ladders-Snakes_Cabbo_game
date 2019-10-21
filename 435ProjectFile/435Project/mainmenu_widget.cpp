@@ -45,7 +45,7 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     Login_Button->setStyleSheet("QPushButton{font: bold; font-size: 14px;font-family: Arial;color: #550949; background-color: #D4AF37;}");
     Register_Button->setStyleSheet("QPushButton{font: bold; font-size: 14px;font-family: Arial;color: #550949; background-color: #D4AF37;}");
     LoginGuest_Button->setStyleSheet("QPushButton{font: bold; font-size: 14px;font-family: Arial;color: #550949; background-color: #D4AF37;}");
-
+    error->setStyleSheet("QLabel {font: bold; color: #D4AF37}");
 
     /**
      * Creating layouts
@@ -87,6 +87,13 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     QObject::connect(Login_Button, SIGNAL(clicked()), this, SLOT(Open_GameSelection()) );
 
 
+
+    /**
+     * removes message after 4 seconds
+     */
+    QTimer *timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(4000);
 
 
 }
@@ -151,3 +158,17 @@ void MainMenu_Widget :: Open_GameSelection()
     }
 
 }
+
+void MainMenu_Widget :: update()
+{
+    error->setText("");
+}
+
+void MainMenu_Widget :: keyPressEvent (QKeyEvent * event)
+{
+    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
+    {
+        this->Open_GameSelection();
+    }
+}
+

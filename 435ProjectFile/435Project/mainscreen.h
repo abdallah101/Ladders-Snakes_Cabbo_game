@@ -7,6 +7,14 @@
 #include <QtWidgets>
 #include <QObject>
 #include <QString>
+#include <settings.h>
+
+
+
+
+
+
+
 
 /**
   *\file mainscreen.h
@@ -18,13 +26,14 @@ class MainScreen : public QWidget
 public:
     explicit MainScreen(QWidget *parent = 0);
 
-    QPushButton * GameOne, * GameTwo, * History, * Settings;
+    QPushButton * GameOneB, * GameTwo, * History, * SettingsB, * SignOut;
     QLabel * ChooseL, * UsernameL, * pic;
 
 
     QVBoxLayout * vert;
     QGridLayout * horiz;
 
+    Settings partner1;
     QString user;
 
 
@@ -39,6 +48,8 @@ public slots:
     void GotoSettings();
 
     void setUser(QString u);
+
+    void goBack();
 
 };
 
