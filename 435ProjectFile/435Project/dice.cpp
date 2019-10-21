@@ -36,7 +36,7 @@ dice::dice(QWidget *parent) :
     blue = new QLabel();
     red = new QLabel();
     Game1Scene = new game1_scene();
-
+    Game1_View = new QGraphicsView();
 
     /**
      * Creating layouts
@@ -90,6 +90,10 @@ dice::dice(QWidget *parent) :
     timer->start(4000);
 
 
+    Game1_View->setScene(Game1Scene);
+    Game1_View->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
+    Game1_View->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
+    Game1_View->show();
 }
 
 /**
@@ -132,6 +136,7 @@ void dice :: ThrowRed()
 
 void dice :: EndGame()
 {
+    Game1_View->close();
     this->close();
     BackToMain = new MainScreen();
     BackToMain->show();
@@ -148,10 +153,6 @@ void dice :: EndTurn()
     Game1Scene->Move(Game1Scene->player1, blueval);
     Game1Scene->Move(Game1Scene->player2, redval);
     Game1Scene->player2->setPos(Game1Scene->player2->x(), Game1Scene->player2->y() - 30);
-    this->close();
-    QGraphicsView * Game1_View = new QGraphicsView();
-    Game1_View->setScene(Game1Scene);
-    Game1_View->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
-    Game1_View->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
-    Game1_View->show();
+    //this->close();
 }
+

@@ -8,6 +8,7 @@ public:
     game1_scene();
     players * player1, * player2;
     void Move(players * , int);
+    int grid[100];
 };
 
 #endif // GAME1_SCENE_H

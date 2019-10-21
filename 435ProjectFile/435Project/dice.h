@@ -21,6 +21,7 @@ public:
     QLabel * PlayerUsername, * blue, * red;
     QVBoxLayout * VerticalDice;
     game1_scene * Game1Scene;
+    QGraphicsView * Game1_View;
     MainScreen * BackToMain;
     int blueval, redval;
 signals:
