@@ -2,11 +2,16 @@
 #define PLAYERS_H
 
 #include <QGraphicsPixmapItem>
+#include <QObject>
 
-class Players : public QGraphicsPixmapItem, public QObject
+class players : public QObject, public QGraphicsPixmapItem
 {
+    Q_OBJECT
 public:
-    Players();
+    explicit players(QObject *parent = nullptr);
+    int cell;
+    void MoveP(int);
+    int FindCell();
 };
 
 #endif // PLAYERS_H

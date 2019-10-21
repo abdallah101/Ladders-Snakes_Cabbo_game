@@ -25,9 +25,9 @@ registermenu.h \
     mainscreen.h \
     settings.h \
     gameone.h \
-    players.h \
     dice.h \
-    game1_scene.h
+    game1_scene.h \
+    players.h
 
 
 OTHER_FILES +=
@@ -39,7 +39,9 @@ RESOURCES += \
 DISTFILES += \
     UserData.txt \
     ../../../../Downloads/istockphoto-455302535-612x612.jpg \
-    ../../../../Downloads/SL.jpg
+    ../../../../Downloads/SL.jpg \
+    Images/black.jpg \
+    Images/white.jpeg
 
 FORMS += \
     dices.ui

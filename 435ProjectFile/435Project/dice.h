@@ -22,7 +22,7 @@ public:
     QVBoxLayout * VerticalDice;
     game1_scene * Game1Scene;
     MainScreen * BackToMain;
-
+    int blueval, redval;
 signals:
 
 public slots:

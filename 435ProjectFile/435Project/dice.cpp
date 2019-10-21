@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include <iostream>
 /**
   *\file dice.cpp
   */
@@ -105,6 +105,7 @@ void dice :: ThrowBlue()
     QString sx = "";
     sx += (x + '0');
     blue->setText(sx);
+    blueval = x;
 }
 
 /**
@@ -120,6 +121,7 @@ void dice :: ThrowRed()
     QString sx = "";
     sx += (x + '0');
     red->setText(sx);
+    redval = x;
 }
 
 /**
@@ -143,6 +145,9 @@ void dice :: EndGame()
 
 void dice :: EndTurn()
 {
+    Game1Scene->Move(Game1Scene->player1, blueval);
+    Game1Scene->Move(Game1Scene->player2, redval);
+    Game1Scene->player2->setPos(Game1Scene->player2->x(), Game1Scene->player2->y() - 30);
     this->close();
     QGraphicsView * Game1_View = new QGraphicsView();
     Game1_View->setScene(Game1Scene);
