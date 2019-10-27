@@ -8,22 +8,26 @@
 #include <game1_scenecust.h>
 #include <dicecust.h>
 
+
 class custWid: public QWidget
 {
     Q_OBJECT
 public:
     explicit custWid(QWidget *parent = 0);
-    QPushButton * Submit, *Done;
+    QPushButton * Submit, *Done, *ReadFromText;
     QSpinBox * from, * to;
     QRadioButton * Ladder, * Snake;
     QLabel * fromL, * toL;
     QVBoxLayout * custVertical;
     QGridLayout * custHorizontal1, * custHorizontal2, * custHorizontal3, * custHorizontal4;
     diceCust * sceneCust;
+    QDialogButtonBox *InsertText;
 
 public slots:
     void SubmitFunction();
     void DoneFunction();
+    //void GetText();
+    void FillGrid();
 };
 
 #endif // CUSTWID_H

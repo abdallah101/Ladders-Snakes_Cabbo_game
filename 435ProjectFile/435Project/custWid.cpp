@@ -29,6 +29,8 @@ custWid::custWid(QWidget *parent) :
      */
     Submit = new QPushButton("Submit");
     Done = new QPushButton("Done");
+    ReadFromText = new QPushButton("ReadFromText");
+    InsertText = new QDialogButtonBox();
     from = new QSpinBox(),to = new QSpinBox();
     Ladder = new QRadioButton("Ladder"), Snake = new QRadioButton("Snake");
     fromL = new QLabel("From");
@@ -44,6 +46,11 @@ custWid::custWid(QWidget *parent) :
      * Signal connector to a new customized game
      */
     QObject::connect(Done, SIGNAL(clicked()), this, SLOT(DoneFunction()) );
+
+    /**
+     * Signal connector to fill the grid
+     */
+    QObject::connect(ReadFromText , SIGNAL(clicked()), this, SLOT(FillGrid()) );
 
     /**
      * setting up the layout
@@ -66,6 +73,7 @@ custWid::custWid(QWidget *parent) :
 
     custHorizontal3->addWidget(Submit, 0, 0);
     custHorizontal4->addWidget(Done, 0, 0);
+    custHorizontal4->addWidget(ReadFromText, 1, 0);
 
     custVertical->addItem(custHorizontal1);
     custVertical->addItem(custHorizontal2);
@@ -90,4 +98,25 @@ void custWid::DoneFunction()
     this->close();
     sceneCust->show();
     sceneCust->Game1_ViewCust->show();
+}
+
+void custWid:: FillGrid()
+{
+
+    /**
+     * saves the path to a .txt file that a user is promted to give
+     */
+
+    QString textPath = QFileDialog::getOpenFileName(this,tr("UserText"),"", tr("TEXT (*.txt)" ) );
+    QFile file(textPath);
+    file.open(QIODevice::ReadOnly);
+    QDataStream inData(&file);
+
+    while(!inData.atEnd())
+    {
+        qint32 x, y;
+        inData >> x >> y;
+        sceneCust->Game1Cust->gridCust[x-1] = y - 1;
+    }
+    file.close();
 }
