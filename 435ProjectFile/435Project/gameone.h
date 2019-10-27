@@ -10,7 +10,7 @@ class GameOne : public QWidget
     Q_OBJECT
 public:
     explicit GameOne(QWidget *parent = 0);
-    QPushButton * startButton;
+    QPushButton * startButton, * SetLaddersSnakes;
     //GameOne();
     QWidget * scene;
     QGridLayout * Horiz;
@@ -20,6 +20,7 @@ signals:
 public slots:
 
     void start();
+    void customize();
 
 };
 

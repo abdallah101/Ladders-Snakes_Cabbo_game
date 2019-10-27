@@ -14,11 +14,14 @@ GameOne::GameOne(QWidget *parent) :
 
 {
     startButton = new QPushButton ("New Game");
+    SetLaddersSnakes = new QPushButton ("Customize the positions of snakes and ladders.");
     Horiz = new QGridLayout();
-    Horiz->addWidget(startButton,200,200);
+    Horiz->addWidget(startButton,0,0);
+    Horiz->addWidget(SetLaddersSnakes,1,0);
     this->setLayout(Horiz);
-    this->resize(400, 400);
-    QObject::connect(startButton, SIGNAL(clicked()), this, SLOT(start()) );
+    this->resize(200, 200);
+    QObject::connect(startButton, SIGNAL(clicked()), this, SLOT(start()));
+    QObject::connect(SetLaddersSnakes, SIGNAL(clicked()), this, SLOT(customize()));
 }
 
 void GameOne :: start()
@@ -29,4 +32,10 @@ void GameOne :: start()
 
 }
 
+void GameOne :: customize()
+{
+    this->close();
+    //scene = new custWid();
+    //scene->show();
 
+}
