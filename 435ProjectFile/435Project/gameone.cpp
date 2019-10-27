@@ -9,6 +9,7 @@
 #include <QImage>
 #include <QDir>
 #include <dice.h>
+#include <custWid.h>
 GameOne::GameOne(QWidget *parent) :
     QWidget(parent)
 
@@ -35,7 +36,7 @@ void GameOne :: start()
 void GameOne :: customize()
 {
     this->close();
-    //scene = new custWid();
-    //scene->show();
+    scene = new custWid();
+    scene->show();
 
 }

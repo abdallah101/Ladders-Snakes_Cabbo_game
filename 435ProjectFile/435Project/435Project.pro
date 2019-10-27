@@ -8,7 +8,10 @@ registermenu.cpp \
     gameone.cpp \
     players.cpp \
     dice.cpp \
-    game1_scene.cpp
+    game1_scene.cpp \
+    dicecust.cpp \
+    game1_scenecust.cpp \
+    custWid.cpp
 
 
 QT += \
@@ -27,7 +30,10 @@ registermenu.h \
     gameone.h \
     dice.h \
     game1_scene.h \
-    players.h
+    players.h \
+    dicecust.h \
+    game1_scenecust.h \
+    custWid.h
 
 
 OTHER_FILES +=

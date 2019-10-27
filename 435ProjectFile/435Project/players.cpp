@@ -38,8 +38,14 @@ void players:: MovePExtra(int position)
     this->setPos(cur_x * cellsize, 580 - cur_y*cellsize);
 }
 
-/*
-int cell;
-void MoveP(int);
-int FindCell();
-*/
+void players:: MovePCust(int position)
+{
+    double cellsize = 51.9;
+    this-> cell = position;
+    int cur_y = cell/10;
+    int cur_x = cell % 10;
+    if(cur_y % 2 == 1) cur_x = 9 - cur_x;
+    this->setPos(cur_x * cellsize, 520 - 25 - cur_y*cellsize);
+}
+
+

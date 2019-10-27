@@ -21,7 +21,6 @@ public:
     QGridLayout * HorizantelLayout;
     QLineEdit * oldPassword, * newPassword;
     QString user;
-
     MainScreen * partner;
 
 

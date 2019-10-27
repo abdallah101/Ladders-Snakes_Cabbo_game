@@ -13,6 +13,7 @@ public:
     void MoveP(int);
     int FindCell();
     void MovePExtra(int);
+    void MovePCust(int);
 };
 
 #endif // PLAYERS_H
