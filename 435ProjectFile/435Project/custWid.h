@@ -17,7 +17,7 @@ public:
     QPushButton * Submit, *Done, *ReadFromText;
     QSpinBox * from, * to;
     QRadioButton * Ladder, * Snake;
-    QLabel * fromL, * toL;
+    QLabel * fromL, * toL, * error;
     QVBoxLayout * custVertical;
     QGridLayout * custHorizontal1, * custHorizontal2, * custHorizontal3, * custHorizontal4;
     diceCust * sceneCust;
@@ -28,6 +28,7 @@ public slots:
     void DoneFunction();
     //void GetText();
     void FillGrid();
+    void update();
 };
 
 #endif // CUSTWID_H

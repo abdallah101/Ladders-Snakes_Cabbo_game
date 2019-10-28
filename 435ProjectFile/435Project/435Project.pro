@@ -11,7 +11,8 @@ registermenu.cpp \
     game1_scene.cpp \
     dicecust.cpp \
     game1_scenecust.cpp \
-    custWid.cpp
+    custWid.cpp \
+    snakesladders.cpp
 
 
 QT += \
@@ -19,7 +20,7 @@ QT += \
     core
 
 
-
+CONFIG += C++11 \
 
 HEADERS += \
     user.h \
@@ -33,7 +34,8 @@ registermenu.h \
     players.h \
     dicecust.h \
     game1_scenecust.h \
-    custWid.h
+    custWid.h \
+    snakesladders.h
 
 
 OTHER_FILES +=

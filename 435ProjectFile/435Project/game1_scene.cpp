@@ -53,9 +53,9 @@ game1_scene::game1_scene()
         this->setBackgroundBrush(QBrush(green.scaledToHeight(612).scaledToWidth(612)));
 
     }
-    player1 = new players;
+    player1 = new players();
     player1->setPixmap((QPixmap(QDir::currentPath() + "/Images/yellow.png")).scaled(30,30));
-    player2 = new players;
+    player2 = new players();
 
     /**
       * add 30 offset between player 1 and 2 to avoid overlap

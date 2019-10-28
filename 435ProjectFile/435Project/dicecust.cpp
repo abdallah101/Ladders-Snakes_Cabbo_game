@@ -26,6 +26,7 @@ diceCust::diceCust(QWidget *parent) :
     blueCust = new QLabel();
     redCust = new QLabel();
 
+
     Game1Cust = new  game1_sceneCust();
     Game1_ViewCust = new QGraphicsView();
 
@@ -81,7 +82,8 @@ diceCust::diceCust(QWidget *parent) :
     timer->start(4000);
 
 
-    Game1_ViewCust->setScene(Game1Cust);
+    Game1_ViewCust->setFixedSize(518,520);
+    Game1_ViewCust->setScene(Game1Cust); 
     Game1_ViewCust->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
     Game1_ViewCust->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
     Game1_ViewCust->show();
