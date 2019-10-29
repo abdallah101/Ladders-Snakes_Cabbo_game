@@ -29,6 +29,7 @@ void GameOne :: start()
 {
     this->close();
     scene = new dice();
+    scene->SetUser(this->user, this->name);
     scene->show();
 
 }
@@ -36,7 +37,13 @@ void GameOne :: start()
 void GameOne :: customize()
 {
     this->close();
-    scene = new custWid();
-    scene->show();
+    scene1 = new custWid();
+    scene1->SetUser(this->user);
+    scene1->show();
+}
 
+void GameOne :: SetUser (QString d, QString n)
+{
+    this->user = d;
+    this->name = n;
 }

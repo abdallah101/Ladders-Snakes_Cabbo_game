@@ -5,6 +5,9 @@
 #include <QGraphicsScene>
 #include <QPushButton>
 #include <QGridLayout>
+#include <QString>
+#include <custWid.h>
+#include <dice.h>
 class GameOne : public QWidget
 {
     Q_OBJECT
@@ -12,8 +15,11 @@ public:
     explicit GameOne(QWidget *parent = 0);
     QPushButton * startButton, * SetLaddersSnakes;
     //GameOne();
-    QWidget * scene;
+    dice * scene;
     QGridLayout * Horiz;
+    QString user, name;
+    custWid * scene1;
+
 
 signals:
 
@@ -21,6 +27,7 @@ public slots:
 
     void start();
     void customize();
+    void SetUser(QString d, QString n);
 
 };
 

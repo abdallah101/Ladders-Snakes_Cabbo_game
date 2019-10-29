@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_dice_t {
-    QByteArrayData data[6];
-    char stringdata[42];
+    QByteArrayData data[8];
+    char stringdata[45];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,12 +32,14 @@ static const qt_meta_stringdata_dice_t qt_meta_stringdata_dice = {
 QT_MOC_LITERAL(0, 0, 4),
 QT_MOC_LITERAL(1, 5, 9),
 QT_MOC_LITERAL(2, 15, 0),
-QT_MOC_LITERAL(3, 16, 8),
-QT_MOC_LITERAL(4, 25, 7),
-QT_MOC_LITERAL(5, 33, 7)
+QT_MOC_LITERAL(3, 16, 7),
+QT_MOC_LITERAL(4, 24, 7),
+QT_MOC_LITERAL(5, 32, 7),
+QT_MOC_LITERAL(6, 40, 1),
+QT_MOC_LITERAL(7, 42, 1)
     },
-    "dice\0ThrowBlue\0\0ThrowRed\0EndTurn\0"
-    "EndGame\0"
+    "dice\0ThrowBlue\0\0EndTurn\0EndGame\0SetUser\0"
+    "d\0n\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -58,13 +60,13 @@ static const uint qt_meta_data_dice[] = {
        1,    0,   34,    2, 0x0a,
        3,    0,   35,    2, 0x0a,
        4,    0,   36,    2, 0x0a,
-       5,    0,   37,    2, 0x0a,
+       5,    2,   37,    2, 0x0a,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString,    6,    7,
 
        0        // eod
 };
@@ -75,13 +77,12 @@ void dice::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         dice *_t = static_cast<dice *>(_o);
         switch (_id) {
         case 0: _t->ThrowBlue(); break;
-        case 1: _t->ThrowRed(); break;
-        case 2: _t->EndTurn(); break;
-        case 3: _t->EndGame(); break;
+        case 1: _t->EndTurn(); break;
+        case 2: _t->EndGame(); break;
+        case 3: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObject dice::staticMetaObject = {

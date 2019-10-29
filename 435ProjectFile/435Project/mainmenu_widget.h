@@ -6,6 +6,7 @@
 #include <QtWidgets>
 #include <strings.h>
 #include <mainscreen.h>
+#include <QTimer>
 
 /**
   *\file mainmenu_widget.h
@@ -24,7 +25,7 @@ public:
     QGroupBox * GroupBox;
     QLabel * UsernameL, *PasswordL, *error;
     QWidget * partner1;
-
+    QTimer * timer;
     MainScreen * partner2;
 
 signals:

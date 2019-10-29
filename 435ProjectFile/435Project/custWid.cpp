@@ -43,7 +43,6 @@ custWid::custWid(QWidget *parent) :
     toL = new QLabel("To");
     error = new QLabel();
 
-
     /**
      * Signal connector to enter the position of a snake or a ladder
      */
@@ -591,6 +590,7 @@ void custWid::SubmitFunction()
 void custWid::DoneFunction()
 {
     this->close();
+    sceneCust->SetUser(this->user);
     sceneCust->show();
     sceneCust->Game1_ViewCust->show();
 }
@@ -1115,4 +1115,9 @@ void custWid:: FillGrid()
 void custWid :: update()
 {
     error->setText("");
+}
+
+void custWid :: SetUser(QString d)
+{
+    this->user = d;
 }

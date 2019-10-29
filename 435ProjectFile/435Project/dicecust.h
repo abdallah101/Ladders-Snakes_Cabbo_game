@@ -27,6 +27,7 @@ public:
     QGraphicsView * Game1_ViewCust;
     MainScreen * BackToMainCust;
     int bluevalCust, redvalCust;
+    QString user;
 
 
 
@@ -38,6 +39,7 @@ public slots:
     void ThrowRedCust();
     void EndTurnCust();
     void EndGameCust();
+    void SetUser(QString d);
 
 
 };

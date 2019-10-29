@@ -78,6 +78,7 @@ void MainScreen :: GotoOne ()
     //Creating a scene from custom class game1scene
     this->close();
     GameOne * scene1 = new GameOne();
+    scene1->SetUser(this->user, this->name);
     scene1->show();
     //Setting view
     /*
@@ -128,6 +129,7 @@ void MainScreen :: setUser(QString u)
 
 
     UsernameL->setText(query[0] + " " +query[1]);
+    name = query[0] + " " + query[1];
     QImage green;
     if (green.load(QDir::currentPath() + "/UserProfilePics/"+u+".jpg"))
     {

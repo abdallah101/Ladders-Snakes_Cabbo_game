@@ -54,9 +54,9 @@ Settings::Settings(QWidget *parent) :
     /**
      * removes message after 3 seconds
      */
-    QTimer *timer = new QTimer();
+    timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(3000);
+
 
 
 
@@ -93,6 +93,7 @@ void Settings :: ChangePass ()
     if(query[5] != oldPassword->text())
     {
         error->setText("Wrong old password");
+        timer->start(3000);
     }
     else
     {
@@ -123,6 +124,7 @@ void Settings :: ChangePass ()
                 newData.close();
 
                 error->setText("Password Changed");
+                timer->start(3000);
 
 
 
@@ -250,6 +252,7 @@ void Settings :: ChangePic ()
 
         QFile::remove(QDir::currentPath() +"/UserProfilePics"+ copyto);
         error->setText("successfully changed your profile pic to " + imagePath);
+        timer->start(5000);
 
 }
 }

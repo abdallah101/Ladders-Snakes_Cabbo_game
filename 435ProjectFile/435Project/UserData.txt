@@ -1,4 +1,1 @@
-as,asd,21,Male,laban,Test@12345
-waeq,ab,21,Male,lebnen,Test@12345
-asd,dsafasd,21,Male,mango,W@rpeace101
 abdallah,dandashli,21,Male,test,W@rpeace101

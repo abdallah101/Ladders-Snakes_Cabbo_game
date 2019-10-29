@@ -22,6 +22,7 @@ public:
     QGridLayout * custHorizontal1, * custHorizontal2, * custHorizontal3, * custHorizontal4;
     diceCust * sceneCust;
     QDialogButtonBox *InsertText;
+    QString user;
 
 public slots:
     void SubmitFunction();
@@ -29,6 +30,7 @@ public slots:
     //void GetText();
     void FillGrid();
     void update();
+    void SetUser (QString d);
 };
 
 #endif // CUSTWID_H

@@ -133,6 +133,7 @@ void diceCust :: EndGameCust()
     Game1_ViewCust->close();
     this->close();
     BackToMainCust = new MainScreen();
+    BackToMainCust->setUser(this->user);
     BackToMainCust->show();
 }
 
@@ -149,6 +150,11 @@ void diceCust :: EndTurnCust()
    Game1Cust->MoveCust(Game1Cust->player2Cust, redvalCust);
    Game1Cust->player2Cust->setPos(Game1Cust->player2Cust->x(), Game1Cust->player2Cust->y() - 25);
     //this->close();
+}
+
+void diceCust :: SetUser (QString d)
+{
+    this->user = d;
 }
 
 

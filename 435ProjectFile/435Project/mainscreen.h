@@ -34,7 +34,7 @@ public:
     QGridLayout * horiz;
 
     Settings partner1;
-    QString user;
+    QString user, name;
 
 
 signals:

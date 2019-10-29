@@ -91,9 +91,9 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
     /**
      * removes message after 4 seconds
      */
-    QTimer *timer = new QTimer();
+    timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(4000);
+
 
 
 }
@@ -155,6 +155,7 @@ void MainMenu_Widget :: Open_GameSelection()
     else
     {
         error->setText("Wrong Username or Password");
+        timer->start(4000);
     }
 
 }

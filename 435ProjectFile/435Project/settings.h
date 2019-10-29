@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QtWidgets>
 #include <QString>
+#include <QTimer>
 
 class MainScreen; //forward declaration
 
@@ -22,6 +23,7 @@ public:
     QLineEdit * oldPassword, * newPassword;
     QString user;
     MainScreen * partner;
+    QTimer * timer;
 
 
 

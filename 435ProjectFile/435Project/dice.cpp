@@ -27,14 +27,14 @@ dice::dice(QWidget *parent) :
      * Creating buttons, input boxes, and Labels
      */
 
-    ThrowBlue_Button = new QPushButton("Throw blue die");
-    ThrowRed_Button = new QPushButton("Throw red die");
+    ThrowBlue_Button = new QPushButton("Throw both die");
+    //ThrowRed_Button = new QPushButton("Throw red die");
     EndTurn_Button = new QPushButton("End Turn");
     EndGame_Button = new QPushButton("End Game");
 
-    PlayerUsername = new QLabel("Player x");
-    blue = new QLabel();
-    red = new QLabel();
+    PlayerUsername = new QLabel("Player " + name);
+    blue = new QRadioButton("blue");
+    red = new QRadioButton("red");
     Game1Scene = new game1_scene();
     Game1_View = new QGraphicsView();
 
@@ -53,11 +53,11 @@ dice::dice(QWidget *parent) :
     Horizental->addWidget(PlayerUsername,0,0);
    // VerticalDice->addItem(Horizental);
     Horizental->addWidget(ThrowBlue_Button,1,0);
-    Horizental->addWidget(blue,1,4);
-    Horizental->addWidget(ThrowRed_Button,2,0);
-    Horizental->addWidget(red,2,4);
-    Horizental->addWidget(EndTurn_Button,3,0);
-    Horizental->addWidget(EndGame_Button,4,0);
+    Horizental->addWidget(blue,2,0);
+    //Horizental->addWidget(ThrowRed_Button,2,0);
+    Horizental->addWidget(red,3,0);
+    Horizental->addWidget(EndTurn_Button,4,0);
+    Horizental->addWidget(EndGame_Button,5,0);
     this->setLayout(Horizental);
     this->resize(400, 400);
 
@@ -66,11 +66,6 @@ dice::dice(QWidget *parent) :
      */
 
     QObject::connect(ThrowBlue_Button, SIGNAL(clicked()), this, SLOT(ThrowBlue()) );
-
-    /**
-     * Signal connector to throw the red die
-     */
-    QObject::connect(ThrowRed_Button, SIGNAL(clicked()), this, SLOT(ThrowRed()) );
 
     /**
      * Signal connector to end a player's turn
@@ -97,36 +92,31 @@ dice::dice(QWidget *parent) :
 }
 
 /**
- * \brief Function to throw blue die
+ * \brief Function to throw blue die and red die
  * \param Takes no parameter
  * \return nothing (type: void)
  */
 
 void dice :: ThrowBlue()
 {
-    srand(time(NULL));
+    srand(time(0));
     int x = rand() % 7;
     QString sx = "";
     sx += (x + '0');
     blue->setText(sx);
     blueval = x;
-}
+    blue->setText(QString::number(blueval));
 
-/**
- * \brief Function to throw red die
- * \param Takes no parameter
- * \return nothing (type: void)
- */
-
-void dice :: ThrowRed()
-{
-    srand(time(NULL));
-    int x = rand() % 7;
-    QString sx = "";
+    x = rand() % 7;
+    sx = "";
     sx += (x + '0');
     red->setText(sx);
     redval = x;
+    red->setText(QString::number(redval));
 }
+
+
+
 
 /**
  * \brief Function that ends a game
@@ -139,6 +129,7 @@ void dice :: EndGame()
     Game1_View->close();
     this->close();
     BackToMain = new MainScreen();
+    BackToMain->setUser(this->user);
     BackToMain->show();
 }
 
@@ -154,5 +145,12 @@ void dice :: EndTurn()
     Game1Scene->Move(Game1Scene->player2, redval);
     Game1Scene->player2->setPos(Game1Scene->player2->x(), Game1Scene->player2->y() - 30);
     //this->close();
+}
+
+void dice :: SetUser (QString d, QString n)
+{
+    this->user = d;
+    this->name = n;
+    PlayerUsername->setText("Player " + name);
 }
 
