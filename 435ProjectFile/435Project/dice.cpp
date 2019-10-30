@@ -37,6 +37,10 @@ dice::dice(QWidget *parent) :
     red = new QRadioButton("red");
     Game1Scene = new game1_scene();
     Game1_View = new QGraphicsView();
+    error = new QLabel("");
+    VerticalRadioB = new QVBoxLayout();
+    GP = new QGroupBox();
+    choose = new QLabel("Choose!");
 
     /**
      * Creating layouts
@@ -44,22 +48,29 @@ dice::dice(QWidget *parent) :
 
     Horizental = new QGridLayout();
     VerticalDice = new QVBoxLayout();
+    Vertical = new QVBoxLayout();
 
 
     /**
      * Adding widgets to horizantel layout
     */
 
-    Horizental->addWidget(PlayerUsername,0,0);
+    VerticalRadioB->addWidget(blue);
+    VerticalRadioB->addWidget(red);
+    GP->setLayout(VerticalRadioB);
+    Vertical->addWidget(PlayerUsername,0,0);
    // VerticalDice->addItem(Horizental);
-    Horizental->addWidget(ThrowBlue_Button,1,0);
-    Horizental->addWidget(blue,2,0);
+    Vertical->addWidget(ThrowBlue_Button,1,0);
+    Horizental->addWidget(GP,2,0);
+    Horizental->addWidget(choose,2,1);
     //Horizental->addWidget(ThrowRed_Button,2,0);
-    Horizental->addWidget(red,3,0);
-    Horizental->addWidget(EndTurn_Button,4,0);
-    Horizental->addWidget(EndGame_Button,5,0);
-    this->setLayout(Horizental);
-    this->resize(400, 400);
+
+    Vertical->addItem(Horizental);
+    Vertical->addWidget(EndTurn_Button,3,0);
+    Vertical->addWidget(EndGame_Button,4,0);
+    Vertical->addWidget(error,5,0);
+    this->setLayout(Vertical);
+    //this->resize(400, 400);
 
    /**
      * Signal connector to throw the blue die
@@ -80,9 +91,18 @@ dice::dice(QWidget *parent) :
     /**
      * removes message after 4 seconds
      */
-    QTimer *timer = new QTimer();
+    timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(4000);
+
+    /**
+     * removes disable on throwing dice button
+     */
+    timer1 = new QTimer();
+    timer1->start(100);
+    connect(timer1, SIGNAL(timeout()), this, SLOT(reveal()));
+
+
+
 
 
     Game1_View->setScene(Game1Scene);
@@ -113,6 +133,8 @@ void dice :: ThrowBlue()
     red->setText(sx);
     redval = x;
     red->setText(QString::number(redval));
+
+
 }
 
 
@@ -141,10 +163,42 @@ void dice :: EndGame()
 
 void dice :: EndTurn()
 {
-    Game1Scene->Move(Game1Scene->player1, blueval);
-    Game1Scene->Move(Game1Scene->player2, redval);
-    Game1Scene->player2->setPos(Game1Scene->player2->x(), Game1Scene->player2->y() - 30);
-    //this->close();
+
+
+
+
+    if(blue->text() == "blue")
+    {
+        error->setText("Roll Dice First!");
+        timer->start(4000);
+    }
+    else if(!blue->isChecked() && !red->isChecked())
+    {
+        error->setText("Please choose which die you want first!");
+        timer->start(4000);
+    }
+    else if (blue->isChecked())
+    {
+        Game1Scene->Move(Game1Scene->player1, blueval);
+        Game1Scene->Move(Game1Scene->player2, redval);
+        //Game1Scene->player2->setPos(Game1Scene->player2->x(), Game1Scene->player2->y() - 30);
+    }
+    else if (red->isChecked())
+    {
+        Game1Scene->Move(Game1Scene->player1, redval);
+        Game1Scene->Move(Game1Scene->player2, blueval);
+        //Game1Scene->player2->setPos(Game1Scene->player2->x(), Game1Scene->player2->y() - 30);
+    }
+
+    error->setText("Player 1 cell: " + QString::number(Game1Scene->player1->cell + 1) + "\n" + "Player 2 cell: " + QString::number(Game1Scene->player2->cell + 1));
+
+    ThrowBlue_Button->setEnabled(false);
+    EndTurn_Button->setEnabled(false);
+
+
+
+
+
 }
 
 void dice :: SetUser (QString d, QString n)
@@ -153,4 +207,20 @@ void dice :: SetUser (QString d, QString n)
     this->name = n;
     PlayerUsername->setText("Player " + name);
 }
+
+void dice :: reveal ()
+{
+    if (Game1Scene->player1->active == false && Game1Scene->player2->active == false)
+    {
+        Game1Scene->check(Game1Scene->player1);
+        Game1Scene->check(Game1Scene->player2);
+
+        this->ThrowBlue_Button->setEnabled(true);
+        this->EndTurn_Button->setEnabled(true);
+    }
+
+
+}
+
+
 

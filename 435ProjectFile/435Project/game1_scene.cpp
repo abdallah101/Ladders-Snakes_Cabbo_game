@@ -65,13 +65,26 @@ game1_scene::game1_scene()
     player2->setPixmap((QPixmap(QDir::currentPath() + "/Images/purple.jpg")).scaled(30,30));
     this->addItem(player1);
     this->addItem(player2);
+
+
+
+
 }
 
 
 void game1_scene::Move(players * player, int steps)
 {
+
     player->MoveP(steps);
-    if(grid[player->cell] != 0)
-        player->MovePExtra(grid[player->cell]);
+
+}
+
+void game1_scene :: check (players * player)
+{
+    if (player->notFirst == true )
+    {
+        if(grid[player->cell] != 0)
+            player->MovePExtra(grid[player->cell]);
+    }
 }
 

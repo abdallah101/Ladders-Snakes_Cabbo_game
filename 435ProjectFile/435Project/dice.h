@@ -7,6 +7,7 @@
 #include <strings.h>
 #include <mainscreen.h>
 #include <game1_scene.h>
+#include <players.h>
 /**
   *\file Dice.h
   */
@@ -18,14 +19,17 @@ public:
     explicit dice(QWidget *parent = 0);
     QPushButton * ThrowBlue_Button, * EndTurn_Button, * EndGame_Button; //* ThrowRed_Button,
     QGridLayout * Horizental;
-    QLabel * PlayerUsername;
+    QLabel * PlayerUsername, * error , * choose;
     QRadioButton * blue, * red;
-    QVBoxLayout * VerticalDice;
+    QVBoxLayout * VerticalDice, * VerticalRadioB, *Vertical;
     game1_scene * Game1Scene;
     QGraphicsView * Game1_View;
     MainScreen * BackToMain;
     int blueval, redval;
     QString user, name;
+    QTimer * timer ,* timer1;
+    QGroupBox * GP;
+
 signals:
 
 public slots:
@@ -35,6 +39,8 @@ public slots:
     void EndTurn();
     void EndGame ();
     void SetUser(QString d, QString n);
+    void reveal();
+
 
 };
 

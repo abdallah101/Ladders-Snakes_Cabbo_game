@@ -25,7 +25,7 @@ MainScreen::MainScreen(QWidget *parent) :
     vert = new QVBoxLayout();
     horiz = new QGridLayout();
     SignOut = new QPushButton("Sign Out");
-
+    //SettingsB->setEnabled(false);
     //Setting displayed username font
     QFont font = UsernameL->font();
     font.setPointSize(16);
