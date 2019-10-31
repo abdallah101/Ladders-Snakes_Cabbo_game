@@ -29,6 +29,7 @@ public:
     QString user, name;
     QTimer * timer ,* timer1;
     QGroupBox * GP;
+    bool endedturn;
 
 signals:
 
