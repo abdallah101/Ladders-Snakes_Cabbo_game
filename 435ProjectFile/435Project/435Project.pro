@@ -12,7 +12,8 @@ registermenu.cpp \
     dicecust.cpp \
     game1_scenecust.cpp \
     custWid.cpp \
-    snakesladders.cpp
+    snakesladders.cpp \
+    game1_modes.cpp
 
 
 QT += \
@@ -35,7 +36,8 @@ registermenu.h \
     dicecust.h \
     game1_scenecust.h \
     custWid.h \
-    snakesladders.h
+    snakesladders.h \
+    game1_modes.h
 
 
 OTHER_FILES +=

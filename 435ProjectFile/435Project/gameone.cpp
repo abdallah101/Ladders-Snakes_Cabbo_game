@@ -10,6 +10,7 @@
 #include <QDir>
 #include <dice.h>
 #include <custWid.h>
+#include <game1_modes.h>
 GameOne::GameOne(QWidget *parent) :
     QWidget(parent)
 
@@ -28,8 +29,8 @@ GameOne::GameOne(QWidget *parent) :
 void GameOne :: start()
 {
     this->close();
-    scene = new dice();
-    scene->SetUser(this->user, this->name);
+    scene = new Game1_Modes();
+    //scene->SetUser(this->user, this->name);
     scene->show();
 
 }

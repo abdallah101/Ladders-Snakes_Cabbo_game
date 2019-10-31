@@ -15,7 +15,7 @@ public:
     explicit GameOne(QWidget *parent = 0);
     QPushButton * startButton, * SetLaddersSnakes;
     //GameOne();
-    dice * scene;
+    QWidget * scene;
     QGridLayout * Horiz;
     QString user, name;
     custWid * scene1;

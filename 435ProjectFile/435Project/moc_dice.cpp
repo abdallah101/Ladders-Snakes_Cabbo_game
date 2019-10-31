@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_dice_t {
-    QByteArrayData data[6];
-    char stringdata0[41];
+    QByteArrayData data[9];
+    char stringdata0[51];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,13 +34,16 @@ static const qt_meta_stringdata_dice_t qt_meta_stringdata_dice = {
 QT_MOC_LITERAL(0, 0, 4), // "dice"
 QT_MOC_LITERAL(1, 5, 9), // "ThrowBlue"
 QT_MOC_LITERAL(2, 15, 0), // ""
-QT_MOC_LITERAL(3, 16, 8), // "ThrowRed"
-QT_MOC_LITERAL(4, 25, 7), // "EndTurn"
-QT_MOC_LITERAL(5, 33, 7) // "EndGame"
+QT_MOC_LITERAL(3, 16, 7), // "EndTurn"
+QT_MOC_LITERAL(4, 24, 7), // "EndGame"
+QT_MOC_LITERAL(5, 32, 7), // "SetUser"
+QT_MOC_LITERAL(6, 40, 1), // "d"
+QT_MOC_LITERAL(7, 42, 1), // "n"
+QT_MOC_LITERAL(8, 44, 6) // "reveal"
 
     },
-    "dice\0ThrowBlue\0\0ThrowRed\0EndTurn\0"
-    "EndGame"
+    "dice\0ThrowBlue\0\0EndTurn\0EndGame\0SetUser\0"
+    "d\0n\0reveal"
 };
 #undef QT_MOC_LITERAL
 
@@ -50,7 +53,7 @@ static const uint qt_meta_data_dice[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -58,15 +61,17 @@ static const uint qt_meta_data_dice[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   34,    2, 0x0a /* Public */,
-       3,    0,   35,    2, 0x0a /* Public */,
-       4,    0,   36,    2, 0x0a /* Public */,
-       5,    0,   37,    2, 0x0a /* Public */,
+       1,    0,   39,    2, 0x0a /* Public */,
+       3,    0,   40,    2, 0x0a /* Public */,
+       4,    0,   41,    2, 0x0a /* Public */,
+       5,    2,   42,    2, 0x0a /* Public */,
+       8,    0,   47,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString,    6,    7,
     QMetaType::Void,
 
        0        // eod
@@ -79,13 +84,13 @@ void dice::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->ThrowBlue(); break;
-        case 1: _t->ThrowRed(); break;
-        case 2: _t->EndTurn(); break;
-        case 3: _t->EndGame(); break;
+        case 1: _t->EndTurn(); break;
+        case 2: _t->EndGame(); break;
+        case 3: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 4: _t->reveal(); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObject dice::staticMetaObject = {
@@ -113,13 +118,13 @@ int dice::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 5)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }
