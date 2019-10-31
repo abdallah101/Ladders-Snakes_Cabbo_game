@@ -30,7 +30,7 @@ void GameOne :: start()
 {
     this->close();
     scene = new Game1_Modes();
-    //scene->SetUser(this->user, this->name);
+    scene->SetUser(this->user, this->name);
     scene->show();
 
 }

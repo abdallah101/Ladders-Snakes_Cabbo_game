@@ -8,6 +8,7 @@
 #include <QString>
 #include <custWid.h>
 #include <dice.h>
+#include <game1_modes.h>
 class GameOne : public QWidget
 {
     Q_OBJECT
@@ -15,7 +16,7 @@ public:
     explicit GameOne(QWidget *parent = 0);
     QPushButton * startButton, * SetLaddersSnakes;
     //GameOne();
-    QWidget * scene;
+    Game1_Modes * scene;
     QGridLayout * Horiz;
     QString user, name;
     custWid * scene1;

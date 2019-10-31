@@ -66,5 +66,12 @@ void Game1_Modes::start3()
 {
      this->close();
      nxtscene = new dice();
+     nxtscene->SetUser(this->user,this->name);
      nxtscene->show();
+}
+
+void Game1_Modes :: SetUser(QString a, QString b)
+{
+    this->user = a;
+    this->name = b;
 }
