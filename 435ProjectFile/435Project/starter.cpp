@@ -91,9 +91,9 @@ void Starter :: Back()
     {
     this->close();
     scene = new dice();
-    scene->difficulty = this->difficultyS;
-    scene->SetUser(this->user, this->name);
-    scene->startingPlayer = winningPlayer;
+
+    scene->SetUser(this->user, this->name, this->difficultyS, this->winningPlayer);
+
     scene->show();
     }
     else
@@ -102,8 +102,9 @@ void Starter :: Back()
     }
 }
 
-void Starter :: SetUser (QString a, QString b)
+void Starter :: SetUser (QString a, QString b, int S)
 {
     this->user = a;
     this->name = b;
+    this->difficultyS = S;
 }

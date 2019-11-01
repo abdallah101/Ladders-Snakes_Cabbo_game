@@ -64,32 +64,32 @@ void GameOne :: start()
     {
         this->close();
         scene = new Starter();
-        scene->difficultyS = 1;
-        scene->SetUser(this->user, this->name);
+
+        scene->SetUser(this->user, this->name, 1);
         scene->show();
     }
     else if (medium->isChecked())
     {
         this->close();
         scene = new Starter();
-        scene->difficultyS = 2;
-        scene->SetUser(this->user, this->name);
+
+        scene->SetUser(this->user, this->name, 2);
         scene->show();
     }
     else if (hard->isChecked())
     {
         this->close();
         scene = new Starter();
-        scene->difficultyS = 3;
-        scene->SetUser(this->user, this->name);
+
+        scene->SetUser(this->user, this->name, 3);
         scene->show();
     }
     else if (twoplayers->isChecked())
     {
         this->close();
         scene = new Starter();
-        scene->difficultyS= 4;
-        scene->SetUser(this->user, this->name);
+
+        scene->SetUser(this->user, this->name, 4);
         scene->show();
     }
 

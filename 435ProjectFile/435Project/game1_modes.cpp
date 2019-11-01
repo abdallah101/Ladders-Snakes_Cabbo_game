@@ -66,7 +66,7 @@ void Game1_Modes::start3()
 {
      this->close();
      nxtscene = new dice();
-     nxtscene->SetUser(this->user,this->name);
+     //nxtscene->SetUser(this->user,this->name);
      nxtscene->show();
 }
 

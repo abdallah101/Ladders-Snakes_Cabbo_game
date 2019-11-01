@@ -28,9 +28,9 @@ public:
     MainScreen * BackToMain;
     int blueval, redval;
     QString user, name;
-    QTimer * timer ,* timer1;
+    QTimer * timer ,* timer1, *timerPC;
     QGroupBox * GP;
-    bool endedturn;
+    bool endedturn, taketurns, other;
     int difficulty, startingPlayer;
     //Starter * ss;
 
@@ -42,8 +42,11 @@ public slots:
     //void ThrowRed();
     void EndTurn();
     void EndGame ();
-    void SetUser(QString d, QString n);
+    void SetUser(QString d, QString n, int s, int w);
     void reveal();
+    //void listener();
+    void EndTurnPC();
+    void listener();
 
 
 

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Starter_t {
-    QByteArrayData data[7];
-    char stringdata[32];
+    QByteArrayData data[8];
+    char stringdata[34];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,10 +34,11 @@ QT_MOC_LITERAL(1, 8, 7),
 QT_MOC_LITERAL(2, 16, 0),
 QT_MOC_LITERAL(3, 17, 1),
 QT_MOC_LITERAL(4, 19, 1),
-QT_MOC_LITERAL(5, 21, 4),
-QT_MOC_LITERAL(6, 26, 4)
+QT_MOC_LITERAL(5, 21, 1),
+QT_MOC_LITERAL(6, 23, 4),
+QT_MOC_LITERAL(7, 28, 4)
     },
-    "Starter\0SetUser\0\0a\0b\0roll\0Back\0"
+    "Starter\0SetUser\0\0a\0b\0S\0roll\0Back\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,12 +56,12 @@ static const uint qt_meta_data_Starter[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    2,   29,    2, 0x0a,
-       5,    0,   34,    2, 0x0a,
-       6,    0,   35,    2, 0x0a,
+       1,    3,   29,    2, 0x0a,
+       6,    0,   36,    2, 0x0a,
+       7,    0,   37,    2, 0x0a,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::QString, QMetaType::QString,    3,    4,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::Int,    3,    4,    5,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -72,7 +73,7 @@ void Starter::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
     if (_c == QMetaObject::InvokeMetaMethod) {
         Starter *_t = static_cast<Starter *>(_o);
         switch (_id) {
-        case 0: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 0: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
         case 1: _t->roll(); break;
         case 2: _t->Back(); break;
         default: ;

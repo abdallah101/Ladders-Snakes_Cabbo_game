@@ -28,7 +28,7 @@ signals:
 
 public slots:
 
-     void SetUser(QString a, QString b);
+     void SetUser(QString a, QString b, int S);
      void roll();
      void Back();
 
