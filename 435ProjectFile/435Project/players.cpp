@@ -133,14 +133,215 @@ void players:: MoveP(int step)
 
 }
 
-void players:: MovePExtra(int position)
+void players:: MovePExtra(int location)
 {
+    int from = this->cell+1;
     double cellsize = 61.2;
-    this-> cell = position;
+    this-> cell = location;
+    int position = location + 1;
     int cur_y = cell/10;
     int cur_x = cell % 10;
     if(cur_y % 2 == 1) cur_x = 9 - cur_x;
-    this->setPos(cur_x * cellsize, 580 - cur_y*cellsize);
+    //this->setPos(cur_x * cellsize, 580 - cur_y*cellsize);
+
+
+    //levelfrom is the starting row level, levelto is the end row level, path is the position of the box
+    //that is vertically above the starting position but at the level of the end row
+    //these are used to determine if the ending position is at the left or right of the starting position
+
+    int levelfrom, levelto, path, height;
+    levelfrom = ceil(from/10.0);
+    levelto = ceil(position/10.0);
+
+    height = abs(levelfrom - levelto);
+
+
+
+
+    //this->setPos(cur_x * cellsize, 580 - cur_y*cellsize);
+    if(position > from) //ladder
+
+    {
+    //*****************************************************************************************
+
+        if(levelfrom%2==0 && levelto%2!=0)
+        {
+
+            if(from%10 == 0)
+            {
+                path = levelto*10 - 9;
+            }
+            else
+            {
+                path = levelto*10 - (from%10 - 1);
+            }
+
+        }
+        else if (levelfrom%2!=0 && levelto%2==0)
+        {
+            if(from%10 == 0)
+            {
+                path = levelto*10 - (9);
+            }
+            else
+            {
+                path = levelto*10 - (from%10 - 1);
+            }
+        }
+        else
+        {
+            path = from + height*10;
+        }
+
+        if(path == position)
+        {
+            limitup = this->y() - 61.2*(height);
+            activate();
+        }
+
+    else if(levelto%2==0)
+    {
+        if(path > position)  //left to right
+        {
+            maxX = cur_x * cellsize;
+            maxY = this->y() - 61.2*height;
+            ratioY = (this->y() - maxY)/(maxX - this->x());
+            activateLadderUR();
+
+        }
+        //**********************************************************************************
+        else //right to left
+        {
+
+            maxX = cur_x * cellsize;
+            maxY = this->y() - 61.2*height;
+            ratioY = (this->y() - maxY)/(this->x() - maxX);
+            activateLadderUL();
+        }
+    }
+    //******************************************************************************************
+    else
+    {
+        if(path > position)  //right to left
+        {
+
+            maxX = cur_x * cellsize;
+            maxY = this->y() - 61.2*height;
+            ratioY = (this->y() - maxY)/(this->x() - maxX);
+            activateLadderUL();
+
+
+        }
+        //**************************************************************************************
+        else  //left to right
+        {
+
+            maxX = cur_x * cellsize;
+            maxY = this->y() - 61.2*height;
+            ratioY = (this->y() - maxY)/(maxX - this->x());
+            activateLadderUR();
+
+
+        }
+    }
+
+    }
+    else //here for the snakes
+    {
+        int j = levelfrom;
+        levelfrom = levelto;
+        levelto = j;
+
+        j = from;
+        from = position;
+        position = j;
+
+        if(levelfrom%2==0 && levelto%2!=0)
+        {
+
+            if(from%10 == 0)
+            {
+                path = levelto*10 - 9;
+            }
+            else
+            {
+                path = levelto*10 - (from%10 - 1);
+            }
+
+        }
+        else if (levelfrom%2!=0 && levelto%2==0)
+        {
+            if(from%10 == 0)
+            {
+                path = levelto*10 - (9);
+            }
+            else
+            {
+                path = levelto*10 - (from%10 - 1);
+            }
+        }
+        else
+        {
+            path = from + height*10;
+        }
+
+        if(path == from)
+        {
+            limitup = this->y() + 61.2*height;
+            activateMoveDown();
+        }
+
+        else if(levelto%2==0)
+        {
+            if(path > position)  //left to right
+            {
+                maxX = cur_x * cellsize;
+                maxY = this->y() + 61.2*height;
+                ratioY = (maxY - this->y() )/(this->x() - maxX);
+                activateSnakeDL();
+
+            }
+            //**********************************************************************************
+            else //right to left
+            {
+
+                maxX = cur_x * cellsize;
+                maxY = this->y() + 61.2*height;
+                ratioY = (maxY - this->y())/(maxX - this->x());
+                activateSnakeDR();
+
+
+            }
+        }
+        //******************************************************************************************
+        else
+        {
+            if(path > position)  //right to left
+            {
+
+                maxX = cur_x * cellsize;
+                maxY = this->y() + 61.2*height;
+                ratioY = (maxY - this->y())/(maxX - this->x());
+                activateSnakeDR();
+
+
+            }
+            //**************************************************************************************
+            else  //left to right
+            {
+
+                maxX = cur_x * cellsize;
+                maxY = this->y() + 61.2*height;
+                ratioY = (maxY - this->y())/(this->x() - maxX);
+                activateSnakeDL();
+
+
+            }
+        }
+
+    }
+
+    //**********************************************************************************************
 }
 
 void players:: MovePCust(int position)
@@ -290,13 +491,13 @@ void players :: activateLUR()
 
 }
 
-
 void players :: activateRUL()
 {
      timer = new QTimer();
     timer -> start(0.5);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveRUL()));
 }
+
 void players :: MoveRUL()
 {
     if(this->x() < limit)
@@ -323,6 +524,7 @@ void players :: MoveRUL()
     }
 
 }
+
 void players :: MoveLUR()
 {
     if(this->x() > limit)
@@ -349,5 +551,99 @@ void players :: MoveLUR()
 
 }
 
+
+void players :: activateLadderUR(){
+   timerLS = new QTimer();
+   timerLS -> start(1.5);
+   connect(timerLS,SIGNAL(timeout()), this, SLOT(LadderUR()));
+}
+void players :: activateLadderUL(){
+    timerLS = new QTimer();
+    timerLS -> start(1.5);
+    connect(timerLS,SIGNAL(timeout()), this, SLOT(LadderUL()));
+}
+void players :: LadderUR(){
+
+
+    if(this->x() < maxX || this->y() > maxY)
+    {
+        this->setPos(this->x() +0.1/ratioY , this->y() - 0.1);
+    }
+    else
+    {
+        delete timerLS;
+    }
+
+}
+void players :: LadderUL(){
+
+    if(this->x() > maxX || this->y() > maxY)
+    {
+        this->setPos(this->x() -0.1/ratioY , this->y() - 0.1);
+    }
+    else
+    {
+        delete timerLS;
+    }
+
+}
+
+void players :: activateSnakeDL(){
+    timerLS = new QTimer();
+    timerLS -> start(1.5);
+    connect(timerLS,SIGNAL(timeout()), this, SLOT(SnakeDL()));
+}
+void players :: activateSnakeDR(){
+    timerLS = new QTimer();
+    timerLS -> start(1.5);
+    connect(timerLS,SIGNAL(timeout()), this, SLOT(SnakeDR()));
+}
+
+
+void players :: SnakeDR(){
+
+
+    if(this->x() < maxX || this->y() < maxY)
+    {
+        this->setPos(this->x() + 0.1/ratioY , this->y() + 0.1);
+    }
+    else
+    {
+        delete timerLS;
+    }
+
+}
+void players :: SnakeDL(){
+
+
+    if(this->x() > maxX || this->y() < maxY)
+    {
+        this->setPos(this->x() - 0.1/ratioY , this->y() + 0.1);
+    }
+    else
+    {
+        delete timerLS;
+    }
+
+}
+
+void players :: activateMoveDown(){
+    timer = new QTimer();
+    timer -> start(0.5);
+    connect(timer,SIGNAL(timeout()), this, SLOT(MoveDown()));
+}
+
+void players :: MoveDown()
+{
+    if (this->y() < limitup)
+    {
+        this->setPos(this->x(), this->y()+0.1);
+    }
+    else
+    {
+
+        delete timer;
+    }
+}
 
 

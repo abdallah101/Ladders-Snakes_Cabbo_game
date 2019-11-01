@@ -11,10 +11,8 @@ class players : public QObject, public QGraphicsPixmapItem
 public:
     explicit players(QObject *parent = nullptr);
     int cell;
-    double limit;
-    double limitup;
-    double limitback;
-    QTimer * timer;
+    double limit, limitup, limitback, maxY, maxX, ratioY;
+    QTimer * timer, * timerLS;
     bool active;
     int steps;
     bool notFirst; //since to my misfortune, there is a ladder on 0 and 0 is a possible die roll :D
@@ -38,6 +36,17 @@ public slots:
     void activateRUL();
     void MoveLUR();
     void MoveRUL();
+    void MoveDown();
+    void activateMoveDown();
+
+    void activateLadderUR();
+    void activateLadderUL();
+    void activateSnakeDL();
+    void activateSnakeDR();
+    void LadderUR();
+    void LadderUL();
+    void SnakeDR();
+    void SnakeDL();
 
 };
 

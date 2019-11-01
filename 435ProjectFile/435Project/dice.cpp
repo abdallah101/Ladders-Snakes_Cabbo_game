@@ -166,18 +166,20 @@ void dice :: EndGame()
 void dice :: EndTurn()
 {
 
-
+    bool iserror = false;
 
 
     if(blue->text() == "blue")
     {
         error->setText("Roll Dice First!");
         timer->start(4000);
+        iserror = true;
     }
     else if(!blue->isChecked() && !red->isChecked())
     {
         error->setText("Please choose which die you want first!");
         timer->start(4000);
+        iserror = true;
     }
     else if (blue->isChecked())
     {
@@ -192,11 +194,15 @@ void dice :: EndTurn()
         //Game1Scene->player2->setPos(Game1Scene->player2->x(), Game1Scene->player2->y() - 30);
     }
 
-    error->setText("Player 1 cell: " + QString::number(Game1Scene->player1->cell + 1) + "\n" + "Player 2 cell: " + QString::number(Game1Scene->player2->cell + 1));
 
-    //ThrowBlue_Button->setEnabled(false);
+
+
+    if(iserror == false)
+    {
+    error->setText("Player 1 cell: " + QString::number(Game1Scene->player1->cell + 1) + "\n" + "Player 2 cell: " + QString::number(Game1Scene->player2->cell + 1));
     EndTurn_Button->setEnabled(false);
     this->ThrowBlue_Button->setEnabled(true);
+    }
 
 
 

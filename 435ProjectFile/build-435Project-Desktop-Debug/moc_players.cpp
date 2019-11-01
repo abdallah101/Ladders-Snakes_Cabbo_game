@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_players_t {
-    QByteArrayData data[20];
-    char stringdata[184];
+    QByteArrayData data[30];
+    char stringdata[310];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -48,13 +48,27 @@ QT_MOC_LITERAL(15, 136, 6),
 QT_MOC_LITERAL(16, 143, 11),
 QT_MOC_LITERAL(17, 155, 11),
 QT_MOC_LITERAL(18, 167, 7),
-QT_MOC_LITERAL(19, 175, 7)
+QT_MOC_LITERAL(19, 175, 7),
+QT_MOC_LITERAL(20, 183, 8),
+QT_MOC_LITERAL(21, 192, 16),
+QT_MOC_LITERAL(22, 209, 16),
+QT_MOC_LITERAL(23, 226, 16),
+QT_MOC_LITERAL(24, 243, 15),
+QT_MOC_LITERAL(25, 259, 15),
+QT_MOC_LITERAL(26, 275, 8),
+QT_MOC_LITERAL(27, 284, 8),
+QT_MOC_LITERAL(28, 293, 7),
+QT_MOC_LITERAL(29, 301, 7)
     },
     "players\0MoveUp\0\0activate\0MoveRight\0"
     "MoveLeft\0activateRight\0activateLeft\0"
     "MoveP\0FindCell\0MovePExtra\0MovePCust\0"
     "activateRU\0MoveRU\0activateLU\0MoveLU\0"
     "activateLUR\0activateRUL\0MoveLUR\0MoveRUL\0"
+    "MoveDown\0activateMoveDown\0activateLadderUR\0"
+    "activateLadderUL\0activateSnakeDL\0"
+    "activateSnakeDR\0LadderUR\0LadderUL\0"
+    "SnakeDR\0SnakeDL\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -64,7 +78,7 @@ static const uint qt_meta_data_players[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      18,   14, // methods
+      28,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -72,24 +86,34 @@ static const uint qt_meta_data_players[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  104,    2, 0x0a,
-       3,    0,  105,    2, 0x0a,
-       4,    0,  106,    2, 0x0a,
-       5,    0,  107,    2, 0x0a,
-       6,    0,  108,    2, 0x0a,
-       7,    0,  109,    2, 0x0a,
-       8,    1,  110,    2, 0x0a,
-       9,    0,  113,    2, 0x0a,
-      10,    1,  114,    2, 0x0a,
-      11,    1,  117,    2, 0x0a,
-      12,    0,  120,    2, 0x0a,
-      13,    0,  121,    2, 0x0a,
-      14,    0,  122,    2, 0x0a,
-      15,    0,  123,    2, 0x0a,
-      16,    0,  124,    2, 0x0a,
-      17,    0,  125,    2, 0x0a,
-      18,    0,  126,    2, 0x0a,
-      19,    0,  127,    2, 0x0a,
+       1,    0,  154,    2, 0x0a,
+       3,    0,  155,    2, 0x0a,
+       4,    0,  156,    2, 0x0a,
+       5,    0,  157,    2, 0x0a,
+       6,    0,  158,    2, 0x0a,
+       7,    0,  159,    2, 0x0a,
+       8,    1,  160,    2, 0x0a,
+       9,    0,  163,    2, 0x0a,
+      10,    1,  164,    2, 0x0a,
+      11,    1,  167,    2, 0x0a,
+      12,    0,  170,    2, 0x0a,
+      13,    0,  171,    2, 0x0a,
+      14,    0,  172,    2, 0x0a,
+      15,    0,  173,    2, 0x0a,
+      16,    0,  174,    2, 0x0a,
+      17,    0,  175,    2, 0x0a,
+      18,    0,  176,    2, 0x0a,
+      19,    0,  177,    2, 0x0a,
+      20,    0,  178,    2, 0x0a,
+      21,    0,  179,    2, 0x0a,
+      22,    0,  180,    2, 0x0a,
+      23,    0,  181,    2, 0x0a,
+      24,    0,  182,    2, 0x0a,
+      25,    0,  183,    2, 0x0a,
+      26,    0,  184,    2, 0x0a,
+      27,    0,  185,    2, 0x0a,
+      28,    0,  186,    2, 0x0a,
+      29,    0,  187,    2, 0x0a,
 
  // slots: parameters
     QMetaType::Void,
@@ -102,6 +126,16 @@ static const uint qt_meta_data_players[] = {
     QMetaType::Int,
     QMetaType::Void, QMetaType::Int,    2,
     QMetaType::Void, QMetaType::Int,    2,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -138,6 +172,16 @@ void players::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 15: _t->activateRUL(); break;
         case 16: _t->MoveLUR(); break;
         case 17: _t->MoveRUL(); break;
+        case 18: _t->MoveDown(); break;
+        case 19: _t->activateMoveDown(); break;
+        case 20: _t->activateLadderUR(); break;
+        case 21: _t->activateLadderUL(); break;
+        case 22: _t->activateSnakeDL(); break;
+        case 23: _t->activateSnakeDR(); break;
+        case 24: _t->LadderUR(); break;
+        case 25: _t->LadderUL(); break;
+        case 26: _t->SnakeDR(); break;
+        case 27: _t->SnakeDL(); break;
         default: ;
         }
     }
@@ -170,13 +214,13 @@ int players::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 18)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 28;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 18)
+        if (_id < 28)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 18;
+        _id -= 28;
     }
     return _id;
 }

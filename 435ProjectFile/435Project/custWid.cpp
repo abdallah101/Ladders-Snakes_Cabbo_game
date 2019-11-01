@@ -115,14 +115,7 @@ void custWid::SubmitFunction()
         levelfrom = ceil(from->text().toInt()/10.0);
         levelto = ceil(to->text().toInt()/10.0);
 
-        if(levelfrom > levelto)
-        {
-            height = levelfrom - levelto;
-        }
-        else
-        {
-            height = levelto - levelfrom;
-        }
+        height = abs(levelfrom - levelto);
 
         if(levelfrom%2==0 && levelto%2!=0)
         {
