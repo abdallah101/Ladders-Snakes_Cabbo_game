@@ -69,7 +69,7 @@ void Starter :: roll ()
     //player1->setText(sx);
 
     player2->setText("Player2: " + QString::number(x));
-    rolledit == true;
+    rolledit = true;
 
     if(x > j)
     {winningPlayer = 2;}
@@ -87,13 +87,13 @@ void Starter :: roll ()
 
 void Starter :: Back()
 {
-    if(rollededit == true)
+    if(rolledit == true)
     {
     this->close();
     scene = new dice();
     scene->difficulty = this->difficultyS;
     scene->SetUser(this->user, this->name);
-    scene->startingPlayer = winningPlayer();
+    scene->startingPlayer = winningPlayer;
     scene->show();
     }
     else

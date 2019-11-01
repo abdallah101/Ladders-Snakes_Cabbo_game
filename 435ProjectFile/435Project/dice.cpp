@@ -33,22 +33,26 @@ dice::dice(QWidget *parent) :
     //ThrowRed_Button = new QPushButton("Throw red die");
     EndTurn_Button = new QPushButton("End Turn");
     EndGame_Button = new QPushButton("End Game");
+    PlayerUsername = new QLabel("Player x");
 
     if(startingPlayer == 1 && difficulty!=4)
     {
-        PlayerUsername = new QLabel("Player " + name);
+        PlayerUsername->setText("Player: " + name);
         Game1Scene->player1->myturn = true;
     }
     else if (startingPlayer == 2 && difficulty != 4)
     {
-        PlayerUsername = new QLabel("Player player2(PC)");
+        PlayerUsername->setText("Player2(PC)");
         Game1Scene->player2->myturn = true;
     }
     else if (startingPlayer == 2 && difficulty == 4)
     {
-        PlayerUsername == new QLabel("Player 2");
+        PlayerUsername->setText("Player 2");
         Game1Scene->player2->myturn = true;
     }
+
+
+
 
     blue = new QRadioButton("blue");
     red = new QRadioButton("red");
@@ -240,6 +244,7 @@ void dice :: SetUser (QString d, QString n)
     this->name = n;
     PlayerUsername->setText("Player " + name);
 }
+
 
 void dice :: reveal ()
 {
