@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
+#include <starter.h>
 /**
   *\file dice.cpp
   */
@@ -27,12 +28,28 @@ dice::dice(QWidget *parent) :
      * Creating buttons, input boxes, and Labels
      */
 
+
     ThrowBlue_Button = new QPushButton("Throw both die");
     //ThrowRed_Button = new QPushButton("Throw red die");
     EndTurn_Button = new QPushButton("End Turn");
     EndGame_Button = new QPushButton("End Game");
 
-    PlayerUsername = new QLabel("Player " + name);
+    if(startingPlayer == 1 && difficulty!=4)
+    {
+        PlayerUsername = new QLabel("Player " + name);
+        Game1Scene->player1->myturn = true;
+    }
+    else if (startingPlayer == 2 && difficulty != 4)
+    {
+        PlayerUsername = new QLabel("Player player2(PC)");
+        Game1Scene->player2->myturn = true;
+    }
+    else if (startingPlayer == 2 && difficulty == 4)
+    {
+        PlayerUsername == new QLabel("Player 2");
+        Game1Scene->player2->myturn = true;
+    }
+
     blue = new QRadioButton("blue");
     red = new QRadioButton("red");
     Game1Scene = new game1_scene();
@@ -95,7 +112,7 @@ dice::dice(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 
     /**
-     * removes disable on throwing dice button
+     * removes enable/disable on throwing dice button
      */
     timer1 = new QTimer();
     timer1->start(100);
@@ -109,6 +126,11 @@ dice::dice(QWidget *parent) :
     Game1_View->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
     Game1_View->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
     Game1_View->show();
+
+
+
+
+
 }
 
 /**
@@ -119,6 +141,7 @@ dice::dice(QWidget *parent) :
 
 void dice :: ThrowBlue()
 {
+
     ThrowBlue_Button->setEnabled(false);
     endedturn = true;
     srand(time(0));
@@ -226,7 +249,10 @@ void dice :: reveal ()
         Game1Scene->check(Game1Scene->player2);
 
     }
-    if (Game1Scene->player1->active == false && Game1Scene->player2->active == false && endedturn == true)
+
+    //if player1 wants to press the end button, it has to be his turn, and both players shouldnt be in the process of moving their icons
+    // and he must have pushed the throw button once
+    if (Game1Scene->player1->active == false && Game1Scene->player2->active == false && endedturn == true )
     {
          this->EndTurn_Button->setEnabled(true);
     }
@@ -237,6 +263,7 @@ void dice :: reveal ()
     }
 
 }
+
 
 
 

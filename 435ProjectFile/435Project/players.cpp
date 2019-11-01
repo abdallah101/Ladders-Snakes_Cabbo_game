@@ -12,6 +12,7 @@ players::players(QObject * parent) : QObject(parent)
     active = false;
     steps = 0;
     notFirst = false;
+    myturn = false;
 
 }
 int players:: FindCell()

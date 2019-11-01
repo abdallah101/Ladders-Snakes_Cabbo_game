@@ -13,9 +13,10 @@ public:
     int cell;
     double limit, limitup, limitback, maxY, maxX, ratioY;
     QTimer * timer, * timerLS;
-    bool active;
+    bool active; //gives other widgets info that there is a process currently working
     int steps;
     bool notFirst; //since to my misfortune, there is a ladder on 0 and 0 is a possible die roll :D
+    bool myturn; //to determine which player chooses the die this round
 
 public slots:
     void MoveUp();

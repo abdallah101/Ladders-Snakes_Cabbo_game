@@ -8,6 +8,7 @@
 #include <mainscreen.h>
 #include <game1_scene.h>
 #include <players.h>
+//#include <starter.h>
 /**
   *\file Dice.h
   */
@@ -30,7 +31,8 @@ public:
     QTimer * timer ,* timer1;
     QGroupBox * GP;
     bool endedturn;
-    int difficulty;
+    int difficulty, startingPlayer;
+    //Starter * ss;
 
 signals:
 
@@ -42,6 +44,7 @@ public slots:
     void EndGame ();
     void SetUser(QString d, QString n);
     void reveal();
+
 
 
 };

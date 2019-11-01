@@ -11,6 +11,7 @@
 #include <dice.h>
 #include <custWid.h>
 #include <game1_modes.h>
+#include <starter.h>
 GameOne::GameOne(QWidget *parent) :
     QWidget(parent)
 
@@ -62,32 +63,32 @@ void GameOne :: start()
     else if(easy->isChecked())
     {
         this->close();
-        scene = new dice();
-        scene->difficulty = 1;
+        scene = new Starter();
+        scene->difficultyS = 1;
         scene->SetUser(this->user, this->name);
         scene->show();
     }
     else if (medium->isChecked())
     {
         this->close();
-        scene = new dice();
-        scene->difficulty = 2;
+        scene = new Starter();
+        scene->difficultyS = 2;
         scene->SetUser(this->user, this->name);
         scene->show();
     }
     else if (hard->isChecked())
     {
         this->close();
-        scene = new dice();
-        scene->difficulty = 3;
+        scene = new Starter();
+        scene->difficultyS = 3;
         scene->SetUser(this->user, this->name);
         scene->show();
     }
     else if (twoplayers->isChecked())
     {
         this->close();
-        scene = new dice();
-        scene->difficulty = 4;
+        scene = new Starter();
+        scene->difficultyS= 4;
         scene->SetUser(this->user, this->name);
         scene->show();
     }

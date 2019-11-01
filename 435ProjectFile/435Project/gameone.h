@@ -10,6 +10,7 @@
 #include <dice.h>
 #include <game1_modes.h>
 #include <QTimer>
+#include <starter.h>
 class GameOne : public QWidget
 {
     Q_OBJECT
@@ -17,7 +18,7 @@ public:
     explicit GameOne(QWidget *parent = 0);
     QPushButton * startButton, * SetLaddersSnakes;
     //GameOne();
-    dice * scene;
+    Starter * scene;
     QGridLayout * Horiz;
     QString user, name;
     custWid * scene1;
