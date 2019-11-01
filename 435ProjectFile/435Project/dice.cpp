@@ -120,7 +120,7 @@ dice::dice(QWidget *parent) :
 void dice :: ThrowBlue()
 {
     ThrowBlue_Button->setEnabled(false);
-    this->EndTurn_Button->setEnabled(true);
+    endedturn = true;
     srand(time(0));
     int x = rand() % 7;
     QString sx = "";
@@ -202,6 +202,7 @@ void dice :: EndTurn()
     error->setText("Player 1 cell: " + QString::number(Game1Scene->player1->cell + 1) + "\n" + "Player 2 cell: " + QString::number(Game1Scene->player2->cell + 1));
     EndTurn_Button->setEnabled(false);
     this->ThrowBlue_Button->setEnabled(true);
+    endedturn = false;
     }
 
 
@@ -224,10 +225,16 @@ void dice :: reveal ()
         Game1Scene->check(Game1Scene->player1);
         Game1Scene->check(Game1Scene->player2);
 
-
-
+    }
+    if (Game1Scene->player1->active == false && Game1Scene->player2->active == false && endedturn == true)
+    {
+         this->EndTurn_Button->setEnabled(true);
     }
 
+    if(Game1Scene->player1->active == true || Game1Scene->player2->active == true)
+    {
+        this->EndTurn_Button->setEnabled(false);
+    }
 
 }
 

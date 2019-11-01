@@ -30,6 +30,7 @@ public:
     QTimer * timer ,* timer1;
     QGroupBox * GP;
     bool endedturn;
+    int difficulty;
 
 signals:
 

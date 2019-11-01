@@ -135,6 +135,7 @@ void players:: MoveP(int step)
 
 void players:: MovePExtra(int location)
 {
+    active = true;
     int from = this->cell+1;
     double cellsize = 61.2;
     this-> cell = location;
@@ -571,6 +572,7 @@ void players :: LadderUR(){
     }
     else
     {
+        active = false;
         delete timerLS;
     }
 
@@ -583,6 +585,7 @@ void players :: LadderUL(){
     }
     else
     {
+        active = false;
         delete timerLS;
     }
 
@@ -609,6 +612,7 @@ void players :: SnakeDR(){
     }
     else
     {
+        active = false;
         delete timerLS;
     }
 
@@ -622,6 +626,7 @@ void players :: SnakeDL(){
     }
     else
     {
+        active = false;
         delete timerLS;
     }
 
@@ -641,7 +646,7 @@ void players :: MoveDown()
     }
     else
     {
-
+        active = false;
         delete timer;
     }
 }
