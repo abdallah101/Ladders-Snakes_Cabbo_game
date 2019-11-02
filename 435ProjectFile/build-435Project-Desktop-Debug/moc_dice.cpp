@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_dice_t {
-    QByteArrayData data[13];
-    char stringdata[75];
+    QByteArrayData data[14];
+    char stringdata[87];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,19 +32,21 @@ static const qt_meta_stringdata_dice_t qt_meta_stringdata_dice = {
 QT_MOC_LITERAL(0, 0, 4),
 QT_MOC_LITERAL(1, 5, 9),
 QT_MOC_LITERAL(2, 15, 0),
-QT_MOC_LITERAL(3, 16, 7),
-QT_MOC_LITERAL(4, 24, 7),
-QT_MOC_LITERAL(5, 32, 7),
-QT_MOC_LITERAL(6, 40, 1),
-QT_MOC_LITERAL(7, 42, 1),
-QT_MOC_LITERAL(8, 44, 1),
-QT_MOC_LITERAL(9, 46, 1),
-QT_MOC_LITERAL(10, 48, 6),
-QT_MOC_LITERAL(11, 55, 9),
-QT_MOC_LITERAL(12, 65, 8)
+QT_MOC_LITERAL(3, 16, 11),
+QT_MOC_LITERAL(4, 28, 7),
+QT_MOC_LITERAL(5, 36, 7),
+QT_MOC_LITERAL(6, 44, 7),
+QT_MOC_LITERAL(7, 52, 1),
+QT_MOC_LITERAL(8, 54, 1),
+QT_MOC_LITERAL(9, 56, 1),
+QT_MOC_LITERAL(10, 58, 1),
+QT_MOC_LITERAL(11, 60, 6),
+QT_MOC_LITERAL(12, 67, 9),
+QT_MOC_LITERAL(13, 77, 8)
     },
-    "dice\0ThrowBlue\0\0EndTurn\0EndGame\0SetUser\0"
-    "d\0n\0s\0w\0reveal\0EndTurnPC\0listener\0"
+    "dice\0ThrowBlue\0\0ThrowBluePC\0EndTurn\0"
+    "EndGame\0SetUser\0d\0n\0s\0w\0reveal\0EndTurnPC\0"
+    "listener\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -54,7 +56,7 @@ static const uint qt_meta_data_dice[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -62,19 +64,21 @@ static const uint qt_meta_data_dice[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   49,    2, 0x0a,
-       3,    0,   50,    2, 0x0a,
-       4,    0,   51,    2, 0x0a,
-       5,    4,   52,    2, 0x0a,
-      10,    0,   61,    2, 0x0a,
-      11,    0,   62,    2, 0x0a,
-      12,    0,   63,    2, 0x0a,
+       1,    0,   54,    2, 0x0a,
+       3,    0,   55,    2, 0x0a,
+       4,    0,   56,    2, 0x0a,
+       5,    0,   57,    2, 0x0a,
+       6,    4,   58,    2, 0x0a,
+      11,    0,   67,    2, 0x0a,
+      12,    0,   68,    2, 0x0a,
+      13,    0,   69,    2, 0x0a,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::Int, QMetaType::Int,    6,    7,    8,    9,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::Int, QMetaType::Int,    7,    8,    9,   10,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -88,12 +92,13 @@ void dice::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         dice *_t = static_cast<dice *>(_o);
         switch (_id) {
         case 0: _t->ThrowBlue(); break;
-        case 1: _t->EndTurn(); break;
-        case 2: _t->EndGame(); break;
-        case 3: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
-        case 4: _t->reveal(); break;
-        case 5: _t->EndTurnPC(); break;
-        case 6: _t->listener(); break;
+        case 1: _t->ThrowBluePC(); break;
+        case 2: _t->EndTurn(); break;
+        case 3: _t->EndGame(); break;
+        case 4: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
+        case 5: _t->reveal(); break;
+        case 6: _t->EndTurnPC(); break;
+        case 7: _t->listener(); break;
         default: ;
         }
     }
@@ -124,13 +129,13 @@ int dice::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }

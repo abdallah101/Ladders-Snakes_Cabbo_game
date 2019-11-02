@@ -30,16 +30,19 @@ public:
     QString user, name;
     QTimer * timer ,* timer1, *timerPC;
     QGroupBox * GP;
-    bool endedturn, taketurns, other;
-    int difficulty, startingPlayer;
-    //Starter * ss;
+    bool endedturn, taketurns, other, endedturnPC; //endedturn is used to let the user throw the die only once, taketurns is used to give the PC 1 turn
+                                                    //other is used switch between user(player1) and player2
+                                                     //endedturnPC is used to give plauer1 his throw button when PC is done
+    int difficulty, startingPlayer;  //difficulty determines what algorythm takes place and if player2 is human or PC
+                                    //startingPlayer determines if player1 or player2 starts the round
+
 
 signals:
 
 public slots:
 
     void ThrowBlue();
-    //void ThrowRed();
+    void ThrowBluePC();
     void EndTurn();
     void EndGame ();
     void SetUser(QString d, QString n, int s, int w);

@@ -355,7 +355,6 @@ void players:: MovePCust(int position)
     if(cur_y % 2 == 1) cur_x = 9 - cur_x;
     this->setPos(cur_x * cellsize, 520 - 25 - cur_y*cellsize);
 }
-
 void players :: activate()
 {
 
@@ -365,7 +364,6 @@ void players :: activate()
 
 
 }
-
 void players :: MoveUp()
 {
 
@@ -375,12 +373,11 @@ void players :: MoveUp()
     }
     else
     {
-
+        active = false;
         delete timer;
     }
 
 }
-
 void players :: activateLeft()
 {
     timer = new QTimer();
@@ -388,7 +385,6 @@ void players :: activateLeft()
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveLeft()));
 
 }
-
 void players :: activateRight()
 {
 
@@ -399,7 +395,6 @@ void players :: activateRight()
 
 
 }
-
 void players :: MoveLeft()
 {
     if (this->x() >= limit)
@@ -413,7 +408,6 @@ void players :: MoveLeft()
         delete timer;
     }
 }
-
 void players :: MoveRight()
 {
     if(this->x() <= limit)
@@ -428,7 +422,6 @@ void players :: MoveRight()
     }
 
 }
-
 void players :: activateRU()
 {
     timer = new QTimer();
@@ -438,7 +431,6 @@ void players :: activateRU()
 
 
 }
-
 void players :: MoveRU()
 {
     if(this->x() <= limit)
@@ -457,7 +449,6 @@ void players :: MoveRU()
     }
 
 }
-
 void players :: activateLU(){
 
     timer = new QTimer();
@@ -465,7 +456,6 @@ void players :: activateLU(){
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveLU()));
 
 }
-
 void players :: MoveLU(){
 
     if(this->x() >= limit)
@@ -484,7 +474,6 @@ void players :: MoveLU(){
     }
 
 }
-
 void players :: activateLUR()
 {
      timer = new QTimer();
@@ -492,14 +481,12 @@ void players :: activateLUR()
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveLUR()));
 
 }
-
 void players :: activateRUL()
 {
      timer = new QTimer();
     timer -> start(0.5);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveRUL()));
 }
-
 void players :: MoveRUL()
 {
     if(this->x() < limit)
@@ -526,7 +513,6 @@ void players :: MoveRUL()
     }
 
 }
-
 void players :: MoveLUR()
 {
     if(this->x() > limit)
@@ -552,8 +538,6 @@ void players :: MoveLUR()
 
 
 }
-
-
 void players :: activateLadderUR(){
    timerLS = new QTimer();
    timerLS -> start(1.5);
@@ -591,7 +575,6 @@ void players :: LadderUL(){
     }
 
 }
-
 void players :: activateSnakeDL(){
     timerLS = new QTimer();
     timerLS -> start(1.5);
@@ -602,8 +585,6 @@ void players :: activateSnakeDR(){
     timerLS -> start(1.5);
     connect(timerLS,SIGNAL(timeout()), this, SLOT(SnakeDR()));
 }
-
-
 void players :: SnakeDR(){
 
 
@@ -630,15 +611,12 @@ void players :: SnakeDL(){
         active = false;
         delete timerLS;
     }
-
 }
-
 void players :: activateMoveDown(){
     timer = new QTimer();
     timer -> start(0.5);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveDown()));
 }
-
 void players :: MoveDown()
 {
     if (this->y() < limitup)

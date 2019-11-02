@@ -51,6 +51,7 @@ dice::dice(QWidget *parent) :
     GP = new QGroupBox();
     choose = new QLabel("Choose!");
     endedturn = false;
+    endedturnPC = false;
     /**
      * Creating layouts
      */
@@ -129,14 +130,14 @@ dice::dice(QWidget *parent) :
     Game1_View->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
     Game1_View->show();
 
-    //Game1Scene->player2->myturn = true;
+
 
 
 
 }
 
 /**
- * \brief Function to throw blue die and red die
+ * \brief Function to throw both die for player1's turn
  * \param Takes no parameter
  * \return nothing (type: void)
  */
@@ -145,9 +146,13 @@ void dice :: ThrowBlue()
 {
 
 
+    //disables the throw button and enables the end turn button
+
     ThrowBlue_Button->setEnabled(false);
-    this->EndTurn_Button->setEnabled(true);
+
+    //this->EndTurn_Button->setEnabled(true);
     endedturn = true;
+    endedturnPC = false;
     srand(time(0));
     int x = rand() % 7;
     QString sx = "";
@@ -166,7 +171,38 @@ void dice :: ThrowBlue()
 
 }
 
+/**
+ * \brief Function to throw both die but for PC's turn
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
 
+void dice :: ThrowBluePC()
+{
+
+
+    //disables the throw button and enables the end turn button
+    //ThrowBlue_Button->setEnabled(false);
+    //this->EndTurn_Button->setEnabled(true);
+    //endedturn = true;
+
+    srand(time(0));
+    int x = rand() % 7;
+    QString sx = "";
+    sx += (x + '0');
+    blue->setText(sx);
+    blueval = x;
+    blue->setText(QString::number(blueval));
+
+    x = rand() % 7;
+    sx = "";
+    sx += (x + '0');
+    red->setText(sx);
+    redval = x;
+    red->setText(QString::number(redval));
+
+
+}
 
 
 /**
@@ -197,7 +233,7 @@ void dice :: EndTurn()
     bool iserror = false;
 
 
-    if(difficulty == 4)
+    if(difficulty == 4) //this is when there are 2 human players, uses the checked radiobutto number to move for the player who its his current turn
     {
     if(blue->text() == "blue")
     {
@@ -249,7 +285,7 @@ void dice :: EndTurn()
 
 }
 
-    if(difficulty < 4)
+    if(difficulty < 4) //if playing against the PC each player has an end turn function, check EndTurnPC for PC's version
     {
     if(blue->text() == "blue")
     {
@@ -286,14 +322,16 @@ void dice :: EndTurn()
     }
 
 
+    //if we are playing against PC then difficulty < 4 and need to switch between true and false for each players when ending turn
     if(iserror == false && difficulty < 4)
     {
-    this->EndTurn_Button->setEnabled(false);
-    //this->ThrowBlue_Button->setEnabled(false);
-    endedturn = false;
-    Game1Scene->player1->myturn = false;
-    Game1Scene->player2->myturn = true;
+        this->EndTurn_Button->setEnabled(false);
+        //this->ThrowBlue_Button->setEnabled(false);
+        endedturn = false;
+        Game1Scene->player1->myturn = false;
+        Game1Scene->player2->myturn = true;
     }
+    //likewise when playing against a human (difficulty = 4) but using bool other
     else if  (iserror == false && difficulty == 4)
     {
         this->EndTurn_Button->setEnabled(false);
@@ -511,7 +549,8 @@ void dice :: EndTurnPC()
 
     Game1Scene->player1->myturn = true;
     Game1Scene->player2->myturn = false;
-    this->ThrowBlue_Button->setEnabled(true);
+    endedturnPC = true;
+
 
 
 
@@ -549,6 +588,7 @@ void dice :: SetUser (QString d, QString n, int s, int w)
 
 void dice :: reveal ()
 {
+    //here to check for ladders and snakes once done from normal movement
     if (Game1Scene->player1->active == false && Game1Scene->player2->active == false)
     {
         Game1Scene->check(Game1Scene->player1);
@@ -558,6 +598,7 @@ void dice :: reveal ()
 
     //if player1 wants to press the end button, it has to be his turn, and both players shouldnt be in the process of moving their icons
     // and he must have pushed the throw button once
+    //here for 2 players
     if (Game1Scene->player1->active == false && Game1Scene->player2->active == false && endedturn == true && difficulty == 4)
        {
             this->EndTurn_Button->setEnabled(true);
@@ -569,6 +610,8 @@ void dice :: reveal ()
        }
 
 
+       //here for 2 players changing names
+       //Starting username belongs to starting player which has myturn = true
        if(Game1Scene->player1->myturn == true && Game1Scene->player2->myturn == false && difficulty < 4)
        {
            PlayerUsername->setText("Player: " + name);
@@ -578,6 +621,7 @@ void dice :: reveal ()
            PlayerUsername->setText("Player PC");
        }
 
+       //other is a boolean that determines if it is player1 or player2's turn
        if(other == false && difficulty == 4)
        {
            PlayerUsername->setText("Player: " + name);
@@ -587,14 +631,20 @@ void dice :: reveal ()
            PlayerUsername->setText("Player 2");
        }
 
-    if (Game1Scene->player1->active == false && Game1Scene->player2->active == false && Game1Scene->player2->myturn == true)
+
+       //here for the PC
+
+       //makes taketurns equal true for the PC to take his turn when both players arent active and it is his turn
+    if (Game1Scene->player1->active == false && Game1Scene->player2->active == false && Game1Scene->player2->myturn == true && difficulty < 4)
     {
          taketurns = true;
 
     }
 
-
-
+    if (Game1Scene->player1->active == false && Game1Scene->player2->active == false && endedturn == true && difficulty < 4)
+       {
+            this->EndTurn_Button->setEnabled(true);
+       }
 
     if((Game1Scene->player1->active == true || Game1Scene->player2->active == true) && difficulty < 4)
     {
@@ -602,25 +652,35 @@ void dice :: reveal ()
     }
 
 
+    if(Game1Scene->player1->active == false && Game1Scene->player2->active == false && endedturnPC == true && difficulty < 4)
+    {
+        this->ThrowBlue_Button->setEnabled(true);
+    }
 
 
 
 }
 
+
+//keeps listening if taketurn is true or not, taketurns becomes true when none of the players are active and if it is PC's turn
+//it becomes PC's turn if he is the starting player or if the other player ends his turn
+//depends on Game1Scene->player2->myturn == true
 void dice :: listener()
 {
     if(taketurns == true)
     {
         if(difficulty == 1 || difficulty == 2 || difficulty == 3)
         {
-            this->ThrowBlue();
+            this->ThrowBluePC();
             this->EndTurnPC();
             //cout << "here" << endl;
             taketurns = false;
         }
         else
         {
-            this->ThrowBlue_Button->setEnabled(false);
+            //can never reach this else
+            //redundant
+            //this->ThrowBlue_Button->setEnabled(false);
         }
     }
     else
