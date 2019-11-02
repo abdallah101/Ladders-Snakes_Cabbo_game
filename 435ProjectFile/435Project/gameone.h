@@ -16,9 +16,10 @@ class GameOne : public QWidget
     Q_OBJECT
 public:
     explicit GameOne(QWidget *parent = 0);
-    QPushButton * startButton, * SetLaddersSnakes;
+    QPushButton * startButton, * SetLaddersSnakes, *resume;
     //GameOne();
     Starter * scene;
+    dice * scene2;
     QGridLayout * Horiz;
     QString user, name;
     custWid * scene1;
@@ -37,6 +38,7 @@ public slots:
     void customize();
     void SetUser(QString d, QString n);
     void update();
+    void resumegame();
 
 };
 

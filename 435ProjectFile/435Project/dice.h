@@ -16,6 +16,9 @@
 class dice : public QWidget
 {
     Q_OBJECT
+
+private:
+     void closeEvent(QCloseEvent *bar);
 public:
     explicit dice(QWidget *parent = 0);
     QPushButton * ThrowBlue_Button, * EndTurn_Button, * EndGame_Button; //* ThrowRed_Button,
@@ -30,7 +33,7 @@ public:
     QString user, name;
     QTimer * timer ,* timer1, *timerPC;
     QGroupBox * GP;
-    bool endedturn, taketurns, other, endedturnPC; //endedturn is used to let the user throw the die only once, taketurns is used to give the PC 1 turn
+    bool endedturn, taketurns, other, endedturnPC, once, isResume; //endedturn is used to let the user throw the die only once, taketurns is used to give the PC 1 turn
                                                     //other is used switch between user(player1) and player2
                                                      //endedturnPC is used to give plauer1 his throw button when PC is done
     int difficulty, startingPlayer;  //difficulty determines what algorythm takes place and if player2 is human or PC
@@ -45,11 +48,12 @@ public slots:
     void ThrowBluePC();
     void EndTurn();
     void EndGame ();
-    void SetUser(QString d, QString n, int s, int w);
+    void SetUser(QString d, QString n, int s, int w, bool h);
     void reveal();
     //void listener();
     void EndTurnPC();
     void listener();
+    void wonturn();
 
 
 

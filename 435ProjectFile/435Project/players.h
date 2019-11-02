@@ -39,7 +39,6 @@ public slots:
     void MoveRUL();
     void MoveDown();
     void activateMoveDown();
-
     void activateLadderUR();
     void activateLadderUL();
     void activateSnakeDL();
@@ -48,6 +47,9 @@ public slots:
     void LadderUL();
     void SnakeDR();
     void SnakeDL();
+    void activateLR();
+    void MoveLR();
+
 
 };
 

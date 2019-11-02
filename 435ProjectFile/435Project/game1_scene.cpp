@@ -9,6 +9,12 @@
 #include <QImage>
 #include <QDir>
 #include <players.h>
+#include <fstream>
+#include <QFile>
+#include <QDir>
+#include <iostream>
+#include <QTextStream>
+#include <QRegularExpression>
 game1_scene::game1_scene()
 {
 
@@ -75,16 +81,134 @@ game1_scene::game1_scene()
 void game1_scene::Move(players * player, int steps)
 {
 
-    player->MoveP(steps);
+
+
+
+
+    //keep in mind throught the whole process that player1 always moves before player2 even if it is player 2's turn
+
+    QFile data(QDir::currentPath() + "/history.txt");
+        data.open(QIODevice::Text | QIODevice::ReadOnly);
+        QString dataText = data.readAll();
+        data.close();
+
+
+    QFile file(QDir::currentPath() + "/history.txt");
+    file.open(QIODevice::ReadOnly|QIODevice::Text);
+    QRegExp rx("(\\,)"); //RegEx for ','
+    QTextStream lite(&file);
+    QString sp;
+    QStringList query;
+
+    QString temp = ""; //this will copy all the history of the user to add to it then copy it back
+
+    while(!lite.atEnd())
+    {
+
+        sp = lite.readLine();
+        query = sp.split(rx);
+
+        if(this->user == query[0])
+        {
+            break;
+        }
+
+    }
+
+    file.close();
+
+    for(int i = 0 ; i < query.size()-1 ; i++)
+    {
+        temp = temp  + query[i] + ",";
+    }
+    steps = steps + 1;
+    QRegularExpression re(temp);
+
+    int difficulty = this->diff - 9; //difficulty 1 -> -4 / 2 -> -5 / 3 -> -6 / 4 -> -7
+
+    if(query[1] == "-3") //-3 indicates that the account is still new (aka no history yet)
+    {
+        if(startingplayer == "-1") //-1 indicates that player 1 started
+        {
+            temp = user + ",-1," + QString::number(difficulty) + "," + QString::number(player->cell + steps) + ",";
+            dataText.replace(re, temp);
+        }
+        else if ( startingplayer == "-2") //else -2 indicates that player 2 started
+        {
+             temp = user + ",-2," + QString::number(difficulty) + "," + QString::number(player->cell + steps) + ",";
+            dataText.replace(re, temp);
+        }
+    }
+    else
+    {
+
+        if(isResume == false)
+        {
+            if( query[query.size()-2] == "x" || query[query.size()-2] == "w" || query[query.size()-2] == "l")
+            {
+                if(startingplayer == "-1") //-1 indicates that the sequence is player1,player2,player1,player2....
+                {
+                    temp = temp + "-1," + QString::number(difficulty) + "," + QString::number(player->cell + steps) + ",";
+                    dataText.replace(re, temp);
+                }
+                else if ( startingplayer == "-2") //else -2 indicates that the sequence is player2,player1,player2,player1....
+                {
+                    temp = temp + "-2," + QString::number(difficulty) + "," + QString::number(player->cell + steps) + ",";
+                    dataText.replace(re, temp);
+                }
+            }
+            else
+            {
+                temp = temp + QString::number(player->cell + steps) + ",";
+                dataText.replace(re, temp);
+            }
+
+        }
+
+        else //here player is playing a resumed game
+        {
+
+                temp = temp + QString::number(player->cell + steps) + ",";
+                dataText.replace(re, temp);
+
+        }
+
+    }
+
+
+    QFile newData(QDir::currentPath() + "/history.txt");
+    data.resize(0);
+    if(newData.open(QFile::WriteOnly | QFile::Truncate))
+    {
+        QTextStream out(&newData);
+        out << dataText;
+    }
+    newData.close();
+
+
+     player->MoveP(steps); //calls function that moves the player by steps
+
 
 }
 
 void game1_scene :: check (players * player)
 {
-    if (player->notFirst == true )
+    if (player->notFirst == true )//cause there is a ladder at the start
     {
-        if(grid[player->cell] != 0)
+        if(grid[player->cell] != 0) //checks for ladders or snakes and moves player accordingly
+        {
             player->MovePExtra(grid[player->cell]);
+
+        }
     }
+}
+
+void game1_scene :: SetUser(QString a, QString b, int c, bool d)
+{
+    //to save history under the user's username
+    this->user = a;
+    this->startingplayer = b;
+    this->diff = c;
+    this->isResume = d;
 }
 

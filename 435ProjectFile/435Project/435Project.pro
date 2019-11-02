@@ -14,7 +14,8 @@ registermenu.cpp \
     custWid.cpp \
     snakesladders.cpp \
     game1_modes.cpp \
-    starter.cpp
+    starter.cpp \
+    winlose.cpp
 
 
 QT += \
@@ -39,7 +40,8 @@ registermenu.h \
     custWid.h \
     snakesladders.h \
     game1_modes.h \
-    starter.h
+    starter.h \
+    winlose.h
 
 
 OTHER_FILES +=

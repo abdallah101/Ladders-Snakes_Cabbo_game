@@ -17,6 +17,7 @@
 #include <time.h>
 #include <iostream>
 #include <starter.h>
+#include <winlose.h>
 using namespace std;
 /**
   *\file dice.cpp
@@ -29,6 +30,7 @@ dice::dice(QWidget *parent) :
      * Creating buttons, input boxes, and Labels
      */
 
+    once = false;
     other = false;
     ThrowBlue_Button = new QPushButton("Throw both die");
     //ThrowRed_Button = new QPushButton("Throw red die");
@@ -213,11 +215,9 @@ void dice :: ThrowBluePC()
 
 void dice :: EndGame()
 {
-    Game1_View->close();
+
     this->close();
-    BackToMain = new MainScreen();
-    BackToMain->setUser(this->user);
-    BackToMain->show();
+
 }
 
 /**
@@ -403,17 +403,20 @@ void dice :: EndTurnPC()
                 //here both are snakes
                 if(Game1Scene->grid[bluePC] < Game1Scene->grid[redPC]) //if both are snakes then check which is better
                 {
-                    Game1Scene->Move(Game1Scene->player2, redval);
                     Game1Scene->Move(Game1Scene->player1, blueval);
+                    Game1Scene->Move(Game1Scene->player2, redval);
+
                 }
                 else
                 {
+                    Game1Scene->Move(Game1Scene->player1, redval);
                     Game1Scene->Move(Game1Scene->player2, blueval);
                 }
             }
             else
             {
                 //here red is snake so take blue
+                Game1Scene->Move(Game1Scene->player1, redval);
                 Game1Scene->Move(Game1Scene->player2, blueval);
             }
         }
@@ -422,8 +425,9 @@ void dice :: EndTurnPC()
             if(Game1Scene->grid[bluePC] != 0 && Game1Scene->grid[bluePC] < bluePC) //checks if snake for blue value
             {
                 //here red is not snake, but if blue is snake then take red
-                Game1Scene->Move(Game1Scene->player2, redval);
+
                 Game1Scene->Move(Game1Scene->player1, blueval);
+                Game1Scene->Move(Game1Scene->player2, redval);
             }
             else
             {
@@ -436,13 +440,15 @@ void dice :: EndTurnPC()
                         //here both are ladders
                         if(Game1Scene->grid[bluePC] < Game1Scene->grid[redPC]) //if both are ladders then check which is better
                         {
-                            Game1Scene->Move(Game1Scene->player2, redval);
+
                             Game1Scene->Move(Game1Scene->player1, blueval);
+                            Game1Scene->Move(Game1Scene->player2, redval);
                         }
                         else
                         {
-                            Game1Scene->Move(Game1Scene->player2, blueval);
+
                             Game1Scene->Move(Game1Scene->player1, redval);
+                            Game1Scene->Move(Game1Scene->player2, blueval);
                         }
                     }
                 }
@@ -451,8 +457,9 @@ void dice :: EndTurnPC()
                     //here blue isnt a ladder, check for red
                     if(Game1Scene->grid[redPC] != 0 && Game1Scene->grid[redPC] < redPC)
                     {
-                        Game1Scene->Move(Game1Scene->player2, redval);
+
                         Game1Scene->Move(Game1Scene->player1, blueval);
+                        Game1Scene->Move(Game1Scene->player2, redval);
                     }
                     else
                     {
@@ -556,14 +563,17 @@ void dice :: EndTurnPC()
 
 }
 
-void dice :: SetUser (QString d, QString n, int s, int w)
+void dice :: SetUser (QString d, QString n, int s, int w, bool h)
 {
+    //initialization passed from gameone class
     this->user = d;
     this->name = n;
     this->difficulty = s;
     this->startingPlayer = w;
+    this->isResume = h;
     PlayerUsername->setText("Player " + name);
 
+    //determining who starts the game
     if(startingPlayer == 1 && difficulty!=4)
     {
         PlayerUsername->setText("Player: " + name);
@@ -583,6 +593,50 @@ void dice :: SetUser (QString d, QString n, int s, int w)
         //ThrowBlue_Button->setEnabled(false);
     }
 
+    QString ss;
+    if(startingPlayer == 1)
+    {
+        ss = "-1";
+    }
+    else if (startingPlayer == 2)
+    {
+        ss = "-2";
+    }
+    Game1Scene->SetUser(this->user, ss, this->difficulty, this->isResume); //giving game1scene the user's username to save its history
+
+    if(isResume == true)
+    {
+        QFile file(QDir::currentPath() + "/history.txt");
+        file.open(QIODevice::ReadOnly|QIODevice::Text);
+        QRegExp rx("(\\,)"); //RegEx for ','
+        QTextStream lite(&file);
+        QString sp;
+        QStringList query;
+
+        QString temp = ""; //this will copy all the history of the user to add to it then copy it back
+
+        QString p, d;
+        while(!lite.atEnd())
+        {
+
+            sp = lite.readLine();
+            query = sp.split(rx);
+
+            if(this->user == query[0])
+            {
+                break;
+            }
+
+        }
+
+        file.close();
+
+        Game1Scene->player1->MovePExtra(query[query.size()-4].toInt());
+        Game1Scene->player2->MovePExtra(query[query.size()-3].toInt());
+
+
+    }
+
 }
 
 
@@ -593,6 +647,61 @@ void dice :: reveal ()
     {
         Game1Scene->check(Game1Scene->player1);
         Game1Scene->check(Game1Scene->player2);
+        if((Game1Scene->player1->cell == 99 || Game1Scene->player2->cell == 99) && once == false)
+        {
+            once = true;
+            Game1Scene->player1->myturn = false;
+            Game1Scene->player2->myturn = false;
+            endedturn = false;
+            endedturnPC = false;
+            this->ThrowBlue_Button->setEnabled(false);
+            this->EndTurn_Button->setEnabled(false);
+            this->wonturn();
+
+
+            //this inserts a 'w' or 'l' when the player wins or loses
+            QFile data(QDir::currentPath() + "/history.txt");
+            data.open(QIODevice::Text | QIODevice::ReadOnly);
+            QString dataText = data.readAll();
+            data.close();
+            QFile file(QDir::currentPath() + "/history.txt");
+            file.open(QIODevice::ReadOnly|QIODevice::Text);
+            QRegExp rx("(\\,)"); //RegEx for ','
+            QTextStream lite(&file);
+            QString sp;
+            QStringList query;
+            QString temp = ""; //this will copy all the history of the user to add to it then copy it back
+            while(!lite.atEnd())
+            {
+                sp = lite.readLine();
+                query = sp.split(rx);
+                if(this->user == query[0])
+                {break; }
+            }
+            file.close();
+
+            for(int i = 0 ; i < query.size()-1 ; i++)
+            {
+                temp = temp  + query[i] + ",";
+            }
+            QRegularExpression re(temp);
+            if(Game1Scene->player1->cell == 99)
+            {
+                temp = temp + "w,";
+            }
+            else
+            {
+                temp = temp + "l,";
+            }
+            dataText.replace(re, temp);
+            QFile newData(QDir::currentPath() + "/history.txt");
+            data.resize(0);
+            if(newData.open(QFile::WriteOnly | QFile::Truncate)) {
+                QTextStream out(&newData);
+                out << dataText;           }
+            newData.close();
+
+        }
 
     }
 
@@ -687,4 +796,82 @@ void dice :: listener()
     {}
 }
 
+void dice :: wonturn()
+{
+    Game1_View->close();
+    this->close();
 
+    winlose * endscene ;
+    endscene = new winlose();
+    if(Game1Scene->player1->cell == 99)
+    {
+        endscene->setlabel(this->user,1);
+    }
+    else
+    {
+        endscene->setlabel(this->user,2);
+    }
+    endscene->show();
+}
+
+ void dice :: closeEvent(QCloseEvent *bar)
+ {
+     Game1_View->close();
+     this->close();
+     BackToMain = new MainScreen();
+     BackToMain->setUser(this->user);
+     BackToMain->show();
+
+     QFile data(QDir::currentPath() + "/history.txt");
+         data.open(QIODevice::Text | QIODevice::ReadOnly);
+         QString dataText = data.readAll();
+         data.close();
+
+
+     QFile file(QDir::currentPath() + "/history.txt");
+     file.open(QIODevice::ReadOnly|QIODevice::Text);
+     QRegExp rx("(\\,)"); //RegEx for ','
+     QTextStream lite(&file);
+     QString sp;
+     QStringList query;
+
+     QString temp = ""; //this will copy all the history of the user to add to it then copy it back
+
+     while(!lite.atEnd())
+     {
+
+         sp = lite.readLine();
+         query = sp.split(rx);
+
+         if(this->user == query[0])
+         {
+             break;
+         }
+
+     }
+
+     file.close();
+
+     for(int i = 0 ; i < query.size()-1 ; i++)
+     {
+         temp = temp  + query[i] + ",";
+     }
+
+     QRegularExpression re(temp);
+
+
+     temp = temp + "x,";
+     dataText.replace(re, temp);
+
+
+
+
+     QFile newData(QDir::currentPath() + "/history.txt");
+     data.resize(0);
+     if(newData.open(QFile::WriteOnly | QFile::Truncate))
+     {
+         QTextStream out(&newData);
+         out << dataText;
+     }
+     newData.close();
+ }

@@ -8,7 +8,7 @@
 players::players(QObject * parent) : QObject(parent)
 {
     this->setPos(0,580);
-    this->cell = 0;
+    this->cell = 0;  //here
     active = false;
     steps = 0;
     notFirst = false;
@@ -108,20 +108,42 @@ void players:: MoveP(int step)
             }
             else
             {
+
                 int after = abs(10 - steps - x + 1);
                 if(after == 0)
                 {
-                    limit = 0;
-                    limitup = this->y() - 61.2;
-                    this->activateLU();
+                    if(y == 10)
+                    {
+                        limit = 0;
+                        limitback = 61.2;
+                        this->activateLR();
+                        this->cell = 98;
+
+                    }
+                    else
+                    {
+                        limit = 0;
+                        limitup = this->y() - 61.2;
+                        this->activateLU();
+                    }
 
                 }
                 else if (after > 0)
                 {
-                    limit = 0;
-                    limitup = this->y() - 61.2;
-                    limitback = after*61.2;
-                    activateLUR();
+                    if(y == 10)
+                    {
+                        limit = 0;
+                        limitback = (after+1)*61.2;
+                        this->activateLR();
+                        this->cell = 99 - after - 1;
+                    }
+                    else
+                    {
+                        limit = 0;
+                        limitup = this->y() - 61.2;
+                        limitback = after*61.2;
+                        activateLUR();
+                    }
                 }
             }
         }
@@ -287,7 +309,7 @@ void players:: MovePExtra(int location)
             path = from + height*10;
         }
 
-        if(path == from)
+        if(path == position)
         {
             limitup = this->y() + 61.2*height;
             activateMoveDown();
@@ -629,5 +651,31 @@ void players :: MoveDown()
         delete timer;
     }
 }
+
+void players :: activateLR()
+{
+    timer = new QTimer();
+    timer -> start(0.8);
+    connect(timer,SIGNAL(timeout()), this, SLOT(MoveLR()));
+}
+void players :: MoveLR()
+{
+    if(this->x() > limit)
+    {
+        this->setPos(this->x()-0.1, this->y());
+    }
+    else if (this->x() < limitback)
+    {
+        limit = limitback + 1;
+        this->setPos(this->x()+0.1, this->y());
+    }
+    else
+    {
+
+        active = false;
+        delete timer;
+    }
+}
+
 
 

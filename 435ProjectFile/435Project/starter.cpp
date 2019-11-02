@@ -92,7 +92,7 @@ void Starter :: Back()
     this->close();
     scene = new dice();
 
-    scene->SetUser(this->user, this->name, this->difficultyS, this->winningPlayer);
+    scene->SetUser(this->user, this->name, this->difficultyS, this->winningPlayer, false);
 
     scene->show();
     }
