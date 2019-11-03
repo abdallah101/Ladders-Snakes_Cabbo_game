@@ -124,7 +124,25 @@ void game1_scene::Move(players * player, int steps)
     steps = steps + 1;
     QRegularExpression re(temp);
 
-    int difficulty = this->diff - 9; //difficulty 1 -> -4 / 2 -> -5 / 3 -> -6 / 4 -> -7
+    int difficulty; //difficulty 1 -> -4 / 2 -> -5 / 3 -> -6 / 4 -> -7
+
+    if(this->diff == 1)
+    {
+        difficulty = -4;
+    }
+
+    else if (this->diff == 2)
+    {
+        difficulty = -5;
+    }
+    else if (this->diff == 3)
+    {
+        difficulty = -6;
+    }
+    else if (this->diff == 4)
+    {
+        difficulty = -7;
+    }
 
     if(query[1] == "-3") //-3 indicates that the account is still new (aka no history yet)
     {
@@ -185,8 +203,11 @@ void game1_scene::Move(players * player, int steps)
     }
     newData.close();
 
+    steps = steps - 1;
 
      player->MoveP(steps); //calls function that moves the player by steps
+
+
 
 
 }
@@ -198,6 +219,88 @@ void game1_scene :: check (players * player)
         if(grid[player->cell] != 0) //checks for ladders or snakes and moves player accordingly
         {
             player->MovePExtra(grid[player->cell]);
+
+
+                QFile data(QDir::currentPath() + "/history.txt");
+                    data.open(QIODevice::Text | QIODevice::ReadOnly);
+                    QString dataText = data.readAll();
+                    data.close();
+
+
+                QFile file(QDir::currentPath() + "/history.txt");
+                file.open(QIODevice::ReadOnly|QIODevice::Text);
+                QRegExp rx("(\\,)"); //RegEx for ','
+                QTextStream lite(&file);
+                QString sp;
+                QStringList query;
+
+                QString temp = ""; //this will copy all the history of the user to add to it then copy it back
+
+                while(!lite.atEnd())
+                {
+
+                    sp = lite.readLine();
+                    query = sp.split(rx);
+
+                    if(this->user == query[0])
+                    {
+                        break;
+                    }
+
+                }
+
+                file.close();
+
+                for(int i = 0 ; i < query.size()-1 ; i++)
+                {
+                    temp = temp  + query[i] + ",";
+                }
+
+                QRegularExpression re(temp);
+
+
+                if(grid[player1->cell] != 0 && grid[player2->cell] != 0)
+                {
+                    temp = temp + QString::number(grid[player->cell]+1) + ",";
+                }
+                else
+                {
+
+                 if(grid[player1->cell] != 0)
+                 {
+                    temp = temp + QString::number(grid[player1->cell]+1) + ",";
+                 }
+                 else
+                 {
+                     temp = temp + QString::number(player1->cell+1) + ",";
+                 }
+
+                 if(grid[player2->cell] != 0)
+                 {
+                    temp = temp + QString::number(grid[player2->cell]+1) + ",";
+                 }
+                 else
+                 {
+                     temp = temp + QString::number(player2->cell+1) + ",";
+                 }
+
+                }
+
+                dataText.replace(re,temp);
+
+
+                QFile newData(QDir::currentPath() + "/history.txt");
+                data.resize(0);
+                if(newData.open(QFile::WriteOnly | QFile::Truncate))
+                {
+                    QTextStream out(&newData);
+                    out << dataText;
+                }
+                newData.close();
+
+
+
+
 
         }
     }

@@ -30,20 +30,13 @@ dice::dice(QWidget *parent) :
      * Creating buttons, input boxes, and Labels
      */
 
-    once = false;
-    other = false;
-    ThrowBlue_Button = new QPushButton("Throw both die");
+
+    ThrowBlue_Button = new QPushButton("Throw dice");
     //ThrowRed_Button = new QPushButton("Throw red die");
     EndTurn_Button = new QPushButton("End Turn");
     EndGame_Button = new QPushButton("End Game");
     PlayerUsername = new QLabel("Player x");
     this->EndTurn_Button->setEnabled(false);
-
-
-
-
-
-
     blue = new QRadioButton("blue");
     red = new QRadioButton("red");
     Game1Scene = new game1_scene();
@@ -52,8 +45,17 @@ dice::dice(QWidget *parent) :
     VerticalRadioB = new QVBoxLayout();
     GP = new QGroupBox();
     choose = new QLabel("Choose!");
+
+    /**
+     * defining class variables
+     */
+
     endedturn = false;
     endedturnPC = false;
+    once = false;
+    other = false;
+    taketurns = false;
+
     /**
      * Creating layouts
      */
@@ -85,7 +87,7 @@ dice::dice(QWidget *parent) :
     //this->resize(400, 400);
 
 
-    taketurns = false;
+
 
    /**
      * Signal connector to throw the blue die
@@ -122,10 +124,6 @@ dice::dice(QWidget *parent) :
     timerPC = new QTimer();
     timerPC->start(100);
     connect(timer1, SIGNAL(timeout()), this, SLOT(listener()));
-
-
-
-
 
     Game1_View->setScene(Game1Scene);
     Game1_View->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
@@ -208,7 +206,7 @@ void dice :: ThrowBluePC()
 
 
 /**
- * \brief Function that ends a game
+ * \brief Function that ends a game (behaviour is in closeevent function that overrides "x" button in dice widget)
  * \param Takes no parameter
  * \return nothing (type: void)
  */
@@ -351,6 +349,12 @@ void dice :: EndTurn()
     }
 
 }
+
+/**
+ * \brief Function that ends a PC's turn
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
 
 void dice :: EndTurnPC()
 {
@@ -563,6 +567,11 @@ void dice :: EndTurnPC()
 
 }
 
+/**
+ * \brief Function that sets up the game, defining the user and his name, the difficulty, who starts, and if the game is a resume
+ * \param QString, QString, int, int, bool
+ * \return nothing (type: void)
+ */
 void dice :: SetUser (QString d, QString n, int s, int w, bool h)
 {
     //initialization passed from gameone class
@@ -606,6 +615,11 @@ void dice :: SetUser (QString d, QString n, int s, int w, bool h)
 
     if(isResume == true)
     {
+        QFile data(QDir::currentPath() + "/history.txt");
+            data.open(QIODevice::Text | QIODevice::ReadOnly);
+            QString dataText = data.readAll();
+            data.close();
+
         QFile file(QDir::currentPath() + "/history.txt");
         file.open(QIODevice::ReadOnly|QIODevice::Text);
         QRegExp rx("(\\,)"); //RegEx for ','
@@ -629,16 +643,113 @@ void dice :: SetUser (QString d, QString n, int s, int w, bool h)
 
         }
 
-        file.close();
 
-        Game1Scene->player1->MovePExtra(query[query.size()-4].toInt());
-        Game1Scene->player2->MovePExtra(query[query.size()-3].toInt());
+
+
+        file.close();
+        other = false;
+        if(query[query.size()-3] == "-11" && difficulty == -7)
+        {
+            this->other = false;
+        }
+        else if (query[query.size()-3] == "-12" && difficulty == -7)
+        {
+            this->other = true;
+        }
+
+
+
+
+        for(int i = 0 ; i < query.size()-1 ; i++)
+        {
+            temp = temp  + query[i] + ",";
+        }
+
+        QRegularExpression re(temp);
+
+        if(other == false && this->difficulty == -7)
+        {
+            temp = temp + "-1,";
+        }
+        else if (other == true && this->difficulty == -7)
+        {
+            temp = temp + "-2,";
+        }
+
+        if(this->difficulty > -7) //PC always plays his turn after the user plays, thus it is always the users turn when he resumes
+        {
+            temp = temp + "-1,";
+        }
+
+        temp= temp + QString::number(this->difficulty) + "," ;
+
+        dataText.replace(re,temp);
+
+        QFile newData(QDir::currentPath() + "/history.txt");
+        data.resize(0);
+        if(newData.open(QFile::WriteOnly | QFile::Truncate))
+        {
+            QTextStream out(&newData);
+            out << dataText;
+        }
+        newData.close();
+
+        if (this->difficulty == -7)
+        {
+            this->difficulty = 4;
+        }
+        else if (this->difficulty == -6)
+        {
+            this->difficulty = 3;
+        }
+        else if (this->difficulty == -5)
+        {
+            this->difficulty = 2;
+        }
+        else if (difficulty == -4)
+        {
+            this->difficulty = 1;
+        }
+
+
+
+        int one, two;
+        one = query[query.size()-5].toInt()-1;
+        two = query[query.size()-4].toInt()-1;
+
+        if(one < 10)
+        {
+            Game1Scene->player1->MoveP(query[query.size()-5].toInt()-1);
+            //Game1Scene->Move(Game1Scene->player1,  query[query.size()-5].toInt()-1);
+        }
+        else
+        {
+            Game1Scene->player1->MovePExtra(query[query.size()-5].toInt()-1);
+        }
+
+        if(two < 10)
+        {
+            Game1Scene->player2->MoveP(query[query.size()-4].toInt()-1);
+            //Game1Scene->Move(Game1Scene->player2, query[query.size()-4].toInt()-1);
+        }
+        else
+        {
+            Game1Scene->player2->MovePExtra(query[query.size()-4].toInt()-1);
+        }
+
+
+
 
 
     }
 
 }
 
+/**
+ * \brief listener function that handles finishing the game, as well as enabling and disabling the throw and end turn buttons according to turns
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
 
 void dice :: reveal ()
 {
@@ -774,6 +885,13 @@ void dice :: reveal ()
 //keeps listening if taketurn is true or not, taketurns becomes true when none of the players are active and if it is PC's turn
 //it becomes PC's turn if he is the starting player or if the other player ends his turn
 //depends on Game1Scene->player2->myturn == true
+
+/**
+ * \brief listener function that starts a PC's turn
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
+
 void dice :: listener()
 {
     if(taketurns == true)
@@ -796,6 +914,12 @@ void dice :: listener()
     {}
 }
 
+/**
+ * \brief Function ends a game and shows who won
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
+
 void dice :: wonturn()
 {
     Game1_View->close();
@@ -813,6 +937,13 @@ void dice :: wonturn()
     }
     endscene->show();
 }
+
+
+/**
+ * \brief Function that overrides the "x" button on the dice widget with behaviour similar to ending a game
+ * \param QCloseEvent
+ * \return nothing (type: void)
+ */
 
  void dice :: closeEvent(QCloseEvent *bar)
  {
@@ -860,7 +991,31 @@ void dice :: wonturn()
      QRegularExpression re(temp);
 
 
-     temp = temp + "x,";
+     //-12 means it is player 2's turn next time he resumes and -11 means player 1
+
+
+
+     if(query[1] == "-3")
+     {}
+     else
+     {
+         if(other == true && this->difficulty == 4)
+         {
+             temp = temp + "-12,";
+         }
+         else if (other == false && this->difficulty == 4)
+         {
+             temp = temp + "-11,";
+         }
+         else if (this->difficulty < 4)
+         {
+             temp = temp + "-11,";
+         }
+
+
+
+        temp = temp + "x,";
+     }
      dataText.replace(re, temp);
 
 

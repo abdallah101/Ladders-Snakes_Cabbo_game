@@ -158,9 +158,9 @@ void GameOne :: resumegame()
         this->close();
         scene2 = new dice();
 
-        for(int i =query.size()-3;i != 0; i--)
+        for(int i =query.size()-3; i != -1; i--)
         {
-            if(query[i] == "x" || query[i] == "l" || query[i] == "w")
+            if(query[i] == "x" || query[i] == "l" || query[i] == "w" || query[i] == this->user)
             {
                 p = query[i+1].toInt();
                 d = query[i+2].toInt();

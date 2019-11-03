@@ -35,7 +35,5 @@ void winlose :: setlabel(QString a, int b)
 void winlose :: exit ()
 {
     this->close();
-    BackToMain = new MainScreen();
-    BackToMain->setUser(this->user);
-    BackToMain->show();
+
 }
