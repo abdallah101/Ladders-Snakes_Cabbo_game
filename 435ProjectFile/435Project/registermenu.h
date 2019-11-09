@@ -7,6 +7,7 @@
 #include <strings.h>
 #include <QPushButton>
 #include <mainmenu_widget.h>
+#include <QTimer>
 
 
 /**
@@ -20,16 +21,19 @@ class RegisterMenu : public QWidget
 public:
     explicit RegisterMenu(QWidget *parent = 0);
     QPushButton * Register, * InsertImage, * back;
-    QLabel * FirstName, * LastName, * Gender, * Age, * MaleLabel, * FemaleLabel, * usernameL, * passwordL, *UploadedPicPath, *errorNotice;
+    QLabel * FirstName, * LastName, * Gender, * Age, * MaleLabel, * FemaleLabel, * usernameL, * passwordL, *UploadedPicPath, *errorNotice, *birthdate;
     QLineEdit * LineEdit1, * LineEdit2, * username, * password;
     QDialogButtonBox * Dialog;
     QRadioButton * Male, * Female;
-    QSpinBox * SpinBox;
+    QSpinBox *day, *month, *year;
     QVBoxLayout * VerticalL;
-    QGridLayout * Horizantel , *RBL; //RBL is for register and back buttons
+    QGridLayout * Horizantel , *RBL, * birthlayout; //RBL is for register and back buttons
     QGroupBox * GroupBox;
+    QGroupBox * birthbox;
     QVBoxLayout *QV;
     QWidget *partner1;
+    QTimer * timer;
+    int age;
 
 signals:
 
@@ -38,6 +42,10 @@ public slots:
     void GetImg();
     void goBack();
     int CheckPassword(QString);
+    void update();
+    int findAge(int current_date, int current_month,
+                int current_year, int birth_date,
+                int birth_month, int birth_year);
 };
 
 #endif // REGISTERMENU_H

@@ -125,7 +125,7 @@ void MainScreen :: setUser(QString u)
         if(user == query[4]) break;
 
     }
-    file.close();
+
 
 
     UsernameL->setText(query[0] + " " +query[1]);
@@ -150,6 +150,17 @@ void MainScreen :: setUser(QString u)
 
 
     pic->setPixmap(QPixmap::fromImage(green));
+
+    int day = QDate::currentDate().day();
+
+    if(query[6].toInt() ==  QDate::currentDate().month() && query[7].toInt() ==  QDate::currentDate().day())
+    {
+        UsernameL->setText(query[0] + " " + query [1] + "\n"  + "HAPPY BIRTHDAY!!");
+    }
+
+    file.close();
+
+
 }
 void MainScreen :: goBack()
 {

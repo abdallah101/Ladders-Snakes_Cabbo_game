@@ -11,6 +11,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QString>
+#include <QDate>
 
 /**
   *\file registermenu.cpp
@@ -27,21 +28,28 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     FirstName = new QLabel ("First Name");
     LastName = new QLabel ("Last Name");
     Gender = new QLabel ("Gender");
-    Age = new QLabel ("Age");
+    //Age = new QLabel ("Age");
     MaleLabel = new QLabel ("Male");
     FemaleLabel = new QLabel ("Female");
     LineEdit1 = new QLineEdit();
     LineEdit2 = new QLineEdit();
+    username = new QLineEdit();
+    password = new QLineEdit();
     Dialog = new QDialogButtonBox();
     Male = new QRadioButton("Male");
     Female = new QRadioButton("Female");
-    username = new QLineEdit();
-    password = new QLineEdit();
+    //SpinBox = new QSpinBox();
     password->setEchoMode(QLineEdit::Password); //making password show dots instead of letters
     usernameL = new QLabel("Username");
     passwordL = new QLabel("Password");
-    SpinBox = new QSpinBox();
     back = new QPushButton("back");
+    birthdate = new QLabel("Birth Date(D/M/Y):");
+    day = new QSpinBox();
+    month = new QSpinBox();
+    year = new QSpinBox();
+    day->setRange(1,31);
+    month->setRange(1,31);
+    year->setRange(1900, QDate::currentDate().year());
 
     /**
      * setting up the layout
@@ -55,6 +63,14 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     QV->addWidget(Female);
     GroupBox->setLayout(QV);
 
+    birthlayout = new QGridLayout();
+    birthbox = new QGroupBox();
+    //birthlayout->addWidget(birthdate,0,0);
+    birthlayout->addWidget(day,0,0);
+    birthlayout->addWidget(month,0,1);
+    birthlayout->addWidget(year,0,2);
+    birthbox->setLayout(birthlayout);
+
 
 
     /**
@@ -67,16 +83,19 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     Horizantel->addWidget(passwordL,3,0);
     Horizantel->addWidget(username,2,1);
     Horizantel->addWidget(password,3,1);
-    Horizantel->addWidget(Gender,5,0);
-    Horizantel->addWidget(Age,0,2);
+    Horizantel->addWidget(Gender,4,0);
+    //Horizantel->addWidget(Age,0,2);
     Horizantel->addWidget(LineEdit1,0,1);
     Horizantel->addWidget(LineEdit2,1,1);
-    Horizantel->addWidget(SpinBox,0,3);
-    Horizantel->addWidget(InsertImage,5,0);
-    Horizantel->addWidget(GroupBox,4,0);
+    //Horizantel->addWidget(SpinBox,0,3);
+    Horizantel->addWidget(birthdate,5,0);
+    Horizantel->addWidget(birthbox,5,1);
+
+    Horizantel->addWidget(InsertImage,7,0);
+    Horizantel->addWidget(GroupBox,4,1);
     Horizantel->addItem(new QSpacerItem(50,10),0,2,1,1);
-    Horizantel->addWidget(UploadedPicPath, 5, 1);
-    Horizantel->addWidget(errorNotice,4,1 );
+    Horizantel->addWidget(UploadedPicPath, 7, 1);
+    //Horizantel->addWidget(errorNotice,6,1 );
 
     /**
      * Setting up RBL
@@ -93,6 +112,7 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
 
     VerticalL->addItem(Horizantel);
     VerticalL->addItem(RBL);
+    VerticalL->addWidget(errorNotice);
     setLayout(VerticalL);
     this->setLayout(VerticalL);
 
@@ -102,7 +122,15 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     QObject::connect(Register, SIGNAL(clicked()), this, SLOT(RegisterUser()) );
     QObject::connect(InsertImage, SIGNAL(clicked()), this, SLOT(GetImg()) );
     QObject::connect(back, SIGNAL(clicked()), this, SLOT(goBack()) );
+
+    /**
+     * removes message after 3 seconds
+     */
+    timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+
 }
+
 
 /**
   * @brief Check the password
@@ -132,6 +160,9 @@ int RegisterMenu :: CheckPassword(QString Password)
 void RegisterMenu :: RegisterUser()
 {
 
+    age = this->findAge(QDate::currentDate().day(),QDate::currentDate().month(),QDate::currentDate().year(),
+                  day->text().toInt(),month->text().toInt(),year->text().toInt());
+
     QString gender = "n";
 
     bool UsernameUsed = false;
@@ -147,16 +178,18 @@ void RegisterMenu :: RegisterUser()
 
 
    if(LineEdit1->text().isEmpty()==true || username->text().isEmpty() == true || LineEdit2->text().isEmpty() == true ||
-           password->text().isEmpty() == true || gender == "n" || SpinBox->text().isEmpty() == true)
+           password->text().isEmpty() == true || gender == "n")
    {
        UsernameUsed = true;
        errorNotice->setText("Please insert all required fields");
+       timer->start(3000);
    }
 
-   if(SpinBox->text().toDouble() < 10)
+   if(age < 10)
    {
        UsernameUsed = true;
        errorNotice->setText("You have to be above 10 to play this game");
+       timer->start(3000);
    }
 
    int x = CheckPassword(password->text());
@@ -165,6 +198,7 @@ void RegisterMenu :: RegisterUser()
        UsernameUsed = true;
        if (x == 1) errorNotice->setText("The password must be at least 10 characters.");
        else errorNotice->setText("The password must contain at least one small letter, one capital letter, and one non-alphabetical character.");
+       timer->start(3000);
    }
 
     QFile file(QDir::currentPath() + "/UserData.txt");
@@ -219,11 +253,11 @@ void RegisterMenu :: RegisterUser()
        */
 
       /**
-       *format is: firstname,lastname,age,gender,username,password seperated by commas (csv type)
+       *format is: firstname,lastname,age,gender,username,password,day,month,year seperated by commas (csv type)
         */
 
-        stream << LineEdit1->text() << "," << LineEdit2->text() << ","<< SpinBox->text() << "," << gender << "," << username->text() <<
-                  "," << password->text() << endl;
+        stream << LineEdit1->text() << "," << LineEdit2->text() << ","<< age << "," << gender << "," << username->text() <<
+                  "," << password->text() << "," << day->text() << "," << month->text() << "," << year->text() << endl;
 
         stream.flush();
         file.close();
@@ -362,5 +396,42 @@ void RegisterMenu :: goBack()
     this->close();
     partner1 = new MainMenu_Widget();
     partner1->show();
+}
+
+void RegisterMenu :: update()
+{
+    errorNotice->setText("");
+}
+
+int RegisterMenu :: findAge(int current_date, int current_month,
+             int current_year, int birth_date,
+             int birth_month, int birth_year)
+{
+    // days of every month
+    int month[] = { 31, 28, 31, 30, 31, 30, 31,
+                          31, 30, 31, 30, 31 };
+
+    // if birth date is greater then current birth
+    // month then do not count this month and add 30
+    // to the date so as to subtract the date and
+    // get the remaining days
+    if (birth_date > current_date) {
+        current_date = current_date + month[birth_month - 1];
+        current_month = current_month - 1;
+    }
+
+    // if birth month exceeds current month, then do
+    // not count this year and add 12 to the month so
+    // that we can subtract and find out the difference
+    if (birth_month > current_month) {
+        current_year = current_year - 1;
+        current_month = current_month + 12;
+    }
+
+
+
+    int calculated_year = current_year - birth_year;
+
+    return calculated_year;
 }
 
