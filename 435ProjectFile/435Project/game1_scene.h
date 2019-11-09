@@ -4,6 +4,7 @@
 #include <players.h>
 #include <QTimer>
 #include <QString>
+
 class game1_scene : public QGraphicsScene
 {
   Q_OBJECT
@@ -15,7 +16,7 @@ public:
     QString user;
     QString startingplayer;
     int diff;//takes difficulty from dice
-    bool isResume;
+    bool isResume, isCust;
 
 
 
@@ -23,7 +24,9 @@ public:
 public slots:
     void check (players * player);
     void Move(players * , int);
-    void SetUser(QString a, QString b, int c, bool d);
+    void SetUser(QString a, QString b, int c, bool d, bool z); //needs better naming for later!!
+    void AddLadderSnake(int cellFrom, int cellTo);
+
 
 
 

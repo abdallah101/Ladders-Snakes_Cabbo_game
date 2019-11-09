@@ -621,7 +621,7 @@ void dice :: EndTurnPC()
  * \param QString, QString, int, int, bool
  * \return nothing (type: void)
  */
-void dice :: SetUser (QString d, QString n, int s, int w, bool h)
+void dice :: SetUser (QString d, QString n, int s, int w, bool h, bool custom)
 {
     //initialization passed from gameone class
     this->user = d;
@@ -629,6 +629,7 @@ void dice :: SetUser (QString d, QString n, int s, int w, bool h)
     this->difficulty = s;
     this->startingPlayer = w;
     this->isResume = h;
+    this->isCust = custom;
     PlayerUsername->setText("Player " + name);
 
     //determining who starts the game
@@ -660,14 +661,18 @@ void dice :: SetUser (QString d, QString n, int s, int w, bool h)
     {
         ss = "-2";
     }
-    Game1Scene->SetUser(this->user, ss, this->difficulty, this->isResume); //giving game1scene the user's username to save its history
+
+
+    Game1Scene->SetUser(this->user, ss, this->difficulty, this->isResume, this->isCust); //giving game1scene the user's username to save its history
+
+
 
     if(isResume == true)
     {
         QFile data(QDir::currentPath() + "/history.txt");
-            data.open(QIODevice::Text | QIODevice::ReadOnly);
-            QString dataText = data.readAll();
-            data.close();
+        data.open(QIODevice::Text | QIODevice::ReadOnly);
+        QString dataText = data.readAll();
+        data.close();
 
         QFile file(QDir::currentPath() + "/history.txt");
         file.open(QIODevice::ReadOnly|QIODevice::Text);
@@ -678,7 +683,7 @@ void dice :: SetUser (QString d, QString n, int s, int w, bool h)
 
         QString temp = ""; //this will copy all the history of the user to add to it then copy it back
 
-        QString p, d;
+
         while(!lite.atEnd())
         {
 

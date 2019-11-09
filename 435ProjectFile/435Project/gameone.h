@@ -24,10 +24,11 @@ public:
     QString user, name;
     custWid * scene1;
     QRadioButton * easy, *medium, *hard, *twoplayers;
+    QRadioButton * easyC, *mediumC, *hardC, * twoplayersC;
     QLabel * choose, * error;
     QTimer * timer;
-    QVBoxLayout * VerticalRadioB ;
-    QGroupBox * GP;
+    QVBoxLayout * VerticalRadioB, * VerticalRadioBC;
+    QGroupBox * GP, * GPC;
 
 
 signals:

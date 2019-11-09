@@ -10,6 +10,7 @@
 #include <players.h>
 //#include <starter.h>
 #include <QProgressBar>
+//#include <custWid.h>
 /**
   *\file Dice.h
   */
@@ -40,6 +41,8 @@ public:
     int difficulty, startingPlayer;  //difficulty determines what algorythm takes place and if player2 is human or PC
                                     //startingPlayer determines if player1 or player2 starts the round
     QProgressBar * progressbar;
+    bool isCust; //to know if this is a custom game
+
 
 signals:
 
@@ -49,12 +52,12 @@ public slots:
     void ThrowBluePC();
     void EndTurn();
     void EndGame ();
-    void SetUser(QString d, QString n, int s, int w, bool h);
+    void SetUser(QString d, QString n, int s, int w, bool h, bool custom);
     void reveal();
     void EndTurnPC();
     void listener();
     void wonturn();
-    //void updateprogresbar();
+    //void updateprogressbar();
 
 
 

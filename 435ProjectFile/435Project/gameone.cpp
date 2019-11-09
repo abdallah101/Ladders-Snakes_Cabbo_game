@@ -27,6 +27,12 @@ GameOne::GameOne(QWidget *parent) :
     GP = new QGroupBox();
     error = new QLabel("");
     resume = new QPushButton("Resume previous game");
+    VerticalRadioBC = new QVBoxLayout();
+    GPC = new QGroupBox();
+    easyC = new QRadioButton("easy");
+    mediumC = new QRadioButton("medium");
+    hardC = new QRadioButton("hard");
+    twoplayersC = new QRadioButton("two players");
 
     VerticalRadioB->addWidget(easy);
     VerticalRadioB->addWidget(medium);
@@ -34,13 +40,20 @@ GameOne::GameOne(QWidget *parent) :
     VerticalRadioB->addWidget(twoplayers);
     GP->setLayout(VerticalRadioB);
 
+    VerticalRadioBC->addWidget(easyC);
+    VerticalRadioBC->addWidget(mediumC);
+    VerticalRadioBC->addWidget(hardC);
+    VerticalRadioBC->addWidget(twoplayersC);
+    GPC->setLayout(VerticalRadioBC);
+
 
     Horiz = new QGridLayout();
     Horiz->addWidget(startButton,0,0);
     Horiz->addWidget(GP,1,0);
     Horiz->addWidget(SetLaddersSnakes,2,0);
-    Horiz->addWidget(error,3,0);
-    Horiz->addWidget(resume,4,0);
+    Horiz->addWidget(GPC,3,0);
+    Horiz->addWidget(error,4,0);
+    Horiz->addWidget(resume,5,0);
     this->setLayout(Horiz);
     this->resize(200, 200);
     QObject::connect(startButton, SIGNAL(clicked()), this, SLOT(start()));
@@ -68,7 +81,7 @@ void GameOne :: start()
         this->close();
         scene = new Starter();
 
-        scene->SetUser(this->user, this->name, 1);
+        scene->SetUser(this->user, this->name, 1, false);
         scene->show();
     }
     else if (medium->isChecked())
@@ -76,7 +89,7 @@ void GameOne :: start()
         this->close();
         scene = new Starter();
 
-        scene->SetUser(this->user, this->name, 2);
+        scene->SetUser(this->user, this->name, 2, false);
         scene->show();
     }
     else if (hard->isChecked())
@@ -84,7 +97,7 @@ void GameOne :: start()
         this->close();
         scene = new Starter();
 
-        scene->SetUser(this->user, this->name, 3);
+        scene->SetUser(this->user, this->name, 3, false);
         scene->show();
     }
     else if (twoplayers->isChecked())
@@ -92,7 +105,7 @@ void GameOne :: start()
         this->close();
         scene = new Starter();
 
-        scene->SetUser(this->user, this->name, 4);
+        scene->SetUser(this->user, this->name, 4, false);
         scene->show();
     }
 
@@ -102,10 +115,44 @@ void GameOne :: start()
 
 void GameOne :: customize()
 {
-    this->close();
-    scene1 = new custWid();
-    scene1->SetUser(this->user);
-    scene1->show();
+    if(!easyC->isChecked() && !mediumC->isChecked() && !hardC->isChecked() && !twoplayersC->isChecked())
+    {
+        error->setText("Choose difficulty first!");
+        timer->start(3000);
+    }
+    else if(easyC->isChecked())
+    {
+        this->close();
+        scene = new Starter();
+
+        scene->SetUser(this->user, this->name, 1, true);
+        scene->show();
+    }
+    else if (mediumC->isChecked())
+    {
+        this->close();
+        scene = new Starter();
+
+        scene->SetUser(this->user, this->name, 2, true);
+        scene->show();
+    }
+    else if (hardC->isChecked())
+    {
+        this->close();
+        scene = new Starter();
+
+        scene->SetUser(this->user, this->name, 3, true);
+        scene->show();
+    }
+    else if (twoplayersC->isChecked())
+    {
+        this->close();
+        scene = new Starter();
+
+        scene->SetUser(this->user, this->name, 4, true);
+        scene->show();
+    }
+
 }
 
 void GameOne :: SetUser (QString d, QString n)
@@ -167,7 +214,7 @@ void GameOne :: resumegame()
             }
         }
 
-        scene2->SetUser(this->user, this->name, d, p, true);
+        scene2->SetUser(this->user, this->name, d, p, true, true);
         scene2->show();
     }
 }

@@ -87,24 +87,45 @@ void Starter :: roll ()
 
 void Starter :: Back()
 {
-    if(rolledit == true)
+    if (isCust == false) //normal game
     {
-    this->close();
-    scene = new dice();
+        if(rolledit == true)
+        {
+     this->close();
+        scene = new dice();
 
-    scene->SetUser(this->user, this->name, this->difficultyS, this->winningPlayer, false);
+        scene->SetUser(this->user, this->name, this->difficultyS, this->winningPlayer, false, false);
 
-    scene->show();
+        scene->show();
+        }
+        else
+        {
+            error->setText("Roll the Dice first!");
+        }
     }
     else
     {
-        error->setText("Roll the Dice first!");
+        if(rolledit == true)
+        {
+     this->close();
+
+        scenecust= new custWid();
+
+        scenecust->SetUser(this->user, this->name, this->difficultyS, this->winningPlayer);
+
+        scenecust->show();
+        }
+        else
+        {
+            error->setText("Roll the Dice first!");
+        }
     }
 }
 
-void Starter :: SetUser (QString a, QString b, int S)
+void Starter :: SetUser (QString a, QString b, int S, bool z)
 {
     this->user = a;
     this->name = b;
     this->difficultyS = S;
+    this->isCust = z;
 }

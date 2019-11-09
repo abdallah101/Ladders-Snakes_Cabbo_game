@@ -26,22 +26,7 @@ game1_scene::game1_scene()
     {
         grid[i] = 0;
     }
-    grid[0] = 37;
-    grid[3] = 13;
-    grid[8] = 30;
-    grid[20] = 41;
-    grid[27] = 83;
-    grid[50] = 66;
-    grid[70] = 90;
-    grid[79] = 99;
-    grid[16] = 6;
-    grid[61] = 18;
-    grid[63] = 59;
-    grid[53] = 33;
-    grid[86] = 23;
-    grid[92] = 72;
-    grid[94] = 74;
-    grid[97] = 78;
+
 
     /*! \brief Scaling the background
      */
@@ -50,15 +35,8 @@ game1_scene::game1_scene()
       * Setting background for scene
       */
     this->setSceneRect(0,0,612, 612);
-    QImage green;
 
-    if (green.load(QDir::currentPath() + "/Images/SL.jpg"))
-    {
-        //green.scaledToWidth(this->width(), Qt::SmoothTransformation);
-        //green.scaled(500,500);
-        this->setBackgroundBrush(QBrush(green.scaledToHeight(612).scaledToWidth(612)));
 
-    }
     player1 = new players();
     player1->setPixmap((QPixmap(QDir::currentPath() + "/Images/yellow.png")).scaled(30,30));
     player2 = new players();
@@ -306,12 +284,60 @@ void game1_scene :: check (players * player)
     }
 }
 
-void game1_scene :: SetUser(QString a, QString b, int c, bool d)
+void game1_scene :: SetUser(QString a, QString b, int c, bool d, bool z)
 {
     //to save history under the user's username
     this->user = a;
     this->startingplayer = b;
     this->diff = c;
     this->isResume = d;
+    this->isCust = z;
+
+    if(this->isCust == false)
+    {
+        grid[0] = 37;
+        grid[3] = 13;
+        grid[8] = 30;
+        grid[20] = 41;
+        grid[27] = 83;
+        grid[50] = 66;
+        grid[70] = 90;
+        grid[79] = 99;
+        grid[16] = 6;
+        grid[61] = 18;
+        grid[63] = 59;
+        grid[53] = 33;
+        grid[86] = 23;
+        grid[92] = 72;
+        grid[94] = 74;
+        grid[97] = 78;
+
+        QImage green;
+
+        if (green.load(QDir::currentPath() + "/Images/SL.jpg"))
+        {
+            //green.scaledToWidth(this->width(), Qt::SmoothTransformation);
+            //green.scaled(500,500);
+            this->setBackgroundBrush(QBrush(green.scaledToHeight(612).scaledToWidth(612)));
+
+        }
+    }
+    else
+    {
+        //this->setSceneRect(0,0,612, 612);
+        QImage green;
+        if (green.load(QDir::currentPath() + "/Images/grid.PNG"))
+        {
+            this->setBackgroundBrush(QBrush(green.scaledToHeight(612).scaledToWidth(612)));
+        }
+
+
+
+    }
+}
+
+void game1_scene::AddLadderSnake(int cellFrom, int cellTo)
+{
+    this->grid[cellFrom-1] = cellTo - 1;
 }
 

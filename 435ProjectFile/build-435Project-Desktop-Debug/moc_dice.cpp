@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_dice_t {
-    QByteArrayData data[16];
-    char stringdata[97];
+    QByteArrayData data[17];
+    char stringdata[104];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,13 +42,14 @@ QT_MOC_LITERAL(9, 56, 1),
 QT_MOC_LITERAL(10, 58, 1),
 QT_MOC_LITERAL(11, 60, 1),
 QT_MOC_LITERAL(12, 62, 6),
-QT_MOC_LITERAL(13, 69, 9),
-QT_MOC_LITERAL(14, 79, 8),
-QT_MOC_LITERAL(15, 88, 7)
+QT_MOC_LITERAL(13, 69, 6),
+QT_MOC_LITERAL(14, 76, 9),
+QT_MOC_LITERAL(15, 86, 8),
+QT_MOC_LITERAL(16, 95, 7)
     },
     "dice\0ThrowBlue\0\0ThrowBluePC\0EndTurn\0"
-    "EndGame\0SetUser\0d\0n\0s\0w\0h\0reveal\0"
-    "EndTurnPC\0listener\0wonturn\0"
+    "EndGame\0SetUser\0d\0n\0s\0w\0h\0custom\0"
+    "reveal\0EndTurnPC\0listener\0wonturn\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -70,18 +71,18 @@ static const uint qt_meta_data_dice[] = {
        3,    0,   60,    2, 0x0a,
        4,    0,   61,    2, 0x0a,
        5,    0,   62,    2, 0x0a,
-       6,    5,   63,    2, 0x0a,
-      12,    0,   74,    2, 0x0a,
-      13,    0,   75,    2, 0x0a,
-      14,    0,   76,    2, 0x0a,
-      15,    0,   77,    2, 0x0a,
+       6,    6,   63,    2, 0x0a,
+      13,    0,   76,    2, 0x0a,
+      14,    0,   77,    2, 0x0a,
+      15,    0,   78,    2, 0x0a,
+      16,    0,   79,    2, 0x0a,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::Int, QMetaType::Int, QMetaType::Bool,    7,    8,    9,   10,   11,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::Int, QMetaType::Int, QMetaType::Bool, QMetaType::Bool,    7,    8,    9,   10,   11,   12,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -99,7 +100,7 @@ void dice::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         case 1: _t->ThrowBluePC(); break;
         case 2: _t->EndTurn(); break;
         case 3: _t->EndGame(); break;
-        case 4: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4])),(*reinterpret_cast< bool(*)>(_a[5]))); break;
+        case 4: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4])),(*reinterpret_cast< bool(*)>(_a[5])),(*reinterpret_cast< bool(*)>(_a[6]))); break;
         case 5: _t->reveal(); break;
         case 6: _t->EndTurnPC(); break;
         case 7: _t->listener(); break;

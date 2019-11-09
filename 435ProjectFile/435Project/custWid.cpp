@@ -46,7 +46,8 @@ custWid::custWid(QWidget *parent) :
     /**
      * Signal connector to enter the position of a snake or a ladder
      */
-    QObject::connect(Submit, SIGNAL(clicked()), this, SLOT(SubmitFunction()) );
+
+    QObject::connect(Submit, SIGNAL(clicked()), this, SLOT(SubmitF()) );
 
     /**
      * Signal connector to a new customized game
@@ -61,9 +62,9 @@ custWid::custWid(QWidget *parent) :
     /**
      * removes message after 4 seconds
      */
-    QTimer *timer = new QTimer();
+     timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(4000);
+
 
     /**
      * setting up the layout
@@ -97,7 +98,14 @@ custWid::custWid(QWidget *parent) :
     this->setLayout(custVertical);
     this->resize(200, 200);
 
-    sceneCust = new diceCust();
+    sceneCust = new dice();
+    QImage green;
+    if (green.load(QDir::currentPath() + "/Images/grid.PNG"))
+    {
+        sceneCust->Game1Scene->setBackgroundBrush(QBrush(green.scaledToHeight(612).scaledToWidth(612)));
+    }
+
+    error->setText("No vertical ladders or Snakes\nLadders only from down to up\nSnakes only from up to down");
 
 
 }
@@ -112,10 +120,15 @@ void custWid::SubmitFunction()
     {
 
         int levelfrom, levelto, path, height; //path is the number of boxes from the "from tile" to the tile above it at the level of "to tile"
-        levelfrom = ceil(from->text().toInt()/10.0);
-        levelto = ceil(to->text().toInt()/10.0);
+        levelfrom = ceil(from->text().toInt()/10.0); //gets level of the starting point
+        levelto = ceil(to->text().toInt()/10.0); //gets level of ending point
 
-        height = abs(levelfrom - levelto);
+        height = abs(levelfrom - levelto);  //gives height between starting and ending level
+
+
+        //path is the number of the box above the starting box at the level of the ending box
+        //path helps us know if the ending box is at the left or right of the starting box so that we know
+        //if we should use left to right or right to left ladder or snake
 
         if(levelfrom%2==0 && levelto%2!=0)
         {
@@ -146,11 +159,11 @@ void custWid::SubmitFunction()
             path = from->text().toInt() + height*10;
         }
 
-        if(levelto%2==0)
+        if(levelto%2==0)  //if ending level is even
         {
-            if(path > to->text().toInt())
+            if(path > to->text().toInt()) //left to right
             {
-                //left to right
+
                 if(levelfrom%2==0)
                 {
                     int x;
@@ -162,14 +175,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(path/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
                 else
                 {
@@ -183,14 +196,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(path/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
             }
@@ -208,14 +221,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(to->text().toInt()/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
                 else
                 {
@@ -229,19 +242,19 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(to->text().toInt()/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
             }
         }
-        else
+        else  //if ending level is odd
         {
             if(path > to->text().toInt())
             {
@@ -257,14 +270,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(to->text().toInt()/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
                 else
                 {
@@ -278,14 +291,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(to->text().toInt()/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
             }
@@ -303,14 +316,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(path/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
                 else
                 {
@@ -324,14 +337,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(path/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
 
@@ -399,14 +412,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(path/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
                 else
                 {
@@ -420,14 +433,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(path/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
             }
@@ -445,14 +458,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(from->text().toInt()/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
                 else
                 {
@@ -466,14 +479,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(from->text().toInt()/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
             }
@@ -494,14 +507,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(from->text().toInt()/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
                 else
                 {
@@ -515,14 +528,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(from->text().toInt()/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
             }
@@ -540,14 +553,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(path/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
                 else
                 {
@@ -561,14 +574,14 @@ void custWid::SubmitFunction()
                     }
 
                     SnakesLadders * SL = new SnakesLadders();
-                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                    SL->setX(x*52 + 26);
-                    SL->setY((10 - ceil(path/10.0))*52 + 26);
+                    SL->setX(x*61.2 + 30.6);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                    sceneCust->Game1Cust->addItem(SL);
+                    sceneCust->Game1Scene->addItem(SL);
 
-                    sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
 
@@ -583,9 +596,13 @@ void custWid::SubmitFunction()
 void custWid::DoneFunction()
 {
     this->close();
-    sceneCust->SetUser(this->user);
+    sceneCust->SetUser(this->user, this->name, this->difficulty, this->starterplayer, false, true);
     sceneCust->show();
-    sceneCust->Game1_ViewCust->show();
+    sceneCust->Game1_View->show();
+
+
+
+
 }
 
 void custWid:: FillGrid()
@@ -673,14 +690,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(path/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
                     else
                     {
@@ -694,14 +711,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(path/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
 
                 }
@@ -719,14 +736,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(to->text().toInt()/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
                     else
                     {
@@ -740,14 +757,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(to->text().toInt()/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
 
                 }
@@ -768,14 +785,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(to->text().toInt()/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
                     else
                     {
@@ -789,14 +806,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderRL.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(to->text().toInt()/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
 
                 }
@@ -814,14 +831,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(path/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
                     else
                     {
@@ -835,14 +852,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/ladderLR.png").scaled((abs(to->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(path/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
 
 
@@ -912,14 +929,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(path/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
                     else
                     {
@@ -933,14 +950,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(path/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
 
                 }
@@ -958,14 +975,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(from->text().toInt()/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
                     else
                     {
@@ -979,14 +996,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(from->text().toInt()/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
 
                 }
@@ -1007,14 +1024,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(from->text().toInt()/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
                     else
                     {
@@ -1028,14 +1045,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeRL.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(from->text().toInt()/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
 
                 }
@@ -1053,14 +1070,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(path/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
                     else
                     {
@@ -1074,14 +1091,14 @@ void custWid:: FillGrid()
                         }
 
                         SnakesLadders * SL = new SnakesLadders();
-                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*52,height*52));
+                        SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/snakeLR.png").scaled((abs(from->text().toDouble()-path))*61.2,height*61.2));
 
-                        SL->setX(x*52 + 26);
-                        SL->setY((10 - ceil(path/10.0))*52 + 26);
+                        SL->setX(x*61.2 + 30.6);
+                        SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
 
-                        sceneCust->Game1Cust->addItem(SL);
+                        sceneCust->Game1Scene->addItem(SL);
 
-                        sceneCust->Game1Cust->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                        sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                     }
 
 
@@ -1098,7 +1115,7 @@ void custWid:: FillGrid()
     {
         qint32 x, y;
         inData >> x >> y;
-        sceneCust->Game1Cust->gridCust[x-1] = y - 1;
+        sceneCust->Game1Scene->gridCust[x-1] = y - 1;
     }*/
 
     file.close();
@@ -1107,10 +1124,41 @@ void custWid:: FillGrid()
 
 void custWid :: update()
 {
-    error->setText("");
+    error->setText("No vertical ladders or Snakes\nLadders only from down to up\nSnakes only from up to down");
 }
 
-void custWid :: SetUser(QString d)
+void custWid :: SetUser(QString d, QString a, int diff, int s)
 {
     this->user = d;
+    this->name = a;
+    this->difficulty = diff;
+    this->starterplayer = s;
+}
+
+void custWid:: SubmitF()
+{
+    if(this->Ladder->isChecked())
+    {
+        if (this->from->text().toInt() <= this->to->text().toInt())
+        {
+            SubmitFunction();
+        }
+        else
+        {
+            error->setText("Impossible Ladder, try snake!");
+            timer->start(4000);
+        }
+    }
+    if(this->Snake->isChecked())
+    {
+        if(this->from->text().toInt() >= this->to->text().toInt())
+        {
+            SubmitFunction();
+        }
+        else
+        {
+            error->setText("Impossible Snake, try ladder!");
+            timer->start(4000);
+        }
+    }
 }

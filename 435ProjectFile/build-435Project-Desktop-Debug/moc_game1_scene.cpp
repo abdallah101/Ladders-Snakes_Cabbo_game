@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_game1_scene_t {
-    QByteArrayData data[11];
-    char stringdata[57];
+    QByteArrayData data[15];
+    char stringdata[90];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,10 +39,15 @@ QT_MOC_LITERAL(6, 40, 7),
 QT_MOC_LITERAL(7, 48, 1),
 QT_MOC_LITERAL(8, 50, 1),
 QT_MOC_LITERAL(9, 52, 1),
-QT_MOC_LITERAL(10, 54, 1)
+QT_MOC_LITERAL(10, 54, 1),
+QT_MOC_LITERAL(11, 56, 1),
+QT_MOC_LITERAL(12, 58, 14),
+QT_MOC_LITERAL(13, 73, 8),
+QT_MOC_LITERAL(14, 82, 6)
     },
     "game1_scene\0check\0\0players*\0player\0"
-    "Move\0SetUser\0a\0b\0c\0d\0"
+    "Move\0SetUser\0a\0b\0c\0d\0z\0AddLadderSnake\0"
+    "cellFrom\0cellTo\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -52,7 +57,7 @@ static const uint qt_meta_data_game1_scene[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -60,14 +65,16 @@ static const uint qt_meta_data_game1_scene[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   29,    2, 0x0a,
-       5,    2,   32,    2, 0x0a,
-       6,    4,   37,    2, 0x0a,
+       1,    1,   34,    2, 0x0a,
+       5,    2,   37,    2, 0x0a,
+       6,    5,   42,    2, 0x0a,
+      12,    2,   53,    2, 0x0a,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, 0x80000000 | 3, QMetaType::Int,    2,    2,
-    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::Int, QMetaType::Bool,    7,    8,    9,   10,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::Int, QMetaType::Bool, QMetaType::Bool,    7,    8,    9,   10,   11,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   13,   14,
 
        0        // eod
 };
@@ -79,7 +86,8 @@ void game1_scene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         switch (_id) {
         case 0: _t->check((*reinterpret_cast< players*(*)>(_a[1]))); break;
         case 1: _t->Move((*reinterpret_cast< players*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 2: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< bool(*)>(_a[4]))); break;
+        case 2: _t->SetUser((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< bool(*)>(_a[4])),(*reinterpret_cast< bool(*)>(_a[5]))); break;
+        case 3: _t->AddLadderSnake((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -128,13 +136,13 @@ int game1_scene::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 4;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 4;
     }
     return _id;
 }

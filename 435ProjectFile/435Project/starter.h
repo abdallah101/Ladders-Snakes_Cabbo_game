@@ -7,6 +7,7 @@
 #include <QtWidgets>
 #include <QString>
 #include <dice.h>
+#include <custWid.h>
 
 class Starter : public QWidget
 {
@@ -18,17 +19,18 @@ public:
      QGridLayout * hori;
      QVBoxLayout * vert;
      QGroupBox * GP;
-     bool rolledit;
+     bool rolledit, isCust;
      int difficultyS;
      QString user, name;
      dice * scene;
+     custWid * scenecust;
      int winningPlayer;
 
 signals:
 
 public slots:
 
-     void SetUser(QString a, QString b, int S);
+     void SetUser(QString a, QString b, int S, bool z);
      void roll();
      void Back();
 
