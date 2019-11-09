@@ -9,6 +9,7 @@
 #include <game1_scene.h>
 #include <players.h>
 //#include <starter.h>
+#include <QProgressBar>
 /**
   *\file Dice.h
   */
@@ -31,14 +32,14 @@ public:
     MainScreen * BackToMain;
     int blueval, redval;
     QString user, name;
-    QTimer * timer ,* timer1, *timerPC;
+    QTimer * timer ,* timer1, *timerPC, *timershort; //to have some time before PC plays his turn
     QGroupBox * GP;
     bool endedturn, taketurns, other, endedturnPC, once, isResume; //endedturn is used to let the user throw the die only once, taketurns is used to give the PC 1 turn
                                                     //other is used switch between user(player1) and player2
                                                      //endedturnPC is used to give plauer1 his throw button when PC is done
     int difficulty, startingPlayer;  //difficulty determines what algorythm takes place and if player2 is human or PC
                                     //startingPlayer determines if player1 or player2 starts the round
-
+    QProgressBar * progressbar;
 
 signals:
 
@@ -50,10 +51,10 @@ public slots:
     void EndGame ();
     void SetUser(QString d, QString n, int s, int w, bool h);
     void reveal();
-    //void listener();
     void EndTurnPC();
     void listener();
     void wonturn();
+    //void updateprogresbar();
 
 
 

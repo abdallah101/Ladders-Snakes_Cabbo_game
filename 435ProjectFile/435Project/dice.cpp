@@ -18,6 +18,7 @@
 #include <iostream>
 #include <starter.h>
 #include <winlose.h>
+#include <QProgressBar>
 using namespace std;
 /**
   *\file dice.cpp
@@ -31,6 +32,7 @@ dice::dice(QWidget *parent) :
      */
 
 
+    progressbar = new QProgressBar();
     ThrowBlue_Button = new QPushButton("Throw dice");
     //ThrowRed_Button = new QPushButton("Throw red die");
     EndTurn_Button = new QPushButton("End Turn");
@@ -83,6 +85,7 @@ dice::dice(QWidget *parent) :
     Vertical->addWidget(EndTurn_Button,3,0);
     Vertical->addWidget(EndGame_Button,4,0);
     Vertical->addWidget(error,5,0);
+    Vertical->addWidget(progressbar,6,0);
     this->setLayout(Vertical);
     //this->resize(400, 400);
 
@@ -125,6 +128,13 @@ dice::dice(QWidget *parent) :
     timerPC->start(100);
     connect(timer1, SIGNAL(timeout()), this, SLOT(listener()));
 
+    /**
+     * gives a break between Player turn and PC turn
+     */
+    timershort = new QTimer();
+    timershort->setSingleShot(true);
+    connect(timershort, SIGNAL(timeout()), this, SLOT(EndTurnPC()));
+
     Game1_View->setScene(Game1Scene);
     Game1_View->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
     Game1_View->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
@@ -149,6 +159,7 @@ void dice :: ThrowBlue()
     //disables the throw button and enables the end turn button
 
     ThrowBlue_Button->setEnabled(false);
+    progressbar->setValue(0);
 
     //this->EndTurn_Button->setEnabled(true);
     endedturn = true;
@@ -201,6 +212,11 @@ void dice :: ThrowBluePC()
     redval = x;
     red->setText(QString::number(redval));
 
+    if(blueval == redval)
+    {
+        progressbar->setValue(50);
+    }
+
 
 }
 
@@ -214,7 +230,7 @@ void dice :: ThrowBluePC()
 void dice :: EndGame()
 {
 
-    this->close();
+    this->close(); //closing the window has been overrided so this is all we need here
 
 }
 
@@ -323,26 +339,43 @@ void dice :: EndTurn()
     //if we are playing against PC then difficulty < 4 and need to switch between true and false for each players when ending turn
     if(iserror == false && difficulty < 4)
     {
-        this->EndTurn_Button->setEnabled(false);
-        //this->ThrowBlue_Button->setEnabled(false);
-        endedturn = false;
-        Game1Scene->player1->myturn = false;
-        Game1Scene->player2->myturn = true;
-    }
-    //likewise when playing against a human (difficulty = 4) but using bool other
-    else if  (iserror == false && difficulty == 4)
-    {
-        this->EndTurn_Button->setEnabled(false);
-        this->ThrowBlue_Button->setEnabled(true);
-        endedturn = false;
-
-        if(other == false)
+        if(redval != blueval)
         {
-            other = true;
+            this->EndTurn_Button->setEnabled(false);
+            endedturn = false;
+            Game1Scene->player1->myturn = false;
+            Game1Scene->player2->myturn = true;
         }
         else
         {
-            other = false;
+            this->EndTurn_Button->setEnabled(false);
+            endedturnPC = true;
+            endedturn = false;
+        }
+    }
+    //likewise when playing against a human (difficulty == 4) but using bool other
+    else if  (iserror == false && difficulty == 4)
+    {
+        if(redval != blueval)
+        {
+            this->EndTurn_Button->setEnabled(false);
+            this->ThrowBlue_Button->setEnabled(true);
+            endedturn = false;
+
+            if(other == false)
+            {
+                other = true;
+            }
+            else
+            {
+                other = false;
+            }
+        }
+        else
+        {
+            this->EndTurn_Button->setEnabled(false);
+            this->ThrowBlue_Button->setEnabled(true);
+            //here we didnt change other boolean since he got the same die roll so he gets another turn
         }
 
 
@@ -424,7 +457,7 @@ void dice :: EndTurnPC()
                 Game1Scene->Move(Game1Scene->player2, blueval);
             }
         }
-        else
+        else //red is not snake
         {
             if(Game1Scene->grid[bluePC] != 0 && Game1Scene->grid[bluePC] < bluePC) //checks if snake for blue value
             {
@@ -439,7 +472,7 @@ void dice :: EndTurnPC()
                 //so check for ladders now
                 if(Game1Scene->grid[bluePC] != 0 && Game1Scene->grid[bluePC] > bluePC) //checks blue for ladder
                 {
-                    if(Game1Scene->grid[redPC] != 0 && Game1Scene->grid[redPC] < redPC) //checks red for ladder
+                    if(Game1Scene->grid[redPC] != 0 && Game1Scene->grid[redPC] > redPC) //checks red for ladder
                     {
                         //here both are ladders
                         if(Game1Scene->grid[bluePC] < Game1Scene->grid[redPC]) //if both are ladders then check which is better
@@ -455,11 +488,16 @@ void dice :: EndTurnPC()
                             Game1Scene->Move(Game1Scene->player2, blueval);
                         }
                     }
+                    else //red isnt ladder, but blue is
+                    {
+                        Game1Scene->Move(Game1Scene->player1, redval);
+                        Game1Scene->Move(Game1Scene->player2, blueval);
+                    }
                 }
                 else
                 {
                     //here blue isnt a ladder, check for red
-                    if(Game1Scene->grid[redPC] != 0 && Game1Scene->grid[redPC] < redPC)
+                    if(Game1Scene->grid[redPC] != 0 && Game1Scene->grid[redPC] > redPC)
                     {
 
                         Game1Scene->Move(Game1Scene->player1, blueval);
@@ -471,7 +509,7 @@ void dice :: EndTurnPC()
 
                         if(Game1Scene->grid[red] != 0 && Game1Scene->grid[red] < red) //check if 2 goes to snake red
                         {
-                            if(Game1Scene->grid[blue] != 0 && Game1Scene->grid[blue] < blue)
+                            if(Game1Scene->grid[blue] != 0 && Game1Scene->grid[blue] < blue) //check if 2 goes to snake blue
                             {
                                 if(Game1Scene->grid[blue] < Game1Scene->grid[red])
                                 {
@@ -558,9 +596,20 @@ void dice :: EndTurnPC()
     }
 
 
-    Game1Scene->player1->myturn = true;
-    Game1Scene->player2->myturn = false;
-    endedturnPC = true;
+    if(redval != blueval)
+    {
+        progressbar->setValue(100);
+        Game1Scene->player1->myturn = true;
+        Game1Scene->player2->myturn = false;
+        endedturnPC = true;
+    }
+    else
+    {
+        progressbar->setValue(100);
+        Game1Scene->player1->myturn = false;
+        Game1Scene->player2->myturn = true;
+        //endedturnPC = true;
+    }
 
 
 
@@ -875,6 +924,7 @@ void dice :: reveal ()
     if(Game1Scene->player1->active == false && Game1Scene->player2->active == false && endedturnPC == true && difficulty < 4)
     {
         this->ThrowBlue_Button->setEnabled(true);
+
     }
 
 
@@ -898,9 +948,14 @@ void dice :: listener()
     {
         if(difficulty == 1 || difficulty == 2 || difficulty == 3)
         {
+            progressbar->setValue(50);
+            Game1Scene->player2->myturn = false;
             this->ThrowBluePC();
-            this->EndTurnPC();
-            //cout << "here" << endl;
+            //timershort->start(2000);
+            QTimer::singleShot(2000, this, SLOT(EndTurnPC()));
+            //progressbar->setValue(100);
+
+
             taketurns = false;
         }
         else
