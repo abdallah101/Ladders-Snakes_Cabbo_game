@@ -33,6 +33,7 @@ GameOne::GameOne(QWidget *parent) :
     mediumC = new QRadioButton("medium");
     hardC = new QRadioButton("hard");
     twoplayersC = new QRadioButton("two players");
+    GoBack = new QPushButton("Back");
 
     VerticalRadioB->addWidget(easy);
     VerticalRadioB->addWidget(medium);
@@ -54,11 +55,13 @@ GameOne::GameOne(QWidget *parent) :
     Horiz->addWidget(GPC,3,0);
     Horiz->addWidget(error,4,0);
     Horiz->addWidget(resume,5,0);
+    Horiz->addWidget(GoBack,6,0);
     this->setLayout(Horiz);
     this->resize(200, 200);
     QObject::connect(startButton, SIGNAL(clicked()), this, SLOT(start()));
     QObject::connect(SetLaddersSnakes, SIGNAL(clicked()), this, SLOT(customize()));
     QObject::connect(resume, SIGNAL(clicked()), this, SLOT(resumegame()));
+    QObject::connect(GoBack, SIGNAL(clicked()), this, SLOT(back()));
 
     /**
      * removes message after 4 seconds
@@ -214,7 +217,14 @@ void GameOne :: resumegame()
             }
         }
 
-        scene2->SetUser(this->user, this->name, d, p, true, true);
+        scene2->SetUser(this->user, this->name, d, p, true, false);
         scene2->show();
     }
+}
+
+void GameOne :: back(){
+    sc = new MainScreen();
+    sc->setUser(user);
+    this->close();
+    sc->show();
 }

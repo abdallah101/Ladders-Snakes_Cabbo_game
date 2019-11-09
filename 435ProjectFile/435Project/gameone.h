@@ -11,17 +11,20 @@
 #include <game1_modes.h>
 #include <QTimer>
 #include <starter.h>
+
+class MainScreen; //forward declaration
+
 class GameOne : public QWidget
 {
     Q_OBJECT
 public:
     explicit GameOne(QWidget *parent = 0);
-    QPushButton * startButton, * SetLaddersSnakes, *resume;
+    QPushButton * startButton, * SetLaddersSnakes, *resume, * GoBack;
     //GameOne();
     Starter * scene;
     dice * scene2;
     QGridLayout * Horiz;
-    QString user, name;
+    QString user, name; //username and first name
     custWid * scene1;
     QRadioButton * easy, *medium, *hard, *twoplayers;
     QRadioButton * easyC, *mediumC, *hardC, * twoplayersC;
@@ -29,6 +32,8 @@ public:
     QTimer * timer;
     QVBoxLayout * VerticalRadioB, * VerticalRadioBC;
     QGroupBox * GP, * GPC;
+    MainScreen * sc;
+
 
 
 signals:
@@ -40,6 +45,7 @@ public slots:
     void SetUser(QString d, QString n);
     void update();
     void resumegame();
+    void back();
 
 };
 

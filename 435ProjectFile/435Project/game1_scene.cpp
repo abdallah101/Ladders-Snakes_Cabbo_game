@@ -62,7 +62,8 @@ void game1_scene::Move(players * player, int steps)
 
 
 
-
+if(isCust == false)
+{
     //keep in mind throught the whole process that player1 always moves before player2 even if it is player 2's turn
 
     QFile data(QDir::currentPath() + "/history.txt");
@@ -182,6 +183,10 @@ void game1_scene::Move(players * player, int steps)
     newData.close();
 
     steps = steps - 1;
+}
+else
+{//here if the game is custom, to be implemented later if i ever feel like it ( I don't )
+}
 
      player->MoveP(steps); //calls function that moves the player by steps
 
@@ -199,6 +204,8 @@ void game1_scene :: check (players * player)
             player->MovePExtra(grid[player->cell]);
 
 
+            if(isCust == false)
+            {
                 QFile data(QDir::currentPath() + "/history.txt");
                     data.open(QIODevice::Text | QIODevice::ReadOnly);
                     QString dataText = data.readAll();
@@ -276,6 +283,11 @@ void game1_scene :: check (players * player)
                 }
                 newData.close();
 
+            }
+            else
+            {
+                //here is also for if the game is custom but for ladders and snakes part of history
+            }
 
 
 

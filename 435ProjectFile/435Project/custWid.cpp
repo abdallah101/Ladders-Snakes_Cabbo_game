@@ -159,6 +159,8 @@ void custWid::SubmitFunction()
             path = from->text().toInt() + height*10;
         }
 
+
+
         if(levelto%2==0)  //if ending level is even
         {
             if(path > to->text().toInt()) //left to right
@@ -207,7 +209,7 @@ void custWid::SubmitFunction()
                 }
 
             }
-            else
+            else if (path < to->text().toInt())
             {
                 //right to left
                 if(levelto%2==0)
@@ -252,6 +254,50 @@ void custWid::SubmitFunction()
                     sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
+            }
+            else if (path == to->text().toInt()) //vertical ladder, use image called LadderUP.png
+            {
+                if(levelto%2==0)
+                {
+                    int x;
+                    x = 10 - to->text().toInt()%10;
+
+                    if(x == 10)
+                    {
+                        x = 0;
+                    }
+
+                    SnakesLadders * SL = new SnakesLadders();
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/LadderUP.png").scaled(200,height*61.2));
+
+                    SL->setX((x-1)*61.2);
+                    SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
+
+                    sceneCust->Game1Scene->addItem(SL);
+
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                }
+                else
+                {
+
+                    int x;
+                    x = to->text().toInt()%10 - 1;
+
+                    if(x == -1)
+                    {
+                        x = 9;
+                    }
+
+                    SnakesLadders * SL = new SnakesLadders();
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/LadderUP.png").scaled(200,height*61.2));
+
+                    SL->setX((x-1)*61.2);
+                    SL->setY((10 - ceil(to->text().toInt()/10.0))*61.2 + 30.6);
+
+                    sceneCust->Game1Scene->addItem(SL);
+
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                }
             }
         }
         else  //if ending level is odd
@@ -302,7 +348,7 @@ void custWid::SubmitFunction()
                 }
 
             }
-            else
+            else if (path < to->text().toInt())
             {
                //left to right
                 if(levelfrom%2==0)
@@ -348,6 +394,50 @@ void custWid::SubmitFunction()
                 }
 
 
+            }
+            else if (path == to->text().toInt()) //vertical ladder, use LadderUP.png
+            {
+                if(levelfrom%2==0)
+                {
+                    int x;
+                    x = 10 - from->text().toInt()%10;
+
+                    if(x == 10)
+                    {
+                        x = 0;
+                    }
+
+                    SnakesLadders * SL = new SnakesLadders();
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/LadderUP.png").scaled(200,height*61.2));
+
+                    SL->setX((x-1)*61.2);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
+
+                    sceneCust->Game1Scene->addItem(SL);
+
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                }
+                else
+                {
+
+                    int x;
+                    x = from->text().toInt()%10 - 1;
+
+                    if(x == -1)
+                    {
+                        x = 9;
+                    }
+
+                    SnakesLadders * SL = new SnakesLadders();
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/LadderUP.png").scaled(200,height*61.2));
+
+                    SL->setX((x-1)*61.2);
+                    SL->setY((10 - ceil(path/10.0))*61.2 + 30.6);
+
+                    sceneCust->Game1Scene->addItem(SL);
+
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                }
             }
         }
 
@@ -444,7 +534,7 @@ void custWid::SubmitFunction()
                 }
 
             }
-            else
+            else if (path < from->text().toInt())
             {
                 //right to left
                 if(levelto%2==0)
@@ -489,6 +579,50 @@ void custWid::SubmitFunction()
                     sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
                 }
 
+            }
+            else if (path == from->text().toInt())
+            {
+                if(levelto%2==0)
+                {
+                    int x;
+                    x = 10 - from->text().toInt()%10;
+
+                    if(x == 10)
+                    {
+                        x = 0;
+                    }
+
+                    SnakesLadders * SL = new SnakesLadders();
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/SnakeUP.png").scaled(61.2,height*61.2));
+
+                    SL->setX(x*61.2);
+                    SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
+
+                    sceneCust->Game1Scene->addItem(SL);
+
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                }
+                else
+                {
+
+                    int x;
+                    x = from->text().toInt()%10 - 1;
+
+                    if(x == -1)
+                    {
+                        x = 9;
+                    }
+
+                    SnakesLadders * SL = new SnakesLadders();
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/SnakeUP.png").scaled(61.2,height*61.2));
+
+                    SL->setX(x*61.2);
+                    SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
+
+                    sceneCust->Game1Scene->addItem(SL);
+
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                }
             }
         }
         else
@@ -539,7 +673,7 @@ void custWid::SubmitFunction()
                 }
 
             }
-            else
+            else if (path < from->text().toInt())
             {
                //left to right
                 if(levelfrom%2==0)
@@ -585,6 +719,50 @@ void custWid::SubmitFunction()
                 }
 
 
+            }
+            else if (path == from->text().toInt())
+            {
+                if(levelto%2==0)
+                {
+                    int x;
+                    x = 10 - from->text().toInt()%10;
+
+                    if(x == 10)
+                    {
+                        x = 0;
+                    }
+
+                    SnakesLadders * SL = new SnakesLadders();
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/SnakeUP.png").scaled(61.2,height*61.2));
+
+                    SL->setX(x*61.2);
+                    SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
+
+                    sceneCust->Game1Scene->addItem(SL);
+
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                }
+                else
+                {
+
+                    int x;
+                    x = from->text().toInt()%10 - 1;
+
+                    if(x == -1)
+                    {
+                        x = 9;
+                    }
+
+                    SnakesLadders * SL = new SnakesLadders();
+                    SL->setPixmap(QPixmap(QDir::currentPath() + "/Images/SnakeUP.png").scaled(61.2,height*61.2));
+
+                    SL->setX(x*61.2);
+                    SL->setY((10 - ceil(from->text().toInt()/10.0))*61.2 + 30.6);
+
+                    sceneCust->Game1Scene->addItem(SL);
+
+                    sceneCust->Game1Scene->AddLadderSnake(from->text().toInt(), to->text().toInt());
+                }
             }
         }
 
@@ -1137,28 +1315,41 @@ void custWid :: SetUser(QString d, QString a, int diff, int s)
 
 void custWid:: SubmitF()
 {
+    int levelfrom, levelto, height;
+    levelfrom = ceil(from->text().toInt()/10.0); //gets level of the starting point
+    levelto = ceil(to->text().toInt()/10.0); //gets level of ending point
+
+    height = abs(levelfrom - levelto);  //gives height between starting and ending level
+
     if(this->Ladder->isChecked())
     {
-        if (this->from->text().toInt() <= this->to->text().toInt())
-        {
-            SubmitFunction();
-        }
-        else
+        if (this->from->text().toInt() > this->to->text().toInt() || height == 0)
         {
             error->setText("Impossible Ladder, try snake!");
             timer->start(4000);
+
+        }
+        else
+        {
+            SubmitFunction();
         }
     }
     if(this->Snake->isChecked())
     {
-        if(this->from->text().toInt() >= this->to->text().toInt())
-        {
-            SubmitFunction();
-        }
-        else
+        if(this->from->text().toInt() < this->to->text().toInt() || height == 0)
         {
             error->setText("Impossible Snake, try ladder!");
             timer->start(4000);
         }
+        else
+        {
+            SubmitFunction();
+
+        }
+    }
+    if(this->Ladder->isChecked() == false && this->Snake->isChecked() == false)
+    {
+        error->setText("Choose a ladder or snake first!");
+        timer->start(4000);
     }
 }
