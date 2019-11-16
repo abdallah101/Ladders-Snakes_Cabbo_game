@@ -14,6 +14,9 @@ MainScreen::MainScreen(QWidget *parent) :
     QWidget(parent)
 {
 
+    /**
+     * Setting up the widget items
+     */
     GameOneB = new QPushButton("Game One");
     GameTwo = new QPushButton("Game Two");
     UsernameL = new QLabel(this->user);
@@ -31,9 +34,6 @@ MainScreen::MainScreen(QWidget *parent) :
     font.setPointSize(16);
     font.setBold(true);
     UsernameL->setFont(font);
-
-
-
     horiz->addWidget(UsernameL,0,3);
     horiz->addWidget(pic,0,0);
     horiz->setColumnMinimumWidth(2,50);
@@ -68,10 +68,23 @@ MainScreen::MainScreen(QWidget *parent) :
 
 }
 
+
+/**
+ * \brief Function to go to game two
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
+
 void MainScreen :: GotoTwo ()
 {
 
 }
+
+/**
+ * \brief Function to go to game one main menu to choose diffculty
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
 
 void MainScreen :: GotoOne ()
 {
@@ -80,16 +93,14 @@ void MainScreen :: GotoOne ()
     GameOne * scene1 = new GameOne();
     scene1->SetUser(this->user, this->name);
     scene1->show();
-    //Setting view
-    /*
-    QGraphicsView * view = new QGraphicsView();
-    view->setScene(scene1);
-    view->setFixedSize(800,800);
-    view->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
-    view->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
-    view->show();
-    */
+
 }
+
+/**
+ * \brief Opens settings widget for user to change profile pic or password
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
 
 void MainScreen :: GotoSettings()
 {
@@ -144,14 +155,9 @@ void MainScreen :: setUser(QString u)
         green.scaledToWidth(pic->width(), Qt::SmoothTransformation);
     }
 
-
-
-
-
-
     pic->setPixmap(QPixmap::fromImage(green));
 
-    int day = QDate::currentDate().day();
+    //int day = QDate::currentDate().day();
 
     if(query[6].toInt() ==  QDate::currentDate().month() && query[7].toInt() ==  QDate::currentDate().day())
     {

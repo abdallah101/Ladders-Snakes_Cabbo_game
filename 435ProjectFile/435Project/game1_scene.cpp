@@ -15,6 +15,12 @@
 #include <iostream>
 #include <QTextStream>
 #include <QRegularExpression>
+
+/**
+  *\file game1_scene.cpp
+  * board logic
+  */
+
 game1_scene::game1_scene()
 {
 

@@ -5,6 +5,10 @@
 #include <QTimer>
 #include <QString>
 
+/**
+  *\file game1_scene.h
+  */
+
 class game1_scene : public QGraphicsScene
 {
   Q_OBJECT

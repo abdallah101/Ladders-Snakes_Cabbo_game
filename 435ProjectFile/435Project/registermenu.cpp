@@ -28,7 +28,6 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     FirstName = new QLabel ("First Name");
     LastName = new QLabel ("Last Name");
     Gender = new QLabel ("Gender");
-    //Age = new QLabel ("Age");
     MaleLabel = new QLabel ("Male");
     FemaleLabel = new QLabel ("Female");
     LineEdit1 = new QLineEdit();
@@ -38,8 +37,6 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     Dialog = new QDialogButtonBox();
     Male = new QRadioButton("Male");
     Female = new QRadioButton("Female");
-    //SpinBox = new QSpinBox();
-    password->setEchoMode(QLineEdit::Password); //making password show dots instead of letters
     usernameL = new QLabel("Username");
     passwordL = new QLabel("Password");
     back = new QPushButton("back");
@@ -47,6 +44,8 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
     day = new QSpinBox();
     month = new QSpinBox();
     year = new QSpinBox();
+
+    password->setEchoMode(QLineEdit::Password); //making password show dots instead of letters
     day->setRange(1,31);
     month->setRange(1,31);
     year->setRange(1900, QDate::currentDate().year());
@@ -65,7 +64,6 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
 
     birthlayout = new QGridLayout();
     birthbox = new QGroupBox();
-    //birthlayout->addWidget(birthdate,0,0);
     birthlayout->addWidget(day,0,0);
     birthlayout->addWidget(month,0,1);
     birthlayout->addWidget(year,0,2);
@@ -77,25 +75,22 @@ RegisterMenu::RegisterMenu(QWidget *parent) :
      * setting up the horizantel layout by adding widgets
      */
 
+    //order here determines tab order as well
     Horizantel->addWidget(FirstName,0,0);
     Horizantel->addWidget(LastName,1,0);
     Horizantel->addWidget(usernameL,2,0);
     Horizantel->addWidget(passwordL,3,0);
-    Horizantel->addWidget(username,2,1);
-    Horizantel->addWidget(password,3,1);
     Horizantel->addWidget(Gender,4,0);
-    //Horizantel->addWidget(Age,0,2);
     Horizantel->addWidget(LineEdit1,0,1);
     Horizantel->addWidget(LineEdit2,1,1);
-    //Horizantel->addWidget(SpinBox,0,3);
+    Horizantel->addWidget(username,2,1);
+    Horizantel->addWidget(password,3,1);
     Horizantel->addWidget(birthdate,5,0);
     Horizantel->addWidget(birthbox,5,1);
-
     Horizantel->addWidget(InsertImage,7,0);
     Horizantel->addWidget(GroupBox,4,1);
     Horizantel->addItem(new QSpacerItem(50,10),0,2,1,1);
     Horizantel->addWidget(UploadedPicPath, 7, 1);
-    //Horizantel->addWidget(errorNotice,6,1 );
 
     /**
      * Setting up RBL
@@ -245,9 +240,6 @@ void RegisterMenu :: RegisterUser()
       file.open(QIODevice::Append|QIODevice::Text);
       QTextStream stream(&file);
 
-
-
-
       /**
        * lineEdit1 is firstname and lineEdit2 is last name
        */
@@ -358,6 +350,7 @@ void RegisterMenu :: RegisterUser()
 
     this->close();
     partner1 = new MainMenu_Widget();
+    partner1->RegSuccess();
     partner1->show();
     }
 }
@@ -398,37 +391,53 @@ void RegisterMenu :: goBack()
     partner1->show();
 }
 
+
+/**
+  * @brief Updates the error label to nothing to remove the message displayed
+  * @param string password
+  * @return nothing (type:void)
+  */
+
 void RegisterMenu :: update()
 {
     errorNotice->setText("");
 }
 
+
+/**
+  * @brief Function that returns the age of a person give his date of birth and the current date
+  * @param int current_date, int current_month, int current_year, int birth_date, int_birth_month, int birth_year
+  * @return integer that is the age of the person
+  */
+
 int RegisterMenu :: findAge(int current_date, int current_month,
              int current_year, int birth_date,
              int birth_month, int birth_year)
 {
-    // days of every month
+    /**
+     * @brief days of every month
+     */
+
     int month[] = { 31, 28, 31, 30, 31, 30, 31,
                           31, 30, 31, 30, 31 };
 
-    // if birth date is greater then current birth
-    // month then do not count this month and add 30
-    // to the date so as to subtract the date and
-    // get the remaining days
+    /**
+     * @brief  if birth date is greater then current birth month then do not count this month and add 30 to the date so as to subtract the date and get the remaining days
+     */
+
     if (birth_date > current_date) {
         current_date = current_date + month[birth_month - 1];
         current_month = current_month - 1;
     }
 
-    // if birth month exceeds current month, then do
-    // not count this year and add 12 to the month so
-    // that we can subtract and find out the difference
+    /**
+     * @brief if birth month exceeds current month, then do not count this year and add 12 to the month so that we can subtract and find out the difference
+     */
+
     if (birth_month > current_month) {
         current_year = current_year - 1;
         current_month = current_month + 12;
     }
-
-
 
     int calculated_year = current_year - birth_year;
 

@@ -31,7 +31,7 @@ public:
     QGroupBox * GroupBox;
     QGroupBox * birthbox;
     QVBoxLayout *QV;
-    QWidget *partner1;
+    MainMenu_Widget * partner1;
     QTimer * timer;
     int age;
 

@@ -160,10 +160,22 @@ void MainMenu_Widget :: Open_GameSelection()
 
 }
 
+/**
+ * \brief Function that removes error message
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
+
 void MainMenu_Widget :: update()
 {
     error->setText("");
 }
+
+/**
+ * \brief Function that lets user press enter to login
+ * \param QKeyEvent * event
+ * \return nothing (type: void)
+ */
 
 void MainMenu_Widget :: keyPressEvent (QKeyEvent * event)
 {
@@ -171,5 +183,18 @@ void MainMenu_Widget :: keyPressEvent (QKeyEvent * event)
     {
         this->Open_GameSelection();
     }
+}
+
+
+/**
+ * \brief Displays message that registration was successful
+ * \param No Parameters
+ * \return nothing (type: void)
+ */
+
+void MainMenu_Widget :: RegSuccess ()
+{
+    error->setText("Registration Successful");
+    timer->start(6000);
 }
 
