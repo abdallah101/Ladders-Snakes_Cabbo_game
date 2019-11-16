@@ -18,7 +18,8 @@ registermenu.cpp \
     winlose.cpp \
     gametwo.cpp \
     game2_scene.cpp \
-    cards.cpp
+    cards.cpp \
+    viewgametwo.cpp
 
 
 QT += \
@@ -47,7 +48,8 @@ registermenu.h \
     winlose.h \
     gametwo.h \
     game2_scene.h \
-    cards.h
+    cards.h \
+    viewgametwo.h
 
 
 OTHER_FILES +=

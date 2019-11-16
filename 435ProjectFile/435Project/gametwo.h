@@ -10,6 +10,7 @@
 #include <game2_scene.h>
 
 
+
 class gametwo : public QWidget
 {
     Q_OBJECT
@@ -21,7 +22,7 @@ public:
     QVBoxLayout * VB;
     QTimer * timer;
     game2_scene * Game2Scene;
-    QGraphicsView * Game2_View;
+    //QGraphicsView * Game2_View;
 
 
 signals:

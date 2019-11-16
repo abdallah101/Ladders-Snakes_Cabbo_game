@@ -2,29 +2,37 @@
 #include <QImage>
 #include <QDir>
 #include <time.h>
+#include <QGraphicsView>
+#include <mainscreen.h>
 
 
 game2_scene::game2_scene()
 {
 
+
+    Game2_View = new ViewGameTwo();
+    Game2_View->setFixedHeight(900);
+    Game2_View->setFixedWidth(900);
+    Game2_View->setScene(this);
+    Game2_View->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
+    Game2_View->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
+
     QImage green;
     this->setSceneRect(0,0,900,900);
-
-
-
     if (green.load(QDir::currentPath() + "/Images/CardBackground.jpg"))
     {
-        //green.scaled(1500,1500);
         this->setBackgroundBrush(QBrush(green.scaledToHeight(900).scaledToWidth(900)));
     }
 
 
 
-    //the position of in the array represents the card's number + 1 and of the type of the array's name, if its position contains a 1
-    //then it is available inside the pile
+    //1 to 13 is spades, then hearts then diamonds then clubs
+    //pile[i] ==1 means the card hasn't been drawn (fromPile)
+    //drawn is the same but for the cards that have been drawn and put into the toPile
     for(int i = 0 ; i < 52; i++)
     {
         pile[i] = 1;
+        drawn[i] = 0;
     }
 
     playerCards1 = new Cards();
@@ -120,4 +128,30 @@ game2_scene::game2_scene()
 
         }
     }
+
+    //could have made playerCards[] an array to make this faster but i didnt realize till i reached this point :/
+    playerCards1->number = j[0];
+    playerCards2->number = j[1];
+    playerCards3->number = j[2];
+    playerCards4->number = j[3];
+    playerCards5->number = j[4];
+    playerCards6->number = j[5];
+    playerCards7->number = j[6];
+    playerCards8->number = j[7];
+    playerCards9->number = j[8];
+    playerCards10->number = j[9];
+    playerCards11->number = j[10];
+    playerCards12->number = j[11];
+
+
+
 }
+
+
+
+void game2_scene :: setUser(QString a)
+{
+    this->user = a;
+    this->Game2_View->setUser(a);
+}
+

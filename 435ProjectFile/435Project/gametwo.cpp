@@ -3,13 +3,13 @@
 #include <QWidget>
 #include <QApplication>
 #include <QTimer>
-
+#include <game2_scene.h>
 gametwo::gametwo(QWidget *parent) :
     QWidget(parent)
 {
     start = new QPushButton("Start");
     error = new QLabel("");
-    Game2_View = new QGraphicsView();
+    //Game2_View = new QGraphicsView();
     Game2Scene = new game2_scene();
 
     VB = new QVBoxLayout();
@@ -46,10 +46,7 @@ void gametwo :: update ()
 void gametwo :: StartTwo ()
 {
     this->close();
-    Game2_View->setFixedHeight(900);
-    Game2_View->setFixedWidth(900);
-    Game2_View->setScene(Game2Scene);
-    Game2_View->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
-    Game2_View->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
-    Game2_View->show();
+    Game2Scene->setUser(this->user);
+    //Game2_View->show();
+    Game2Scene->Game2_View->show();
 }
