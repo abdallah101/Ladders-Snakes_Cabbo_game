@@ -15,7 +15,10 @@ registermenu.cpp \
     snakesladders.cpp \
     game1_modes.cpp \
     starter.cpp \
-    winlose.cpp
+    winlose.cpp \
+    gametwo.cpp \
+    game2_scene.cpp \
+    cards.cpp
 
 
 QT += \
@@ -41,7 +44,10 @@ registermenu.h \
     snakesladders.h \
     game1_modes.h \
     starter.h \
-    winlose.h
+    winlose.h \
+    gametwo.h \
+    game2_scene.h \
+    cards.h
 
 
 OTHER_FILES +=

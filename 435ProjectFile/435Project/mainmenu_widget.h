@@ -7,6 +7,7 @@
 #include <strings.h>
 #include <mainscreen.h>
 #include <QTimer>
+//#include <gametwo.h>
 
 /**
   *\file mainmenu_widget.h
@@ -27,6 +28,8 @@ public:
     QWidget * partner1;
     QTimer * timer;
     MainScreen * partner2;
+
+
 
 signals:
 

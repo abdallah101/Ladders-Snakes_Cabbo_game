@@ -8,12 +8,7 @@
 #include <QObject>
 #include <QString>
 #include <settings.h>
-
-
-
-
-
-
+#include <gametwo.h>
 
 
 /**
@@ -35,6 +30,8 @@ public:
 
     Settings partner1;
     QString user, name;
+
+
 
 
 signals:

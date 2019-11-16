@@ -65,6 +65,11 @@ MainScreen::MainScreen(QWidget *parent) :
      */
     QObject::connect(GameOneB, SIGNAL(clicked()), this, SLOT(GotoOne()) );
 
+    /**
+     * Signal connector to Game 1
+     */
+    QObject::connect(GameTwo, SIGNAL(clicked()), this, SLOT(GotoTwo()) );
+
 
 }
 
@@ -77,7 +82,10 @@ MainScreen::MainScreen(QWidget *parent) :
 
 void MainScreen :: GotoTwo ()
 {
-
+    this->close();
+    gametwo * game2 = new gametwo();
+    game2->setUser(this->user,this->name);
+    game2->show();
 }
 
 /**
