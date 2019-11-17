@@ -2,5 +2,5 @@
 
 Cards::Cards()
 {
-
+    number = -1;
 }
