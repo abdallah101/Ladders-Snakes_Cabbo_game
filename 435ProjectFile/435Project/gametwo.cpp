@@ -45,8 +45,9 @@ void gametwo :: update ()
 
 void gametwo :: StartTwo ()
 {
-    this->close();
     Game2Scene->setUser(this->user);
     //Game2_View->show();
     Game2Scene->Game2_View->show();
+    this->close();
+
 }

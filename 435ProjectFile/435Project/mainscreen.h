@@ -23,6 +23,7 @@ public:
 
     QPushButton * GameOneB, * GameTwo, * History, * SettingsB, * SignOut;
     QLabel * ChooseL, * UsernameL, * pic;
+    gametwo * game2partner;
 
 
     QVBoxLayout * vert;

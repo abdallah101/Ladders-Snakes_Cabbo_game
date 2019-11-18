@@ -33,11 +33,12 @@ public:
     QString user;
     QTimer * timer, *timer1;
     QProgressBar *push;
-
+    QGraphicsPixmapItem * exitB;
     int pile[52], drawn[52], AllowedFlips, nbofFlips, player2[4], player3[4];
-    bool started, FirstTurn, choosing, piledUp;
+    bool started, FirstTurn, choosing, piledUp, fate;
 
-    bool turn1, turn2, turn3;
+    bool turn1, turn2, turn3, picked[4]; //using picked so that player doesnt pick same card several times
+                                        //by mistake
 
 
 public slots:

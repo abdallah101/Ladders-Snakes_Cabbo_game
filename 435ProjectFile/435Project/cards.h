@@ -9,7 +9,7 @@ class Cards : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 public:
     Cards();
-    int number;
+    int number, x, y;
 };
 
 #endif // CARDS_H

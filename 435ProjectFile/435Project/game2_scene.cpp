@@ -16,6 +16,7 @@ game2_scene::game2_scene()
     turn1 = true;
     turn2 = false;
     turn3 = false;
+    fate = false;
     nbofFlips = 0;
     AllowedFlips = 1;
     FirstTurn = true;
@@ -23,7 +24,8 @@ game2_scene::game2_scene()
     this->started = false;
     choosing = false;
     for(int i = 0 ; i < 4 ; i++)
-    {player2[i] = -1; player3[i] = -1;}
+    {player2[i] = -1; player3[i] = -1;picked[i]=false;}
+
 
     //setting the GraphicsView with custom class in order to override the exit button
     Game2_View = new ViewGameTwo();
@@ -35,6 +37,11 @@ game2_scene::game2_scene()
 
     push = new QProgressBar();
     this->addWidget(push);
+    exitB = new QGraphicsPixmapItem();
+
+    exitB->setPixmap((QPixmap(QDir::currentPath() + "/Images/ExitB.png")).scaled(100,100));
+    this->addItem(exitB);
+    exitB->setPos(800,800);
 
     //setting the background
     QImage green;
@@ -94,58 +101,83 @@ game2_scene::game2_scene()
     playerCards[0]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[0]);
     playerCards[0]->setPos(325,600);
+    playerCards[0]->x = 325;
+    playerCards[0]->y = 600;
 
     playerCards[1]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[1]);
     playerCards[1]->setPos(450,600);
+    playerCards[1]->x = 450;
+    playerCards[1]->y = 600;
 
     playerCards[2]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[2]);
     playerCards[2]->setPos(325,725);
+    playerCards[2]->x = 325;
+    playerCards[2]->y = 725;
 
     playerCards[3]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[3]);
     playerCards[3]->setPos(450,725);
+    playerCards[3]->x = 450;
+    playerCards[3]->y = 725;
 
     //player2
     playerCards[4]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[4]);
     playerCards[4]->setPos(150,0);
+    playerCards[4]->x = 150;
+
 
     playerCards[5]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[5]);
     playerCards[5]->setPos(275,0);
+    playerCards[5]->x = 275;
+
 
     playerCards[6]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[6]);
     playerCards[6]->setPos(150,125);
+    playerCards[6]->x = 150;
+    playerCards[6]->y = 125;
 
     playerCards[7]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[7]);
     playerCards[7]->setPos(275,125);
+    playerCards[7]->x = 275;
+    playerCards[7]->y = 125;
 
 
     //player3
     playerCards[8]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[8]);
     playerCards[8]->setPos(500,0);
+    playerCards[8]->x = 500;
+
 
     playerCards[9]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[9]);
     playerCards[9]->setPos(625,0);
+    playerCards[9]->x = 625;
+
 
     playerCards[10]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[10]);
     playerCards[10]->setPos(500,125);
+    playerCards[10]->x = 500;
+    playerCards[10]->y = 125;
 
     playerCards[11]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(playerCards[11]);
     playerCards[11]->setPos(625,125);
+    playerCards[11]->x = 625;
+    playerCards[11]->y = 125;
 
     //from pile
     fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(fromPile);
     fromPile->setPos(387.5,387.5);
+
 
     //from pile
     toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
@@ -220,6 +252,7 @@ void game2_scene :: change()
         playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     }
 
+    //timer->stop();
 
 }
 
@@ -232,104 +265,153 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
         //Do what you want here
         //for debugging
 
+                //first turn, user here sees 2 of his cards, players 2 & 3 already saw their 2 cards
+                if(FirstTurn == true && nbofFlips < 2 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5)
+                {
+                    QTextStream out(stdout);
+                    out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+                     //let user see 2 cards, need timerot showcase his 2 cards for a while, keep 1st card open till he chooses another card then
+                     //start the timer
 
-        //first turn, user here sees 2 of his cards, players 2 & 3 already saw their 2 cards
-        if(FirstTurn == true && nbofFlips < 2 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5)
-        {
-            QTextStream out(stdout);
-            out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
-             //let user see 2 cards, need timerot showcase his 2 cards for a while, keep 1st card open till he chooses another card then
-             //start the timer
+                     //QTextStream out(stdout);
+                     //out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
 
-             //QTextStream out(stdout);
-             //out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+                    for(int i = 0 ; i < 4; i++)
+                    {
+                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y && picked[i] == false)
+                        {
+                            playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
 
-             if(this->itemAt(relativeOrigin,QTransform())->x() == 325 && this->itemAt(relativeOrigin,QTransform())->y() == 600)
-             {
-                 playerCards[0]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[0]->number) +".png")).scaled(80,100));
-                 nbofFlips += 1;
-             }
-             else if (this->itemAt(relativeOrigin,QTransform())->x() == 450 && this->itemAt(relativeOrigin,QTransform())->y() == 600)
-             {
-                 playerCards[1]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[1]->number) +".png")).scaled(80,100));
-                 nbofFlips += 1;
-             }
-             else if(this->itemAt(relativeOrigin,QTransform())->x() == 325 && this->itemAt(relativeOrigin,QTransform())->y() == 725)
-             {
-                 playerCards[2]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[2]->number) +".png")).scaled(80,100));
-                 nbofFlips += 1;
-             }
-             else if (this->itemAt(relativeOrigin,QTransform())->x() == 450 && this->itemAt(relativeOrigin,QTransform())->y() == 725)
-             {
-                 playerCards[3]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[3]->number) +".png")).scaled(80,100));
-                 nbofFlips += 1;
-             }
-        }
+                            nbofFlips += 1;
+                            picked[i] = true;
+                            break;
+                        }
+                    }
 
 
-        //here user gets to see what is at the top of the deck (fromPile)
-        if (FirstTurn == false && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && turn1 == true && choosing == false
-                && this->itemAt(relativeOrigin,QTransform())->x() == 387.5)
-        {
-            QTextStream out(stdout);
-            out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
-            int x = 1 + rand()%52;
-            while(pile[x] == 0)
-            {
-                x = 1 + rand()%52;
-            }
-
-            pile[x] = 0;
-            fromPile->number = x;
-            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(x) +".png")).scaled(80,100));
-            choosing = true;
-
-        }
-
-        //here the user either replaces one of his cards or places the card into the discard pile (toPile)
-        if(FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
-        {
-            QTextStream out(stdout);
-            out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
-            toPile->number = fromPile->number;
-            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-            toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-            choosing = false;
-            turn1 = false;
-            turn2 = true;
-            piledUp = true;
-        }
-        else if (FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() > 510.5)
-        {
-            QTextStream out(stdout);
-            out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
-            if(this->itemAt(relativeOrigin,QTransform())->x() == 325 && this->itemAt(relativeOrigin,QTransform())->y() == 600)
-            {
-                playerCards[0]->number = fromPile->number;
-                fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-            }
-            else if (this->itemAt(relativeOrigin,QTransform())->x() == 450 && this->itemAt(relativeOrigin,QTransform())->y() == 600)
-            {
-                playerCards[1]->number = fromPile->number;
-                fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-            }
-            else if(this->itemAt(relativeOrigin,QTransform())->x() == 325 && this->itemAt(relativeOrigin,QTransform())->y() == 725)
-            {
-                playerCards[2]->number = fromPile->number;
-                fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-            }
-            else if (this->itemAt(relativeOrigin,QTransform())->x() == 450 && this->itemAt(relativeOrigin,QTransform())->y() == 725)
-            {
-                playerCards[3]->number = fromPile->number;
-                fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-            }
-        }
+                }
 
 
+                if(this->itemAt(relativeOrigin,QTransform()) != NULL)
+                {
+                //here user gets to see what is at the top of the deck (fromPile)
+                if (FirstTurn == false && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && turn1 == true && choosing == false
+                        && this->itemAt(relativeOrigin,QTransform())->x() == 387.5)
+                {
+                    QTextStream out(stdout);
+                    out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
 
+                    int x = rand()%52;
+                    while(pile[x] == 0)
+                    {
+                        x = rand()%52;
+                    }
+
+                    pile[x] = 0;
+                    fromPile->number = x + 1;
+                    fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(x) +".png")).scaled(80,100));
+                    choosing = true;
+
+                }
+                }
+
+                //here the user either replaces one of his cards or places the card into the discard pile (toPile) or gets a choice card
+                if(this->itemAt(relativeOrigin,QTransform()) != NULL)
+
+                {
+                if(FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
+                {
+                    QTextStream out(stdout);
+                    out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+                    toPile->number = fromPile->number;
+                    fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+                    toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+                    choosing = false;
+                    turn1 = false;
+                    turn2 = true;
+                    piledUp = true;
+                }
+                else if (FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && (fromPile->number < 7 || (fromPile->number >= 14 && fromPile->number < 20) || (fromPile->number >= 27 && fromPile->number <= 32) || (fromPile->number >= 40 && fromPile->number <= 45)))
+                {
+                    QTextStream out(stdout);
+                    out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+
+                    for(int i = 0 ; i < 4 ; i++)
+                    {
+                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
+                        {
+                            playerCards[i]->number = fromPile->number;
+                            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+                            choosing = false;
+                            turn1 = false;
+                            turn2 = true;
+                            break;
+                        }
+                    }
+
+
+                }
+                //put here action for choice cards
+                else if(FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && (fromPile->number == 7 || fromPile->number == 8 || fromPile->number == 20 || fromPile->number == 21 || fromPile->number == 33 || fromPile->number == 34 || fromPile->number == 46 || fromPile->number == 47)
+                        )
+                {
+                    for(int i = 0 ; i < 4 ; i++)
+                    {
+                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
+                        {
+                            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+                            playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
+                            fate = true;
+                            choosing = false;
+                            turn1 = false;
+                            turn2 = true;
+                            toPile->number = fromPile->number;
+                            break;
+                        }
+                    }
+
+                }
+                else if (FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() < 370 && (fromPile->number == 9 || fromPile->number == 10 || fromPile->number == 22 || fromPile->number == 23 || fromPile->number == 35 || fromPile->number == 36 || fromPile->number == 48 || fromPile->number == 49))
+                {
+
+
+                    for(int i = 4 ; i < 12; i++)
+                    {
+                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
+                        {
+                            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+                            playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
+                            fate = true;
+                            break;
+
+                        }
+                    }
+
+                }
+                else if (FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() < 370 && (fromPile->number == 11 || fromPile->number == 12 || fromPile->number == 24 || fromPile->number == 25 || fromPile->number == 37 || fromPile->number == 38 || fromPile->number == 50 || fromPile->number == 51))
+                {
+
+                }
+                }
+
+                if(this->itemAt(relativeOrigin,QTransform()) != NULL)
+                {
+                if(this->itemAt(relativeOrigin,QTransform())->x() == 800 && this->itemAt(relativeOrigin,QTransform())->y() == 800)
+                {
+                    this->Game2_View->close();
+                    MainScreen * BacktoMain = new MainScreen();
+                    BacktoMain->setUser(this->user);
+                    BacktoMain->show();
+                    this->clear();
+                    delete this;
+
+
+                }
+                }
 
 
     }
+
 
 }
 
@@ -341,7 +423,13 @@ void game2_scene :: update()
         //+1 to nbofFLips since we dont use it again and it stays at 2 which will keep this looping
         nbofFlips += 1;
         FirstTurn = false;
-        timer->start(3000);
+        timer->start(4000);
+    }
+
+    if(fate == true)
+    {
+        timer->start(4000);
+        fate = false;
     }
 }
 

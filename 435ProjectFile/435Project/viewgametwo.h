@@ -7,7 +7,7 @@
 class ViewGameTwo : public QGraphicsView
 {
 private:
-    void closeEvent(QCloseEvent *bar);
+    //void closeEvent(QCloseEvent *bar);
 public:
     ViewGameTwo();
     QString user;

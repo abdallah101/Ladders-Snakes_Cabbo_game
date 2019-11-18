@@ -83,9 +83,9 @@ MainScreen::MainScreen(QWidget *parent) :
 void MainScreen :: GotoTwo ()
 {
     this->close();
-    gametwo * game2 = new gametwo();
-    game2->setUser(this->user,this->name);
-    game2->show();
+    game2partner = new gametwo();
+    game2partner->setUser(this->user,this->name);
+    game2partner->show();
 }
 
 /**
