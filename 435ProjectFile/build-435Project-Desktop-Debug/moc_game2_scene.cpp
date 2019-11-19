@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_game2_scene_t {
-    QByteArrayData data[9];
-    char stringdata[61];
+    QByteArrayData data[11];
+    char stringdata[85];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,10 +37,13 @@ QT_MOC_LITERAL(4, 23, 6),
 QT_MOC_LITERAL(5, 30, 6),
 QT_MOC_LITERAL(6, 37, 9),
 QT_MOC_LITERAL(7, 47, 5),
-QT_MOC_LITERAL(8, 53, 6)
+QT_MOC_LITERAL(8, 53, 6),
+QT_MOC_LITERAL(9, 60, 11),
+QT_MOC_LITERAL(10, 72, 11)
     },
     "game2_scene\0setUser\0\0a\0change\0update\0"
-    "swapCards\0first\0second\0"
+    "swapCards\0first\0second\0player2turn\0"
+    "player3turn\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -50,7 +53,7 @@ static const uint qt_meta_data_game2_scene[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -58,16 +61,20 @@ static const uint qt_meta_data_game2_scene[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   34,    2, 0x0a,
-       4,    0,   37,    2, 0x0a,
-       5,    0,   38,    2, 0x0a,
-       6,    2,   39,    2, 0x0a,
+       1,    1,   44,    2, 0x0a,
+       4,    0,   47,    2, 0x0a,
+       5,    0,   48,    2, 0x0a,
+       6,    2,   49,    2, 0x0a,
+       9,    0,   54,    2, 0x0a,
+      10,    0,   55,    2, 0x0a,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,    7,    8,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -81,6 +88,8 @@ void game2_scene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 1: _t->change(); break;
         case 2: _t->update(); break;
         case 3: _t->swapCards((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 4: _t->player2turn(); break;
+        case 5: _t->player3turn(); break;
         default: ;
         }
     }
@@ -111,13 +120,13 @@ int game2_scene::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 6)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 4;
+        _id -= 6;
     }
     return _id;
 }
