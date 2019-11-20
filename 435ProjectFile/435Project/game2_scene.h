@@ -31,16 +31,17 @@ public:
     Cards * fromPile, * toPile;
     ViewGameTwo * Game2_View;
     QString user;
-    QTimer * timer, *timer1, * player2timer, *player3timer;
+    QTimer * timer, *timer1, * player2timer, *player3timer, * delaytimer;
     QProgressBar *push;
     QGraphicsPixmapItem * exitB;
     int pile[52], drawn[52], AllowedFlips, nbofFlips, player2[4], player3[4];
     bool started, FirstTurn, choosing, piledUp, fate;
     int player2memory[8], player3memory[8]; //player2memory keeps track of what he knows about the cards of player1 and 3 respectively and similar for player3memory
     int swap[2];
-    bool replacingD;
+    bool replacingD, delay1, delay2, up, down;
     bool turn1, turn2, turn3, picked[4]; //using picked so that player doesnt pick same card several times
                                         //by mistake
+    int un, deux, single;
 
 
 public slots:
@@ -51,7 +52,9 @@ public slots:
     void swapCards(int first, int second);
     void player2turn();
     void player3turn();
-
+    void delayfunc();
+    void ReactToSwap();
+    void ReactToSwapOne();
 
 };
 
