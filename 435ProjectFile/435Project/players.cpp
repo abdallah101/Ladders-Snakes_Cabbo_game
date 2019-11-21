@@ -381,7 +381,7 @@ void players :: activate()
 {
 
     timer = new QTimer();
-    timer -> start(1);
+    timer -> start(2);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveUp()));
 
 
@@ -403,7 +403,7 @@ void players :: MoveUp()
 void players :: activateLeft()
 {
     timer = new QTimer();
-    timer -> start(0.5);
+    timer -> start(1);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveLeft()));
 
 }
@@ -411,7 +411,7 @@ void players :: activateRight()
 {
 
     timer = new QTimer();
-    timer -> start(0.5);
+    timer -> start(1);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveRight()));
 
 
@@ -447,7 +447,7 @@ void players :: MoveRight()
 void players :: activateRU()
 {
     timer = new QTimer();
-    timer -> start(0.5);
+    timer -> start(1);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveRU()));
 
 
@@ -474,7 +474,7 @@ void players :: MoveRU()
 void players :: activateLU(){
 
     timer = new QTimer();
-    timer -> start(0.5);
+    timer -> start(1);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveLU()));
 
 }
@@ -499,14 +499,14 @@ void players :: MoveLU(){
 void players :: activateLUR()
 {
      timer = new QTimer();
-    timer -> start(0.5);
+    timer -> start(1);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveLUR()));
 
 }
 void players :: activateRUL()
 {
      timer = new QTimer();
-    timer -> start(0.5);
+    timer -> start(1);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveRUL()));
 }
 void players :: MoveRUL()
@@ -562,12 +562,12 @@ void players :: MoveLUR()
 }
 void players :: activateLadderUR(){
    timerLS = new QTimer();
-   timerLS -> start(1.5);
+   timerLS -> start(3);
    connect(timerLS,SIGNAL(timeout()), this, SLOT(LadderUR()));
 }
 void players :: activateLadderUL(){
     timerLS = new QTimer();
-    timerLS -> start(1.5);
+    timerLS -> start(3);
     connect(timerLS,SIGNAL(timeout()), this, SLOT(LadderUL()));
 }
 void players :: LadderUR(){
@@ -599,12 +599,12 @@ void players :: LadderUL(){
 }
 void players :: activateSnakeDL(){
     timerLS = new QTimer();
-    timerLS -> start(1.5);
+    timerLS -> start(3);
     connect(timerLS,SIGNAL(timeout()), this, SLOT(SnakeDL()));
 }
 void players :: activateSnakeDR(){
     timerLS = new QTimer();
-    timerLS -> start(1.5);
+    timerLS -> start(3);
     connect(timerLS,SIGNAL(timeout()), this, SLOT(SnakeDR()));
 }
 void players :: SnakeDR(){
@@ -636,7 +636,7 @@ void players :: SnakeDL(){
 }
 void players :: activateMoveDown(){
     timer = new QTimer();
-    timer -> start(0.5);
+    timer -> start(1);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveDown()));
 }
 void players :: MoveDown()
@@ -655,7 +655,7 @@ void players :: MoveDown()
 void players :: activateLR()
 {
     timer = new QTimer();
-    timer -> start(0.8);
+    timer -> start(1.6);
     connect(timer,SIGNAL(timeout()), this, SLOT(MoveLR()));
 }
 void players :: MoveLR()

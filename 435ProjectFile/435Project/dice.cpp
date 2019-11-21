@@ -125,7 +125,7 @@ dice::dice(QWidget *parent) :
      * PC checks if its his turn and works accordingly
      */
     timerPC = new QTimer();
-    timerPC->start(100);
+    timerPC->start(5000);
     connect(timer1, SIGNAL(timeout()), this, SLOT(listener()));
 
     /**
@@ -957,7 +957,7 @@ void dice :: listener()
             Game1Scene->player2->myturn = false;
             this->ThrowBluePC();
             //timershort->start(2000);
-            QTimer::singleShot(2000, this, SLOT(EndTurnPC()));
+            QTimer::singleShot(5000, this, SLOT(EndTurnPC()));
             //progressbar->setValue(100);
 
 
