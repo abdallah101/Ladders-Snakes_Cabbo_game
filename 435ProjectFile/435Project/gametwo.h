@@ -8,7 +8,7 @@
 #include <QTimer>
 #include <QGraphicsView>
 #include <game2_scene.h>
-
+#include <game2details.h>
 
 
 class gametwo : public QWidget
@@ -22,7 +22,8 @@ public:
     QVBoxLayout * VB;
     QTimer * timer;
     game2_scene * Game2Scene;
-    //QGraphicsView * Game2_View;
+    QWidget * G2_Info;
+
 
 
 signals:

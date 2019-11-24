@@ -9,7 +9,7 @@
 #include <QString>
 #include <settings.h>
 #include <gametwo.h>
-
+#include <game2details.h>
 
 /**
   *\file mainscreen.h

@@ -4,14 +4,14 @@
 #include <QApplication>
 #include <QTimer>
 #include <game2_scene.h>
+//#include <game2details.h>
+
 gametwo::gametwo(QWidget *parent) :
     QWidget(parent)
 {
     start = new QPushButton("Start");
     error = new QLabel("");
-    //Game2_View = new QGraphicsView();
     Game2Scene = new game2_scene();
-
     VB = new QVBoxLayout();
     VB->addWidget(error);
     VB->addWidget(start);
@@ -45,8 +45,10 @@ void gametwo :: update ()
 
 void gametwo :: StartTwo ()
 {
+    G2_Info = new game2details();
+
     Game2Scene->setUser(this->user);
-    //Game2_View->show();
+    Game2Scene->Game2_View->setGeometry(G2_Info->x() + 1000, 500, G2_Info->y(), 500);
     Game2Scene->Game2_View->show();
     this->close();
 
