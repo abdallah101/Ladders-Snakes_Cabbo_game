@@ -9,7 +9,7 @@
 #include <QGraphicsView>
 #include <game2_scene.h>
 #include <game2details.h>
-
+#include <xtostart.h>
 
 class gametwo : public QWidget
 {
@@ -23,7 +23,8 @@ public:
     QTimer * timer;
     game2_scene * Game2Scene;
     QWidget * G2_Info;
-
+    xtostart * st;
+    int FirstPlayer;
 
 
 signals:

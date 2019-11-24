@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <game2_scene.h>
 //#include <game2details.h>
-
+#include <iostream>
 gametwo::gametwo(QWidget *parent) :
     QWidget(parent)
 {
@@ -50,6 +50,10 @@ void gametwo :: StartTwo ()
     Game2Scene->setUser(this->user);
     Game2Scene->Game2_View->setGeometry(G2_Info->x() + 1000, 500, G2_Info->y(), 500);
     Game2Scene->Game2_View->show();
+
+    st = new xtostart();
+    cout << FirstPlayer << endl;
     this->close();
 
 }
+
