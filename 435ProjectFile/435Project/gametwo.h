@@ -35,7 +35,6 @@ public slots:
     void update();
     void StartTwo();
 
-
 };
 
 #endif // GAMETWO_H

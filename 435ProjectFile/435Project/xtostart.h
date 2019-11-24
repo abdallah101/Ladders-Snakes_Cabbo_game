@@ -18,16 +18,16 @@ private:
 
 public:
     explicit xtostart(QWidget *parent = 0);
-    QLabel * xtostart_Number;
+    QLabel * xtostart_Number, * xtostart_FP;
     QPushButton * xtostart_Stop;
     QGridLayout * xtostart_H;
-    QTimer * timer1;
-    bool cont;
+    QTimer * timer1, * timer2 ;
+    bool cont, open;
     int count;
 
 public slots:
     int FirstPlayer();
     void Stop();
-
+    void Close();
 };
 #endif // XTOSTART_H
