@@ -72,7 +72,8 @@ SOURCES       = main.cpp \
 		cards.cpp \
 		viewgametwo.cpp \
 		game2details.cpp \
-		xtostart.cpp qrc_ProfilePics.cpp \
+		xtostart.cpp \
+		g2_player.cpp qrc_ProfilePics.cpp \
 		qrc_Images.cpp \
 		moc_user.cpp \
 		moc_registermenu.cpp \
@@ -117,6 +118,7 @@ OBJECTS       = main.o \
 		viewgametwo.o \
 		game2details.o \
 		xtostart.o \
+		g2_player.o \
 		qrc_ProfilePics.o \
 		qrc_Images.o \
 		moc_user.o \
@@ -344,7 +346,8 @@ DIST          = UserData.txt \
 		cards.h \
 		viewgametwo.h \
 		game2details.h \
-		xtostart.h main.cpp \
+		xtostart.h \
+		g2_player.h main.cpp \
 		user.cpp \
 		registermenu.cpp \
 		mainmenu_widget.cpp \
@@ -366,7 +369,8 @@ DIST          = UserData.txt \
 		cards.cpp \
 		viewgametwo.cpp \
 		game2details.cpp \
-		xtostart.cpp
+		xtostart.cpp \
+		g2_player.cpp
 QMAKE_TARGET  = 435Project
 DESTDIR       = 
 TARGET        = 435Project
@@ -765,8 +769,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents UserProfilePics/ProfilePics.qrc Images/Images.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents user.h registermenu.h mainmenu_widget.h mainscreen.h settings.h gameone.h dice.h game1_scene.h players.h dicecust.h game1_scenecust.h custWid.h snakesladders.h game1_modes.h starter.h winlose.h gametwo.h game2_scene.h cards.h viewgametwo.h game2details.h xtostart.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp user.cpp registermenu.cpp mainmenu_widget.cpp mainscreen.cpp settings.cpp gameone.cpp players.cpp dice.cpp game1_scene.cpp dicecust.cpp game1_scenecust.cpp custWid.cpp snakesladders.cpp game1_modes.cpp starter.cpp winlose.cpp gametwo.cpp game2_scene.cpp cards.cpp viewgametwo.cpp game2details.cpp xtostart.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents user.h registermenu.h mainmenu_widget.h mainscreen.h settings.h gameone.h dice.h game1_scene.h players.h dicecust.h game1_scenecust.h custWid.h snakesladders.h game1_modes.h starter.h winlose.h gametwo.h game2_scene.h cards.h viewgametwo.h game2details.h xtostart.h g2_player.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp user.cpp registermenu.cpp mainmenu_widget.cpp mainscreen.cpp settings.cpp gameone.cpp players.cpp dice.cpp game1_scene.cpp dicecust.cpp game1_scenecust.cpp custWid.cpp snakesladders.cpp game1_modes.cpp starter.cpp winlose.cpp gametwo.cpp game2_scene.cpp cards.cpp viewgametwo.cpp game2details.cpp xtostart.cpp g2_player.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents dices.ui $(DISTDIR)/
 
 
@@ -7590,6 +7594,8 @@ moc_xtostart.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QObject \
 		xtostart.h \
 		moc_predefs.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/bin/moc
@@ -15900,8 +15906,16 @@ xtostart.o: xtostart.cpp xtostart.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QFont
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QObject \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QFont \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QTimer \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtimer.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasictimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xtostart.o xtostart.cpp
+
+g2_player.o: g2_player.cpp g2_player.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o g2_player.o g2_player.cpp
 
 qrc_ProfilePics.o: qrc_ProfilePics.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_ProfilePics.o qrc_ProfilePics.cpp

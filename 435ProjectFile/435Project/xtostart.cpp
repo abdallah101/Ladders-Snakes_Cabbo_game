@@ -55,7 +55,7 @@ void xtostart::Stop()
     s += " will start.";
     xtostart_FP->setText(s);
     cont = false;
-    timer2->start(2000);
+    timer2->start(3000);
 }
 
 void xtostart::Close()

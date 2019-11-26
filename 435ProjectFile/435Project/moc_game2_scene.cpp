@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_game2_scene_t {
-    QByteArrayData data[14];
-    char stringdata0[121];
+    QByteArrayData data[15];
+    char stringdata0[134];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,22 +35,23 @@ QT_MOC_LITERAL(0, 0, 11), // "game2_scene"
 QT_MOC_LITERAL(1, 12, 7), // "setUser"
 QT_MOC_LITERAL(2, 20, 0), // ""
 QT_MOC_LITERAL(3, 21, 1), // "a"
-QT_MOC_LITERAL(4, 23, 6), // "change"
-QT_MOC_LITERAL(5, 30, 6), // "update"
-QT_MOC_LITERAL(6, 37, 9), // "swapCards"
-QT_MOC_LITERAL(7, 47, 5), // "first"
-QT_MOC_LITERAL(8, 53, 6), // "second"
-QT_MOC_LITERAL(9, 60, 11), // "player2turn"
-QT_MOC_LITERAL(10, 72, 11), // "player3turn"
-QT_MOC_LITERAL(11, 84, 9), // "delayfunc"
-QT_MOC_LITERAL(12, 94, 11), // "ReactToSwap"
-QT_MOC_LITERAL(13, 106, 14) // "ReactToSwapOne"
+QT_MOC_LITERAL(4, 23, 12), // "startingTurn"
+QT_MOC_LITERAL(5, 36, 6), // "change"
+QT_MOC_LITERAL(6, 43, 6), // "update"
+QT_MOC_LITERAL(7, 50, 9), // "swapCards"
+QT_MOC_LITERAL(8, 60, 5), // "first"
+QT_MOC_LITERAL(9, 66, 6), // "second"
+QT_MOC_LITERAL(10, 73, 11), // "player2turn"
+QT_MOC_LITERAL(11, 85, 11), // "player3turn"
+QT_MOC_LITERAL(12, 97, 9), // "delayfunc"
+QT_MOC_LITERAL(13, 107, 11), // "ReactToSwap"
+QT_MOC_LITERAL(14, 119, 14) // "ReactToSwapOne"
 
     },
-    "game2_scene\0setUser\0\0a\0change\0update\0"
-    "swapCards\0first\0second\0player2turn\0"
-    "player3turn\0delayfunc\0ReactToSwap\0"
-    "ReactToSwapOne"
+    "game2_scene\0setUser\0\0a\0startingTurn\0"
+    "change\0update\0swapCards\0first\0second\0"
+    "player2turn\0player3turn\0delayfunc\0"
+    "ReactToSwap\0ReactToSwapOne"
 };
 #undef QT_MOC_LITERAL
 
@@ -60,7 +61,7 @@ static const uint qt_meta_data_game2_scene[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -68,21 +69,23 @@ static const uint qt_meta_data_game2_scene[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   59,    2, 0x0a /* Public */,
-       4,    0,   62,    2, 0x0a /* Public */,
-       5,    0,   63,    2, 0x0a /* Public */,
-       6,    2,   64,    2, 0x0a /* Public */,
-       9,    0,   69,    2, 0x0a /* Public */,
-      10,    0,   70,    2, 0x0a /* Public */,
-      11,    0,   71,    2, 0x0a /* Public */,
-      12,    0,   72,    2, 0x0a /* Public */,
-      13,    0,   73,    2, 0x0a /* Public */,
+       1,    1,   64,    2, 0x0a /* Public */,
+       4,    0,   67,    2, 0x0a /* Public */,
+       5,    0,   68,    2, 0x0a /* Public */,
+       6,    0,   69,    2, 0x0a /* Public */,
+       7,    2,   70,    2, 0x0a /* Public */,
+      10,    0,   75,    2, 0x0a /* Public */,
+      11,    0,   76,    2, 0x0a /* Public */,
+      12,    0,   77,    2, 0x0a /* Public */,
+      13,    0,   78,    2, 0x0a /* Public */,
+      14,    0,   79,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,    7,    8,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,    8,    9,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -99,14 +102,15 @@ void game2_scene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->setUser((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 1: _t->change(); break;
-        case 2: _t->update(); break;
-        case 3: _t->swapCards((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 4: _t->player2turn(); break;
-        case 5: _t->player3turn(); break;
-        case 6: _t->delayfunc(); break;
-        case 7: _t->ReactToSwap(); break;
-        case 8: _t->ReactToSwapOne(); break;
+        case 1: _t->startingTurn(); break;
+        case 2: _t->change(); break;
+        case 3: _t->update(); break;
+        case 4: _t->swapCards((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 5: _t->player2turn(); break;
+        case 6: _t->player3turn(); break;
+        case 7: _t->delayfunc(); break;
+        case 8: _t->ReactToSwap(); break;
+        case 9: _t->ReactToSwapOne(); break;
         default: ;
         }
     }
@@ -137,13 +141,13 @@ int game2_scene::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 10;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 10)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 10;
     }
     return _id;
 }

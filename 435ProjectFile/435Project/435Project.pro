@@ -21,7 +21,8 @@ registermenu.cpp \
     cards.cpp \
     viewgametwo.cpp \
     game2details.cpp \
-    xtostart.cpp
+    xtostart.cpp \
+    g2_player.cpp
 
 
 QT += \
@@ -53,7 +54,8 @@ registermenu.h \
     cards.h \
     viewgametwo.h \
     game2details.h \
-    xtostart.h
+    xtostart.h \
+    g2_player.h
 
 
 OTHER_FILES +=

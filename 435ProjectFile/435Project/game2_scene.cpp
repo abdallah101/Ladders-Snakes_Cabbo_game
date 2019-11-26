@@ -7,39 +7,111 @@
 #include <QMouseEvent>
 #include <vector>
 #include <QTextStream>
+#include <algorithm>
 using namespace std;
 
 
 game2_scene::game2_scene()
 {
-    //initializing variables
-    turn1 = true;
-    turn2 = false;
-    turn3 = false;
-    fate = false;
+    /**
+     * initializing variables
+     */
+
+    turn = 1;
+    fate = piledUp = choosing = delay1 = delay2 = up = down = replacingD = false;
+    this->started = false;
     nbofFlips = 0;
     AllowedFlips = 1;
     FirstTurn = true;
-    piledUp = false;
-    this->started = false;
-    choosing = false;
     for(int i = 0 ; i < 4 ; i++)
-    {player2[i] = -1; player3[i] = -1;picked[i]=false;}
-    swap[0] = -1;
-    swap[1] = -1;
-    replacingD = false;
-    for(int i = 0 ; i < 8 ; i++)
-    {player2memory[i] = -1; player3memory[i] = -1;}
-    delay1 = false;
-    delay2 = false;
-    up = false;
-    down = false;
-    un = -1;
-    deux = -1;
-    single = -1;
+    {
+        picked[i] = false;
+    }
+    swap[0] = swap[1] = un = deux = single = -1;
 
 
-    //setting the GraphicsView with custom class in order to override the exit button
+    text = new QGraphicsTextItem();
+    QFont serifFont("Times", 20, QFont::Bold);
+    text->setFont(serifFont);
+    text->setDefaultTextColor("#D4AF37");
+    text->setPos(300, 300);
+    this->addItem(text);
+
+    /**
+      * Create players
+      */
+
+    for(int i = 0; i <3; i++)
+    {
+        p[i] = new g2_player();
+    }
+
+
+    /**
+      * Initialize the players card, memory1 and memory2 arrays entries to - 1 : everything is unknown in the beginning
+      * For every player set the other players as opponents
+      */
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            p[i]->card[j] = p[i]->memory1[j] = p[i]->memory2[j] = -1;
+        }
+    }
+
+
+    /**
+      * Generate an ordered deck of cards
+      */
+
+    pair <int, int> a[52];
+    for (int i = 0; i < 52; i++)
+    {
+        a[i].first = i%13;
+        a[i].second = i/13;
+    }
+
+
+
+    /**
+      * Shuffle randomly
+      */
+
+    srand(time(0));
+    for (int i = 0; i < 100; i++)
+    {
+        int x = rand() % 52, y = rand() % 52;
+        pair <int, int> temp  = a[x];
+        a[x] = a[y];
+        a[y] = temp;
+    }
+
+
+
+    /**
+      * Fill the stack and distribute the 12 remanining cards to the 3 players (4 cards each).
+      */
+
+    for (int i = 0; i < 40; i++)
+    {
+        pile.push(a[i]);
+    }
+
+    int j = 0, k = 0;
+    for (int i = 40; i < 52; i++)
+    {
+        c[i%3][j] = a[i];
+        if (k == 3) j++;
+        k = (k+1)%4;
+    }
+
+
+
+    /**
+     * Setting the GraphicsView with custom class in order to override the exit button
+     */
+
     Game2_View = new ViewGameTwo();
     Game2_View->setFixedHeight(900);
     Game2_View->setFixedWidth(900);
@@ -47,15 +119,22 @@ game2_scene::game2_scene()
     Game2_View->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
     Game2_View->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
 
+
     push = new QProgressBar();
     this->addWidget(push);
-    exitB = new QGraphicsPixmapItem();
 
+
+    exitB = new QGraphicsPixmapItem();
     exitB->setPixmap((QPixmap(QDir::currentPath() + "/Images/ExitB.png")).scaled(100,100));
     this->addItem(exitB);
     exitB->setPos(800,800);
 
-    //setting the background
+
+
+    /**
+     * Setting the background
+     */
+
     QImage green;
     this->setSceneRect(0,0,900,900);
     if (green.load(QDir::currentPath() + "/Images/CardBackground.jpg"))
@@ -65,52 +144,51 @@ game2_scene::game2_scene()
 
 
 
-    //1 to 13 is clubs, then spades then hearts then diamonds
-    //pile[i] ==1 means the card hasn't been drawn (fromPile)
-    //drawn is the same but for the cards that have been drawn and put into the toPile
-    for(int i = 0 ; i < 52; i++)
-    {
-        pile[i] = 1;
-        drawn[i] = 0;
-    }
+    /**
+     * making the cards selectable (at the moment this became redundant because of the usage of mousepressevent)
+     */
 
 
-    //generating random cards for the players and removing them from the pile
-    srand(time(0));
     for(int i = 0 ; i < 12; i ++)
     {
-
         playerCards.push_back(new Cards());
-        while(playerCards[i]->number == -1)
-        {
-            int x = 1 + rand()%32;
-            int y  = 1 + rand()%22;
-            x = x + y;
-
-            if(pile[x] == 1)
-            {
-                playerCards[i]->number = x;
-                pile[x] = 0;
-            }
-
-        }
+        playerCards[i]->number = c[i/4][i%4].first + c[i/4][i%4].second * 13 + 1;
     }
 
-
-    //making the cards selectable (at the moment this became redundant because of the usage of mousepressevent)
     for(int i = 0 ; i < 12; i++)
     {
         playerCards[i]->setFlag(QGraphicsItem::ItemIsSelectable);
     }
 
+
+
+    /**
+      * frompile is the card on top of the stack pile
+      */
+
     fromPile = new Cards();
     fromPile->setFlag(QGraphicsItem::ItemIsSelectable);
+
+
+
+    /**
+      * topile is the card on top of the stack pile
+      */
+
     toPile = new Cards();
     toPile->setFlag(QGraphicsItem::ItemIsSelectable);
 
 
-    //set up here the initial position of the cards (initial position by defualt is 0)
-    //player1
+
+    /**
+     * set up here the initial position of the cards (initial position by defualt is 0)
+     */
+
+    /**
+     * player1
+     */
+
+
     playerCards[0]->x = 325;
     playerCards[0]->y = 600;
     playerCards[1]->x = 450;
@@ -120,7 +198,12 @@ game2_scene::game2_scene()
     playerCards[3]->x = 450;
     playerCards[3]->y = 725;
 
-    //player2
+
+
+    /**
+      * player2
+      */
+
     playerCards[4]->x = 150;
     playerCards[5]->x = 275;
     playerCards[6]->x = 150;
@@ -129,13 +212,23 @@ game2_scene::game2_scene()
     playerCards[7]->y = 125;
 
 
-    //player3
+
+    /**
+     * player3
+     */
+
     playerCards[8]->x = 500;
     playerCards[9]->x = 625;
     playerCards[10]->x = 500;
     playerCards[10]->y = 125;
     playerCards[11]->x = 625;
     playerCards[11]->y = 125;
+
+
+
+    /**
+      * The cards are initially flipped
+      */
 
     for(int i = 0 ; i < 12 ; i++)
     {
@@ -144,70 +237,79 @@ game2_scene::game2_scene()
         playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
     }
 
-    //from pile
+
+
+    /**
+     * from pile
+     */
+
     fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     this->addItem(fromPile);
     fromPile->setPos(387.5,387.5);
 
 
-    //from pile
-    toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+
+    /**
+     * to pile
+     */
+
+    toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/empty.png")).scaled(125,125));
     this->addItem(toPile);
     toPile->setPos(600,387.5);
 
-    //letting players 2 & 3 know 2 of their cards just like the player at the beginning of the turn
-    int x = rand()%4;
-    int y = rand()%4;
-    while(x == y)
-    {
-        x = rand()%4;
-    }
 
-    player2[x] = playerCards[x+4]->number;
-    player2[y] = playerCards[y+4]->number;
 
-    x = rand()%4;
-    y = rand()%4;
-    while(x==y)
-    {
-        x = rand()%4;
-    }
+    /**
+     * @brief Call startingTurn for every player to check 2 of his cards
+     */
 
-    player3[x] = playerCards[x+8]->number;
-    player3[y] = playerCards[y+8]->number;
+    startingTurn();
+
 
 
     /**
      * flips cards back after a duration
      */
+
     timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(change()));
+
 
 
     /**
      * changes variables to keep game going
      */
+
     timer1 = new QTimer();
     timer1->start(100);
     connect(timer1, SIGNAL(timeout()), this, SLOT(update()));
 
+
+
     /**
      * keeps checking if it's player 2's turn
      */
+
     player2timer = new QTimer();
     //player2timer->start(100);
     //connect(player2timer, SIGNAL(timeout()), this, SLOT(player2turn()));
 
+
+
     /**
      * keeps checking if it's player 3's turn
      */
+
     player3timer = new QTimer();
     //player3timer->start(100);
     //connect(player3timer, SIGNAL(timeout()), this, SLOT(player3turn()));
 
+
+
     /**
      * delaying actions to let user get some time to understand what is going on
      */
+
     delaytimer = new QTimer();
     delaytimer->start(100);
     connect(delaytimer, SIGNAL(timeout()), this, SLOT(delayfunc()));
@@ -219,17 +321,19 @@ game2_scene::game2_scene()
 
 void game2_scene :: delayfunc()
 {
-    if(turn2 == true)
+    if(turn == 2)
     {
-        turn2 = false;
+        //turn = 3;
         QTimer::singleShot(2000, this, SLOT(player2turn()));
     }
-    else if (turn3 == true)
+    else if (turn == 3)
     {
-        turn3 = false;
+        //turn = 1;
         QTimer::singleShot(2000, this, SLOT(player3turn()));
     }
 }
+
+
 
 void game2_scene :: setUser(QString a)
 {
@@ -237,6 +341,12 @@ void game2_scene :: setUser(QString a)
     this->Game2_View->setUser(a);
     this->started = true;
 }
+
+
+
+/**
+ * @brief game2_scene::change flipp all cards backwards.
+ */
 
 void game2_scene :: change()
 {
@@ -250,265 +360,368 @@ void game2_scene :: change()
 
 }
 
+
+
 void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QPoint origin = Game2_View->mapFromGlobal(QCursor::pos());
     QPointF relativeOrigin = Game2_View->mapToScene(origin);
 
-    //When the player doesn't have any moves left, player2's turn begins by making turn2  = true and for player3 its turn3 = true
-    //player2 is responsible for making turn3 = true
+    /**
+     * When the player doesn't have any moves left, player2's turn begins by making turn = 2 and for player3 its turn = 3
+     * player2 is responsible for making turn = 3
+     */
 
     if(this->itemAt(relativeOrigin,QTransform()) != NULL)
     {
-        //Here the mouse returned an object of type QGraphicsItem, use its (x,y) position to do what you want
-        //since we have several if statements, keep on checking for NULL at each if, since changing/removing the item will lose you the (x,y) you have
-        //causing a segmentation fault when trying to get the (x,y) at the next if statement
+       /**
+         * Here the mouse returned an object of type QGraphicsItem, use its (x,y) position to do what you want
+         * since we have several if statements, keep on checking for NULL at each if, since changing/removing the item will lose you the (x,y) you have
+         * causing a segmentation fault when trying to get the (x,y) at the next if statement
+         */
 
-                //first turn, user here sees 2 of his cards, players 2 & 3 already saw their 2 cards
-                if(FirstTurn == true && nbofFlips < 2 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5)
+
+
+        /**
+          * If it's the first turn and it's the turn of player 1, user here sees 2 of his cards, players 2 & 3 already saw their 2 cards
+          * keep 1st card open till he chooses another card
+          */
+
+        if(FirstTurn && nbofFlips < 2 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5)
+        {
+            QTextStream out(stdout);
+            out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+
+            for(int i = 0 ; i < 4; i++)
+            {
+                /**
+                  * If the player has pressed on a card in their hands that was not picked before, display this card.
+                  */
+
+                if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y && picked[i] == false)
                 {
-                    QTextStream out(stdout);
-                    out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
-                     //let user see 2 cards, need timer to showcase his 2 cards for a while, keep 1st card open till he chooses another card then
-                     //start the timer
+                    //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
+                    playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(c[0][i].first + c[0][i].second * 13 + 1) +".png")).scaled(80,100));
+                    nbofFlips ++;
+                    picked[i] = true;
+                    break;
+                }
+            }
+        }
 
-                    for(int i = 0 ; i < 4; i++)
+
+        if(this->itemAt(relativeOrigin,QTransform()) != NULL)
+        {
+            /**
+             * Here user gets to see what is at the top of the deck (fromPile)
+             */
+
+            if (!FirstTurn && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && turn == 1 && !choosing && this->itemAt(relativeOrigin,QTransform())->x() == 387.5)
+            {
+                QTextStream out(stdout);
+                out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+
+                int x = pile.top().first + pile.top().second * 13;
+
+                fromPile->number = x + 1;
+                fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(x + 1) +".png")).scaled(80,100));
+
+                choosing = true;
+
+            }
+        }
+
+
+
+        /**
+         * here the user either replaces one of his cards or places the card into the discard pile (toPile) or gets a choice card
+         */
+
+        if(this->itemAt(relativeOrigin,QTransform()) != NULL)
+        {
+            /**
+             * puts card into discard pile
+             */
+            if(!FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
+            {
+                QTextStream out(stdout);
+                out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+
+                toPile->number = fromPile->number;
+                fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+                toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+
+                choosing = false;
+                turn = 2;
+                piledUp = true;
+
+                drawn.push(pile.top());
+                pile.pop();
+                turn = 2;
+            }
+
+
+
+            /**
+             * replaces card with one of his cards
+             */
+
+            else if (!FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && fromPile->number % 13 <= 6)
+            {
+                QTextStream out(stdout);
+
+                for(int i = 0 ; i < 4 ; i++)
+                {
+                    if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
                     {
-                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y && picked[i] == false)
-                        {
-                            playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
+                        toPile->number = c[0][i].first + c[0][i].second * 13 + 1;
 
-                            nbofFlips += 1;
-                            picked[i] = true;
-                            break;
-                        }
+                        toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+
+                        playerCards[i]->number = fromPile->number;
+
+                        /**
+                         * @brief  Swaping a card from the player's hand with the card at top of the pile.
+                         */
+
+                        pair<int, int> temp = pile.top();
+                        pile.pop();
+                        drawn.push(c[0][i]);
+                        c[0][i] = temp;
+
+                        out << "from: " << fromPile->number << " , " << "playerCards[" << i << "]: " << playerCards[i]->number << endl;
+
+                        fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+
+                        choosing = false;
+                        turn = 2;
+                        piledUp = true;
+
+                        turn = 2;
+                        break;
+                    }
+                }
+            }
+
+
+
+            /**
+             * ******************************************************************** CHOICE CARDS ************************************************************************************
+             */
+
+
+
+            /**
+             * Sees 1 of his cards
+             */
+
+            else if(!FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && (fromPile->number%13 == 7 || fromPile->number%13 == 8 ))
+
+            {
+                for(int i = 0 ; i < 4 ; i++)
+                {
+                    if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
+                    {
+                        fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+                        playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(c[0][i].first + c[0][i].second*13 + 1) +".png")).scaled(80,100));
+
+                        fate = true;
+                        choosing = false;
+                        turn = 2;
+                        toPile->number = fromPile->number;
+
+                        /**
+                          * Now discard the special card
+                          */
+
+                        drawn.push(pile.top());
+                        pile.pop();
+
+                        turn = 2;
+                        break;
                     }
                 }
 
+            }
 
+            /**
+              * Sees 1 card from other players
+              */
+            else if (!FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() < 370 && (fromPile->number%13 == 9 || fromPile->number%13 == 10))
+            {
+
+
+                for(int i = 4 ; i < 12; i++)
+                {
+                    if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
+                    {
+                        fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+                        playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(c[1+i/4][i%4].first + c[1+i/4][i%4].second * 13 +1) +".png")).scaled(80,100));
+
+                        fate = true;
+                        choosing = false;
+                        turn = 2;
+                        toPile->number = fromPile->number;
+
+                        /**
+                          * Update memory arrays
+                          */
+
+                        if (i < 8) p[0]->memory1[i%4] = 1;
+                        else p[0]->memory2[i%4] = 1;
+
+                        turn = 2;
+                        break;
+
+                    }
+                }
+
+            }
+
+            /**
+             * swaps 2 cards
+             */
+
+            else if (!FirstTurn  && choosing && turn == 1 &&  (fromPile->number%13 == 11 || fromPile->number%13 == 12))
+            {
                 if(this->itemAt(relativeOrigin,QTransform()) != NULL)
                 {
-                //here user gets to see what is at the top of the deck (fromPile)
-                if (FirstTurn == false && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && turn1 == true && choosing == false
-                        && this->itemAt(relativeOrigin,QTransform())->x() == 387.5)
-                {
-                    QTextStream out(stdout);
-                    out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+                        /**
+                          * swap[0] = -1 := Player still didn't choose first card
+                          */
 
-                    int x = rand()%52;
-                    while(pile[x] == 0)
-                    {
-                        x = rand()%52;
-                    }
-                    //x = 10;
-                    //if you want to try a choice card then set the top of the deck to be the card you want (for debugging)
-                    pile[x] = 0;
-                    fromPile->number = x + 1;
-                    fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(x + 1) +".png")).scaled(80,100));
-                    choosing = true;
-
-                }
-                }
-
-                //here the user either replaces one of his cards or places the card into the discard pile (toPile) or gets a choice card
-                if(this->itemAt(relativeOrigin,QTransform()) != NULL)
-
-                {
-                //puts card into discard pile
-                if(FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
-                {
-                    QTextStream out(stdout);
-                    out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
-                    toPile->number = fromPile->number;
-                    fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-                    toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-                    choosing = false;
-                    turn1 = false;
-                    turn2 = true;
-                    piledUp = true;
-                }
-                //replaces card with one of his
-                else if (FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && (fromPile->number < 7 || (fromPile->number >= 13 && fromPile->number < 20) || (fromPile->number >= 26 && fromPile->number <= 32) || (fromPile->number >= 39 && fromPile->number <= 45)))
-                {
-                    QTextStream out(stdout);
-
-                    for(int i = 0 ; i < 4 ; i++)
-                    {
-                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
+                        if(swap[0] == -1)
                         {
-                            toPile->number = playerCards[i]->number;
-                            toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-                            playerCards[i]->number = fromPile->number;
-
-                            out << "from: " << fromPile->number << " , " << "playerCards[" << i << "]: " << playerCards[i]->number << endl;
-
-                            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-                            choosing = false;
-                            turn1 = false;
-                            turn2 = true;
-                            piledUp = true;
-
-                            break;
-                        }
-                    }
-
-
-                }
-                //put here action for CHOICE CARDS
-                //***********************************
-                //sees 1 of his cards
-                else if(FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && (fromPile->number == 7 || fromPile->number == 8 || fromPile->number == 20 || fromPile->number == 21 || fromPile->number == 33 || fromPile->number == 34 || fromPile->number == 46 || fromPile->number == 47)
-                        )
-                {
-                    for(int i = 0 ; i < 4 ; i++)
-                    {
-                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
-                        {
-                            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-                            playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
-                            fate = true;
-                            choosing = false;
-                            turn1 = false;
-                            turn2 = true;
-                            toPile->number = fromPile->number;
-                            break;
-                        }
-                    }
-
-                }
-                //sees 1 card from other players
-                else if (FirstTurn == false && choosing == true && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() < 370 && (fromPile->number == 9 || fromPile->number == 10 || fromPile->number == 22 || fromPile->number == 23 || fromPile->number == 35 || fromPile->number == 36 || fromPile->number == 48 || fromPile->number == 49))
-                {
-
-
-                    for(int i = 4 ; i < 12; i++)
-                    {
-                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
-                        {
-                            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-                            playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
-                            fate = true;
-                            choosing = false;
-                            turn1 = false;
-                            turn2 = true;
-                            toPile->number = fromPile->number;
-                            break;
-
-                        }
-                    }
-
-                }
-                //swaps 2 cards
-                else if (FirstTurn == false && choosing == true && turn1 == true &&  (fromPile->number == 11 || fromPile->number == 12 || fromPile->number == 24 || fromPile->number == 25 || fromPile->number == 37 || fromPile->number == 38 || fromPile->number == 50 || fromPile->number == 51))
-                {
-                    if(this->itemAt(relativeOrigin,QTransform()) != NULL)
-                    {
-                    if(swap[0] == -1) //still didn't choose first card
-                    {
-                        for(int i = 0 ; i < 12; i++)
-                        {
-                            if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
+                            for(int i = 0 ; i < 12; i++)
                             {
-                                if(i < 4)
+                                if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
                                 {
-                                    //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
-                                    swap[0] = i;
+                                    if(i < 4)
+                                    {
+                                        //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
+                                        swap[0] = i;
+
+                                    }
+                                    else
+                                    {
+                                        //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
+                                        swap[0] = i + 100;
+
+                                    }
+                                    break;
 
                                 }
+                            }
+                        }
+
+                        /**
+                          * swap[0] != -1 and swap[1] = -1 --> Player has chosen first card but has not chosen second card yet.
+                          * swap[i] > 100 --> Player has chosen a card from one of his opponents
+                          */
+                        else if (swap[1] == -1 && swap[0] != -1)
+                        {
+                                if(swap[0] > 100)
+                                {
+                                    for(int i = 0 ; i < 4; i++)
+                                    {
+                                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
+                                        {
+                                            //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
+                                            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+
+                                            fate = true;
+
+                                            swap[1] = i;
+                                            swap[0] = swap[0] - 100;
+                                            //QTextStream out(stdout);
+                                            //out << "Before: " << playerCards[swap[0]]->number << " : " << playerCards[swap[1]]->number << endl;
+                                            this->swapCards(swap[0],swap[1]);
+                                            //out << "After: " << playerCards[swap[0]]->number << " : " << playerCards[swap[1]]->number << endl;
+
+                                            swap[0] = swap[1] = -1;
+                                            choosing = false;
+
+
+
+                                            toPile->number = fromPile->number;
+                                            drawn.push(pile.top());
+                                            pile.pop();
+
+                                            turn = 2;
+                                            break;
+
+                                        }
+                                    }
+                                }
+                                /**
+                                  * Player chose one of his cards first
+                                  */
                                 else
                                 {
-                                    //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
-                                    swap[0] = i + 100;
+                                    for(int i = 4; i < 12; i++)
+                                    {
+                                        if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
+                                        {
+                                            //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
+                                            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
+                                            swap[1] = i;
 
+                                            fate = true;
+
+                                            QTextStream out(stdout);
+                                            out << "Before: " << playerCards[swap[0]]->number << " : " << playerCards[swap[1]]->number << endl;
+                                            this->swapCards(swap[0],swap[1]);
+
+                                            out << "After: " << playerCards[swap[0]]->number << " : " << playerCards[swap[1]]->number << endl;
+
+                                            swap[0] = swap[1] = -1;
+                                            choosing = false;
+
+
+
+                                            toPile->number = fromPile->number;
+                                            drawn.push(pile.top());
+                                            pile.pop();
+
+                                            turn = 2;
+                                            break;
+                                        }
+                                    }
                                 }
-                                break;
 
-                            }
+                           }
                         }
                     }
-                    else if (swap[1] == -1 && swap[0] != -1) //still didnt choose second card
-                    {
-                        if(swap[0] > 100) //meaning he chose from the other players first
-                        {
-                            for(int i = 0 ; i < 4; i++)
-                            {
-                                if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
-                                {
-                                    //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
-                                    fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-                                    fate = true;
-                                    swap[1] = i;
-                                    swap[0] = swap[0] - 100;
-                                    //QTextStream out(stdout);
-                                    //out << "Before: " << playerCards[swap[0]]->number << " : " << playerCards[swap[1]]->number << endl;
-                                    this->swapCards(swap[0],swap[1]);
-                                    //out << "After: " << playerCards[swap[0]]->number << " : " << playerCards[swap[1]]->number << endl;
-                                    swap[0] = -1;
-                                    swap[1] = -1;
-                                    choosing = false;
-                                    turn1 = false;
-                                    turn2 = true;
-                                    toPile->number = fromPile->number;
-                                    break;
-
-                                }
-                            }
-                        }
-                        else //he chose 1 of his cards first
-                        {
-                            for(int i = 4; i < 12; i++)
-                            {
-                                if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
-                                {
-                                    //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
-                                    fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-                                    swap[1] = i;
-                                    fate = true;
-
-                                    QTextStream out(stdout);
-                                    out << "Before: " << playerCards[swap[0]]->number << " : " << playerCards[swap[1]]->number << endl;
-                                    this->swapCards(swap[0],swap[1]);
-
-                                    out << "After: " << playerCards[swap[0]]->number << " : " << playerCards[swap[1]]->number << endl;
-
-                                    swap[0] = -1;
-                                    swap[1] = -1;
-                                    choosing = false;
-                                    turn1 = false;
-                                    turn2 = true;
-                                    toPile->number = fromPile->number;
-                                    break;
-
-                                }
-                            }
-                        }
-
-                    }
-                    }
-                }
                 }
 
 
-                //here player is taking the card from the discard pile and replacing it by one of his own cards
+                /**
+                 * here player is taking the card from the discard pile and replacing it by one of his own cards
+                 */
+
                 if(this->itemAt(relativeOrigin,QTransform()) != NULL)
                 {
 
-                    if(piledUp == true && FirstTurn == false && choosing == false && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
+                    if(piledUp && !FirstTurn && !choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
                     {
                         replacingD = true;
                     }
-                    else if(piledUp == true && FirstTurn == false && choosing == false && turn1 == true && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && replacingD == true)
+                    else if(piledUp && !FirstTurn && !choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && replacingD == true)
                     {
                         for(int i = 0 ; i < 4 ; i++)
                         {
                             if(this->itemAt(relativeOrigin, QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin, QTransform())->y() == playerCards[i]->y)
                             {
-                                int l = toPile->number;
-                                toPile->number = playerCards[i]->number;
-                                playerCards[i]->number = l;
+                                toPile->number = c[0][i].first + c[0][i].second * 13 + 1;
+
+                                pair<int, int> pi = drawn.top();
+                                drawn.pop();
+                                c[0][i] = pi;
+                                drawn.push(pi);
+
+                                playerCards[i]->number = pi.first + pi.second*13 + 1;
                                 replacingD = false;
-                                turn1 = false;
-                                turn2 = true;
+                                turn = 2;
                                 break;
                             }
                         }
@@ -531,10 +744,55 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
                     }
                 }
 
+        }
+
+    if (turn == 2)
+    {
+        text->setPlainText("Turn of Player 2\n");
     }
 
 
 }
+
+
+
+/**
+ * @brief game2_scene::startingTurn lets p[1] & p[2] see 2 of their cards, the process is random (No difficulity levels)
+ */
+
+void game2_scene :: startingTurn()
+{
+        /**
+         * @brief Generate a random pair of distinct numbers between 0 & 3 inclusive
+         */
+        for (int i = 0; i < 2; i++)
+        {
+            set <int> myset;
+
+            for (int i = 0; i < 4; i++) myset.insert(i);
+
+            int x = rand()%4;
+            myset.erase(x);
+
+            int y, temp = rand()%3;
+
+            for (auto it : myset)
+            {
+                if(temp == 0)
+                {
+                    y = it;
+                    break;
+                }
+                temp--;
+            }
+
+            p[i+1]->card[x] = 1;
+            p[i+1]->card[y] = 1;
+        }
+
+}
+
+
 
 void game2_scene :: update()
 {
@@ -542,23 +800,25 @@ void game2_scene :: update()
     if(nbofFlips == 2)
     {
         //+1 to nbofFLips since we dont use it again and it stays at 2 which will keep this looping
-        nbofFlips += 1;
+        nbofFlips ++;
         FirstTurn = false;
         timer->start(4000);
     }
 
-    if(fate == true)
+    if(fate)
     {
         timer->start(4000);
         fate = false;
     }
 }
 
+
+
 void game2_scene :: swapCards(int first, int second)
 {
-    int x = playerCards[first]->number;
+    int temp = playerCards[first]->number;
     playerCards[first]->number = playerCards[second]->number;
-    playerCards[second]->number = x;
+    playerCards[second]->number = temp;
 
     if(first < 4)
     {
@@ -566,9 +826,8 @@ void game2_scene :: swapCards(int first, int second)
         playerCards[second]->y = playerCards[second]->y + 50;
         playerCards[first]->setPos(playerCards[first]->x,playerCards[first]->y);
         playerCards[second]->setPos(playerCards[second]->x,playerCards[second]->y);
-
-
     }
+
     else
     {
         playerCards[first]->y = playerCards[first]->y + 50;
@@ -581,652 +840,506 @@ void game2_scene :: swapCards(int first, int second)
     deux = second;
     //playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
     QTimer::singleShot(2000, this, SLOT(ReactToSwap()));
-            //QTimer::singleShot(2000, this, SLOT(player3turn()));
+    //QTimer::singleShot(2000, this, SLOT(player3turn()));
 
 }
+
+
+
 
 void game2_scene :: player2turn()
 {
 
-
-
-
         push->setValue(25);
-        //1. player either looks at discard pile (toPile) and checks what he already knows about his cards to replace one of his or goes to step 2
-        //2. check the top of the pile (fromPile),
-        //   a. if its a number less than a card he knows from his cards, then replace else put in discard pile (toPile)
-        //   b. if it's a peek card then look at one of his cards that he doesn't know about (if he knows them all then discard it)
-        //   c. if its a spy card, randomly pick a card from the other players that he doesn't know about (if he knows them all the discard it)
-        //   d. if it's a swap card, then check his knowledge about the other player's card, if he finds a card that is less than one of the cards he knows
-        //      about from his card, then swap, if there isn't or he doesn't know any cards from the other players then swap randomly any card he does not know about
 
         int value, playervalue, playervalue2;
         bool foundless = false, foundlessfrom = false, foundswap = false;
-        if(piledUp == true)
-        {//take from pile if less than what he knows he has
-            if(toPile->number <= 13)
-            {
-                value = toPile->number;
-            }
-            else if (toPile->number >= 14 && toPile->number <= 26 )
-            {
-                value = toPile->number - 13;
-            }
-            else if (toPile->number >= 27 && toPile->number <= 39)
-            {
-                value = toPile->number - 26;
-            }
-            else
-            {
-                value = toPile->number - 39;
-            }
+
+        if(piledUp)
+        {
+            /**
+             * take from pile if less than what he knows he has
+             */
+
+            value = (toPile->number-1) % 13;
 
             for(int i = 4; i < 8; i++)
             {
-                if(player2[i-4] <= 13)
-                {
-                    playervalue = player2[i-4];
-                }
-                else if (player2[i-4] >= 14 && player2[i-4] <= 26 )
-                {
-                    playervalue = player2[i-4] - 13;
-                }
-                else if (player2[i-4] >= 27 && player2[i-4] <= 39)
-                {
-                    playervalue = player2[i-4] - 26;
-                }
-                else
-                {
-                    playervalue = player2[i-4] - 39;
-                }
+                playervalue = c[1][i-4].first + c[1][i-4].second*13;
+
                 if(value < playervalue)
                 {
-                    int j = toPile->number;
+                    int temp = toPile->number;
                     toPile->number = playerCards[i]->number;
-                    playerCards[i]->number = j;
-                    player2[i] = j;
+                    playerCards[i]->number = temp;
 
-                    if(i < 4)
-                    {
-                        playerCards[i]->y = playerCards[i]->y + 50;
+                    c[1][i-4].first = (playerCards[i]->number-1) % 13;
+                    c[1][i-4].second = (playerCards[i]->number-1) / 13;
 
-                        playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
+                    //if(i < 8)  ::::: IT WAS 4 NOT SURE OF IT
 
+                    playerCards[i]->y = playerCards[i]->y + 50;
+                    playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
 
-
-                    }
-                    else
-                    {
-                        playerCards[i]->y = playerCards[i]->y + 50;
-
-                        playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
-
-                    }
                     single = i;
                     QTimer::singleShot(2000, this, SLOT(ReactToSwapOne()));
 
-
                     toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
                     foundless = true;
-                    turn2 = false;
-                    turn3 = true;
+
+                    turn = 3;
                     break;
                 }
             }
 
         }
 
-        if(piledUp == false || foundless == false)
+        if(!piledUp || !foundless)
         {
-            int x = rand()%52;
-            while(pile[x] == 0)
-            {
-                x = rand()%52;
-            }
-            pile[x] = 0;
-            fromPile->number = x + 1;
 
-            if(fromPile->number <= 13)
-            {
-                value = fromPile->number;
-            }
-            else if (fromPile->number >= 14 && fromPile->number <= 26 )
-            {
-                value = fromPile->number - 13;
-            }
-            else if (fromPile->number >= 27 && fromPile->number <= 39)
-            {
-                value = fromPile->number - 26;
-            }
-            else
-            {
-                value = fromPile->number - 39;
-            }
+            fromPile->number = pile.top().first + pile.top().second * 13 + 1;
 
-            //decide if to take card or not
+            value = (fromPile->number - 1) % 13 + 1;
+
+
+
+            /**
+             * decide if to take card or not
+             */
+
             if(value < 7 || value == 13)
             {
 
                 for(int i = 4; i < 8; i++)
                 {
-                    if(player2[i-4] <= 13)
-                    {
-                        playervalue = player2[i-4];
-                    }
-                    else if (player2[i-4] >= 14 && player2[i-4] <= 26 )
-                    {
-                        playervalue = player2[i-4] - 13;
-                    }
-                    else if (player2[i-4] >= 27 && player2[i-4] <= 39)
-                    {
-                        playervalue = player2[i-4] - 26;
-                    }
-                    else
-                    {
-                        playervalue = player2[i-4] - 39;
-                    }
+                    playervalue = c[1][i-4].first + c[1][i-4].second * 13 + 1;
+
                     if(value < playervalue)
                     {
-                        int j = fromPile->number;
-                        fromPile->number = playerCards[i]->number;
-                        playerCards[i]->number = j;
-                        player2[i-4] = j;
+                        int temp = toPile->number;
+                        toPile->number = playerCards[i]->number;
+                        playerCards[i]->number = temp;
+
+                        c[1][i-4].first = (playerCards[i]->number-1) % 13;
+                        c[1][i-4].second = (playerCards[i]->number-1) / 13;
+
                         foundlessfrom = true;
 
                         toPile->number = fromPile->number;
+                        drawn.push(pile.top());
+                        pile.pop();
 
-                        if(i < 4)
-                        {
-                            playerCards[i]->y = playerCards[i]->y + 50;
+                        playerCards[i]->y = playerCards[i]->y + 50;
+                        playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
 
-                            playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
-
-
-
-                        }
-                        else
-                        {
-                            playerCards[i]->y = playerCards[i]->y + 50;
-
-                            playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
-
-                        }
                         single = i;
+
                         QTimer::singleShot(2000, this, SLOT(ReactToSwapOne()));
-                        turn2 = false;
-                        turn3 = true;
+
                         toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+
+                        turn = 3;
                         break;
                     }
                 }
 
-                if(foundlessfrom == false)
+                if(!foundlessfrom)
                 {
                     toPile->number = fromPile->number;
+                    drawn.push(pile.top());
+                    pile.pop();
+
                     toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-                    turn2 = false;
-                    turn3 = true;
+                    turn = 3;
                 }
 
             }
-            //see own card
+
+
+
+            /**
+             * see own card
+             */
+
             else if (value > 6 && value < 9)
             {
+                /**
+                  * See the first unknown card in his hand from left to right
+                  */
+
                 for(int i = 4; i < 8 ; i++)
                 {
-                    if(player2[i-4] == -1)
+                    if(p[1]->card[i-4] == -1)
                     {
-                        player2[i-4] = playerCards[i]->number;
-                        turn2 = false;
-                        turn3 = true;
+                        p[1]->card[i-4] = playerCards[i]->number;
+
                         break;
                     }
                 }
             }
-            //player2memory[8]
-            //see opponent's card
+
+
+
+            /**
+             * see opponent's card
+             */
+
             else if(value > 8 && value < 11)
             {
-                for(int i = 0 ; i < 12; i++)
+
+                /**
+                  * Check from left to right opponent cards alternating between opponents untill player 2 finds an unknown card: seet it then break
+                  */
+
+                for(int i = 0 ; i < 4; i++)
                 {
-                    if(i == 4 || i == 5 || i == 6 || i == 7)
-                    {}
-                    else
+                    if(p[1]->memory1[i] == -1)
                     {
-                        if(i < 4)
-                        {
-                            if(player2memory[i] == -1)
-                            {
-                                player2memory[i] = playerCards[i]->number;
-                                break;
-                            }
-                        }
-                        else if(i > 8)
-                        {
-                            if(player2memory[i-4] == -1)
-                            {
-                                player2memory[i-4] = playerCards[i]->number;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-
-                toPile->number = fromPile->number;
-                toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-                turn2 = false;
-                turn3 = true;
-
-            }
-            else if (value > 10 && value < 13)
-            {
-                //check for every known card of player2 with every known card form other players, known by player 2, compare and swap if less
-                for(int i = 4 ; i < 8 ; i++)
-                {
-                    if(player2[i-4] != -1)
-                    {
-                        if(player2[i-4] <= 13)
-                        {
-                            playervalue = player2[i-4];
-                        }
-                        else if (player2[i-4] >= 14 && player2[i-4] <= 26 )
-                        {
-                            playervalue = player2[i-4] - 13;
-                        }
-                        else if (player2[i-4] >= 27 && player2[i-4] <= 39)
-                        {
-                            playervalue = player2[i-4] - 26;
-                        }
-                        else
-                        {
-                            playervalue = player2[i-4] - 39;
-                        }
-                        for(int j = 0 ; j < 8 ; j++)
-                        {
-                            if(player2memory[j] != -1)
-                            {
-                                if(player2memory[j] <= 13)
-                                {
-                                    playervalue2 = player2memory[j];
-                                }
-                                else if (player2memory[j] >= 14 && player2memory[j] <= 26 )
-                                {
-                                    playervalue2 = player2memory[j] - 13;
-                                }
-                                else if (player2memory[j] >= 27 && player2memory[j] <= 39)
-                                {
-                                    playervalue2 = player2memory[j] - 26;
-                                }
-                                else
-                                {
-                                    playervalue2 = player2memory[j] - 39;
-                                }
-
-                                if(playervalue > playervalue2)
-                                {
-                                    if(i < 4)
-                                    {
-                                        //bascially swap the numbers of the 2 found cards, then store in player2's memory the other players new card, and store in player2 his own new card
-                                        int l = playerCards[j]->number;
-                                        playerCards[i]->number = playerCards[j]->number;
-                                        playerCards[j]->number = l;
-                                        player2memory[j] = playerCards[j]->number;
-                                        player2[i-4] = playerCards[i]->number;
-                                        foundswap = true;
-                                        turn3 = false;
-                                        turn1 = true;
-                                        break;
-                                    }
-                                    else if(i > 8)
-                                    {
-                                        //similarly here but taking into consideration the format of player2's memory
-                                        int l = playerCards[j+4]->number;
-                                        playerCards[i]->number = playerCards[j+4]->number;
-                                        playerCards[j+4]->number = l;
-                                        player2memory[j] = playerCards[j+4]->number;
-                                        player2[i-4] = playerCards[i]->number;
-                                        foundswap = true;
-                                        turn3 = false;
-                                        turn1 = true;
-                                        break;
-                                    }
-
-                                }
-
-                            }
-
+                        p[1]->memory1[i] = 1;
+                        break;
                     }
 
-
-                    }
-
-                    if(foundswap == true)
+                    if(p[1]->memory2[i] == -1)
                     {
+                        p[1]->memory2[i] = 1;
                         break;
                     }
                 }
+
+
                 toPile->number = fromPile->number;
+                drawn.push(pile.top());
+                pile.pop();
+
+                turn = 3;
                 toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-                turn2 = false;
-                turn3 = true;
+
+            }
+            else if (value == 10 && value == 12)
+            {
+                /**
+                 * check for every known card of player2 with every known card from other players, known by player 2, compare and swap if less then break
+                 * Player 3 strategy is better
+                 *
+                 */
+
+                bool find = false;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    if (p[1]->card[i] == -1) continue;
+
+                    for(int j = 0; j < 4; j++)
+                    {
+                        if (p[1]->memory1[j] == 1 && c[0][j].first + c[0][j].second * 13 < c[1][i].first + c[1][i].second * 13)
+                        {
+                            pair<int, int> temp = c[0][j];
+                            c[0][j] = c[1][i];
+                            c[1][i] = temp;
+
+                            find = true;
+                            i = 4;
+                            break;
+                        }
+
+                        if (p[1]->memory2[j] == 1 && c[2][j].first + c[2][j].second * 13 < c[1][i].first + c[1][i].second * 13)
+                        {
+                            pair<int,int> temp = c[2][j];
+                            c[2][j] = c[1][i];
+                            c[1][i] = temp;
+                            find = true;
+                            i = 4;
+                            break;
+                        }
+                    }
+                }
+
+                if (!find)
+                {
+                    /**
+                      * Swap randomly
+                      */
+                    int x = rand()%2;
+                    if (x == 1) x = 2;
+                    pair<int, int> temp = c[2][rand()%4];
+                    c[2][rand()%4] = c[x][rand()%4];
+                    c[x][rand()%4] = temp;
+                }
+
+                toPile->number = fromPile->number;
+                drawn.push(pile.top());
+                pile.pop();
+
+                turn = 3;
+                toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+
             }
 
         }
 
+         /**
+          * End Turn 2
+          */
 
-
+        if (turn == 3)
+        {
+            text->setPlainText("Turn of Player 3\n");
+        }
 
 }
 
 void game2_scene :: player3turn()
 {
 
-
         delay1 = false;
         delay2 = false;
 
         push->setValue(50);
-                //1. player either looks at discard pile (toPile) and checks what he already knows about his cards to replace one of his or goes to step 2
-                //2. check the top of the pile (fromPile),
-                //   a. if its a number less than a card he knows from his cards, then replace else put in discard pile (toPile)
-                //   b. if it's a peek card then look at one of his cards that he doesn't know about (if he knows them all then discard it)
-                //   c. if its a spy card, randomly pick a card from the other players that he doesn't know about (if he knows them all the discard it)
-                //   d. if it's a swap card, then check his knowledge about the other player's card, if he finds a card that is less than one of the cards he knows
-                //      about from his card, then swap, if there isn't or he doesn't know any cards from the other players then swap randomly any card he does not know about
 
-                int value, playervalue, playervalue2;
-                bool foundless = false, foundlessfrom = false, foundswap = false;
-                if(piledUp == true)
-                {//take from pile if less than what he knows he has
-                    if(toPile->number <= 13)
-                    {
-                        value = toPile->number;
-                    }
-                    else if (toPile->number >= 14 && toPile->number <= 26 )
-                    {
-                        value = toPile->number - 13;
-                    }
-                    else if (toPile->number >= 27 && toPile->number <= 39)
-                    {
-                        value = toPile->number - 26;
-                    }
-                    else
-                    {
-                        value = toPile->number - 39;
-                    }
+        int value, playervalue;
+        bool foundless = false, foundlessfrom = false, foundswap = false;
 
-                    for(int i = 8; i < 12; i++)
-                    {
-                        if(player3[i-8] <= 13)
-                        {
-                            playervalue = player3[i-8];
-                        }
-                        else if (player3[i-8] >= 14 && player3[i-8] <= 26 )
-                        {
-                            playervalue = player3[i-8] - 13;
-                        }
-                        else if (player3[i-8] >= 27 && player3[i-8] <= 39)
-                        {
-                            playervalue = player3[i-8] - 26;
-                        }
-                        else
-                        {
-                            playervalue = player3[i-8] - 39;
-                        }
-                        if(value < playervalue)
-                        {
-                            int j = toPile->number;
-                            toPile->number = playerCards[i]->number;
-                            playerCards[i]->number = j;
-                            player3[i] = j;
-                            toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-                            foundless = true;
+        if(piledUp)
+        {
+            /**
+             * take from pile if less than what he knows he has
+             */
 
-                            if(i < 4)
-                            {
-                                playerCards[i]->y = playerCards[i]->y + 50;
+            value = (toPile->number-1) % 13;
 
-                                playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
+            for(int i = 8; i < 12; i++)
+            {
+                playervalue = c[2][i-8].first + c[2][i-8].second*13;
 
-
-
-                            }
-                            else
-                            {
-                                playerCards[i]->y = playerCards[i]->y + 50;
-
-                                playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
-
-                            }
-                            single = i;
-                            QTimer::singleShot(2000, this, SLOT(ReactToSwapOne()));
-
-                            turn3 = false;
-                            turn1 = true;
-                            break;
-                        }
-                    }
-
-                }
-
-                if(piledUp == false || foundless == false)
+                if(value < playervalue)
                 {
-                    int x = rand()%52;
-                    while(pile[x] == 0)
+                    int temp = toPile->number;
+                    toPile->number = playerCards[i]->number;
+                    playerCards[i]->number = temp;
+
+                    c[2][i-8].first = (playerCards[i]->number-1) % 13;
+                    c[2][i-8].second = (playerCards[i]->number-1) / 13;
+
+                    //if(i < 8)  ::::: IT WAS 4 NOT SURE OF IT
+
+                    playerCards[i]->y = playerCards[i]->y + 50;
+                    playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
+
+                    single = i;
+                    QTimer::singleShot(2000, this, SLOT(ReactToSwapOne()));
+
+                    toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+                    foundless = true;
+
+                    break;
+                }
+            }
+
+        }
+
+
+        if(!piledUp || !foundless)
+        {
+
+            fromPile->number = pile.top().first + pile.top().second * 13 + 1;
+
+            value = (fromPile->number - 1) % 13 + 1;
+
+
+
+            /**
+             * decide if to take card or not
+             */
+
+            if(value < 7 || value == 13)
+            {
+
+                for(int i = 8; i < 12; i++)
+                {
+                    playervalue = c[2][i-8].first + c[2][i-8].second * 13 + 1;
+
+                    if(value < playervalue)
                     {
-                        x = rand()%52;
-                    }
-                    pile[x] = 0;
-                    fromPile->number = x + 1;
+                        int temp = fromPile->number;
+                        fromPile->number = playerCards[i]->number;
+                        playerCards[i]->number = temp;
 
-                    if(fromPile->number <= 13)
-                    {
-                        value = fromPile->number;
-                    }
-                    else if (fromPile->number >= 14 && fromPile->number <= 26 )
-                    {
-                        value = fromPile->number - 13;
-                    }
-                    else if (fromPile->number >= 27 && fromPile->number <= 39)
-                    {
-                        value = fromPile->number - 26;
-                    }
-                    else
-                    {
-                        value = fromPile->number - 39;
-                    }
+                        c[2][i-8].first = (playerCards[i]->number-1) % 13;
+                        c[2][i-8].second = (playerCards[i]->number-1) / 13;
 
-                    //decide if to take card or not
-                    if(value < 7 || value == 13)
-                    {
-
-                        for(int i = 8; i < 12; i++)
-                        {
-                            if(player3[i-8] <= 13)
-                            {
-                                playervalue = player3[i-8];
-                            }
-                            else if (player3[i-8] >= 14 && player3[i-8] <= 26 )
-                            {
-                                playervalue = player3[i-8] - 13;
-                            }
-                            else if (player3[i-8] >= 27 && player3[i-8] <= 39)
-                            {
-                                playervalue = player3[i-8] - 26;
-                            }
-                            else
-                            {
-                                playervalue = player3[i-8] - 39;
-                            }
-                            if(value < playervalue)
-                            {
-                                int j = fromPile->number;
-                                fromPile->number = playerCards[i]->number;
-                                playerCards[i]->number = j;
-                                player3[i-8] = j;
-                                foundlessfrom = true;
-                                turn1 = true;
-                                turn3 = false;
-                                toPile->number = fromPile->number;
-                                toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-
-                                if(i < 4)
-                                {
-                                    playerCards[i]->y = playerCards[i]->y + 50;
-
-                                    playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
-
-
-
-                                }
-                                else
-                                {
-                                    playerCards[i]->y = playerCards[i]->y + 50;
-
-                                    playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
-
-                                }
-                                single = i;
-                                QTimer::singleShot(2000, this, SLOT(ReactToSwapOne()));
-
-                                break;
-                            }
-                        }
-
-                        if(foundlessfrom == false)
-                        {
-                            toPile->number = fromPile->number;
-                            toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-                            turn2 = false;
-                            turn3 = true;
-                        }
-
-                    }
-                    //see own card
-                    else if (value > 6 && value < 9)
-                    {
-                        for(int i = 8; i < 12 ; i++)
-                        {
-                            if(player3[i-8] == -1)
-                            {
-                                player3[i-8] = playerCards[i]->number;
-                                turn3 = false;
-                                turn1 = true;
-                                break;
-                            }
-                        }
-                    }
-                    //player3memory[8]
-                    //see opponent's card
-                    else if(value > 8 && value < 11)
-                    {
-                        for(int i = 0 ; i < 8; i++)
-                        {
-                            if(player3memory[i] == -1)
-                            {
-                                player3memory[i] = playerCards[i]->number;
-                                break;
-                            }
-
-
-                        }
-
+                        foundlessfrom = true;
 
                         toPile->number = fromPile->number;
+                        drawn.push(pile.top());
+                        pile.pop();
+
+                        playerCards[i]->y = playerCards[i]->y + 50;
+                        playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
+
+                        single = i;
+
+                        QTimer::singleShot(2000, this, SLOT(ReactToSwapOne()));
+
                         toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-                        turn3 = false;
-                        turn1 = true;
 
+                        break;
                     }
-                    else if (value > 10 && value < 13)
+                }
+
+                if(!foundlessfrom)
+                {
+                    toPile->number = fromPile->number;
+                    drawn.push(pile.top());
+                    pile.pop();
+
+                    toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+                }
+
+            }
+
+
+
+            /**
+             * see own card
+             */
+
+            else if (value > 6 && value < 9)
+            {
+                /**
+                  * See the first unknown card in his hand from left to right
+                  */
+
+                for(int i = 8; i < 12 ; i++)
+                {
+                    if(p[2]->card[i-8] == -1)
                     {
-                        //check for every known card of player3 with every known card form other players, known by player 2, compare and swap if less
-                        for(int i = 8 ; i < 12 ; i++)
-                        {
-                            if(player3[i-8] != -1)
-                            {
-                                if(player3[i-8] <= 13)
-                                {
-                                    playervalue = player3[i-8];
-                                }
-                                else if (player3[i-8] >= 14 && player3[i-8] <= 26 )
-                                {
-                                    playervalue = player3[i-8] - 13;
-                                }
-                                else if (player3[i-8] >= 27 && player3[i-8] <= 39)
-                                {
-                                    playervalue = player3[i-8] - 26;
-                                }
-                                else
-                                {
-                                    playervalue = player3[i-8] - 39;
-                                }
-                                for(int j = 0 ; j < 8 ; j++)
-                                {
-                                    if(player3memory[j] != -1)
-                                    {
-                                        if(player3memory[j] <= 13)
-                                        {
-                                            playervalue2 = player3memory[j];
-                                        }
-                                        else if (player3memory[j] >= 14 && player3memory[j] <= 26 )
-                                        {
-                                            playervalue2 = player3memory[j] - 13;
-                                        }
-                                        else if (player3memory[j] >= 27 && player3memory[j] <= 39)
-                                        {
-                                            playervalue2 = player3memory[j] - 26;
-                                        }
-                                        else
-                                        {
-                                            playervalue2 = player3memory[j] - 39;
-                                        }
+                        p[2]->card[i-8] = 1;
 
-                                        if(playervalue > playervalue2)
-                                        {
-
-                                                //bascially swap the numbers of the 2 found cards, then store in player3's memory the other players new card, and store in player3 his own new card
-                                                int l = playerCards[j]->number;
-                                                playerCards[i]->number = playerCards[j]->number;
-                                                playerCards[j]->number = l;
-                                                player3memory[j] = playerCards[j]->number;
-                                                player3[i-4] = playerCards[i]->number;
-                                                foundswap = true;
-                                                turn3 = false;
-                                                turn1 = true;
+                        break;
+                    }
+                }
+            }
 
 
 
+            /**
+             * see opponent's card
+             */
 
-                                                break;
+            else if(value > 8 && value < 11)
+            {
+
+                /**
+                  * Check from right to left opponent cards alternating between opponents untill player 2 finds an unknown card: seet it then break
+                  */
+
+                for(int i = 4 ; i >= 0; i--)
+                {
+                    if(p[2]->memory1[i] == -1)
+                    {
+                        p[2]->memory1[i] = 1;
+                        break;
+                    }
+
+                    if(p[2]->memory2[i] == -1)
+                    {
+                        p[2]->memory2[i] = 1;
+                        break;
+                    }
+                }
 
 
-                                        }
+                toPile->number = fromPile->number;
+                drawn.push(pile.top());
+                pile.pop();
 
-                                    }
+                toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
 
-                            }
+            }
+            else if (value == 10 && value == 12)
+            {
+                /**
+                 * Swap the minimum opponent card that he knows with his maximum card that he knows
+                 *
+                 */
 
+                int  maxi = 0, mini = 14, ind_maxi = -1, ind_mini = -1;
+                bool where = false;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (p[2]->card[i] == 1 && c[2][i].first > maxi)
+                    {
+                        maxi = c[2][i].first;
+                        ind_maxi = i;
+                    }
 
-                            }
+                    if (p[2]->memory1[i] == 1 && c[0][i].first  < mini)
+                    {
+                        maxi = c[0][i].first;
+                        ind_mini = i;
+                        where = true;
+                    }
 
-                            if(foundswap == true)
-                            {
-                                break;
-                            }
-                        }
+                    if (p[2]->memory2[i] == 1 && c[1][i].first < mini)
+                    {
+                        mini = c[1][i].first;
+                        ind_mini = i;
                     }
 
                 }
 
-                push->setValue(100);
+                if (maxi > 0 && mini < 14)
+                {
+                    int x = 1;
+                    if (where) x = 0;
+                    pair<int,int> temp = c[2][ind_maxi];
+                    c[2][ind_maxi] = c[x][ind_mini];
+                    c[x][ind_mini] = temp;
+                }
+
+                else
+                {
+                    /**
+                      * Swap randomly
+                      */
+                    pair<int, int> temp = c[2][rand()%4];
+                    c[2][rand()%4] = c[rand()%2][rand()%4];
+                    c[rand()%2][rand()%4] = temp;
+
+                }
+                toPile->number = fromPile->number;
+                drawn.push(pile.top());
+                pile.pop();
+
+                toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+
+            }
+
+        }
+
+         /**
+          * End Turn 3
+          */
+
+        turn = 1;
+        push->setValue(100);
+
+        if (turn == 1)
+        {
+            text->setPlainText("Turn of Player 1\n");
+            //text = this->addText("Turn of Player 1\n");
+            text->setPos(300, 300);
+        }
 
 }
 
 
 void game2_scene :: ReactToSwap()
 {
+    /**
+      * 2 cards
+      */
+
     if(un < 4)
     {
         playerCards[un]->y = playerCards[un]->y + 50;
@@ -1236,6 +1349,7 @@ void game2_scene :: ReactToSwap()
 
 
     }
+
     else
     {
         playerCards[un]->y = playerCards[un]->y - 50;
@@ -1243,27 +1357,28 @@ void game2_scene :: ReactToSwap()
         playerCards[un]->setPos(playerCards[un]->x,playerCards[un]->y);
         playerCards[deux]->setPos(playerCards[deux]->x,playerCards[deux]->y);
     }
-    un = -1;
-    deux = -1;
+
+    un = deux = -1;
 }
 
 void game2_scene :: ReactToSwapOne()
 {
+    /**
+      * 1 card
+      */
+
     if(single < 4)
     {
         playerCards[single]->y = playerCards[single]->y + 50;
-
         playerCards[single]->setPos(playerCards[single]->x,playerCards[single]->y);
 
-
-
     }
+
     else
     {
         playerCards[single]->y = playerCards[single]->y - 50;
-
         playerCards[single]->setPos(playerCards[single]->x,playerCards[single]->y);
-
     }
+
     single = -1;
 }

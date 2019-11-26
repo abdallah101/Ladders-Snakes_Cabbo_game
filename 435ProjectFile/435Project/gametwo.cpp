@@ -52,6 +52,8 @@ void gametwo :: StartTwo ()
     Game2Scene->Game2_View->show();
 
     st = new xtostart();
+    FirstPlayer = st->count;
+    Game2Scene->turn = FirstPlayer;
     cout << FirstPlayer << endl;
     this->close();
 
