@@ -23,6 +23,7 @@ game2_scene::game2_scene()
     fate = started = false;
     winner = -1;
     cabo = false;
+    nbofFlips = 0;
 
     text = new QGraphicsTextItem();
     QFont serifFont("Times", 20, QFont::Bold);
