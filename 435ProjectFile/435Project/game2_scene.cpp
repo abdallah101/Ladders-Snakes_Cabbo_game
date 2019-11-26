@@ -20,7 +20,9 @@ game2_scene::game2_scene()
     initial();
     FirstTurn = true;
     turn = 1;
-    piledUp = false;
+
+    delay1 = false;
+
     text = new QGraphicsTextItem();
     QFont serifFont("Times", 20, QFont::Bold);
     text->setFont(serifFont);
@@ -283,7 +285,7 @@ game2_scene::game2_scene()
 
     player2timer = new QTimer();
     //player2timer->start(100);
-    //connect(player2timer, SIGNAL(timeout()), this, SLOT(player2turn()));
+    connect(player2timer, SIGNAL(timeout()), this, SLOT(player2turn()));
 
 
 
@@ -293,7 +295,7 @@ game2_scene::game2_scene()
 
     player3timer = new QTimer();
     //player3timer->start(100);
-    //connect(player3timer, SIGNAL(timeout()), this, SLOT(player3turn()));
+    connect(player3timer, SIGNAL(timeout()), this, SLOT(player3turn()));
 
 
 
@@ -315,7 +317,7 @@ void game2_scene :: delayfunc()
     if(turn == 2)
     {
         //turn = 3;
-        QTimer::singleShot(2000, this, SLOT(player2turn()));
+
     }
     else if (turn == 3)
     {
@@ -348,7 +350,6 @@ void game2_scene :: change()
     }
 
     //timer->stop();
-
 }
 
 
@@ -443,7 +444,6 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
                 toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
 
                 choosing = false;
-                piledUp = true;
 
                 drawn.push(pile.top());
                 pile.pop();
@@ -486,7 +486,6 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
                         fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
 
                         choosing = false;
-                        piledUp = true;
                         turn = 2;
                         break;
                     }
@@ -695,11 +694,11 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
                 if(this->itemAt(relativeOrigin,QTransform()) != NULL)
                 {
 
-                    if(piledUp && !FirstTurn && !choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
+                    if(drawn.empty() && !FirstTurn && !choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
                     {
                         replacingD = true;
                     }
-                    else if(piledUp && !FirstTurn && !choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && replacingD == true)
+                    else if(drawn.empty() && !FirstTurn && !choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && replacingD == true)
                     {
                         for(int i = 0 ; i < 4 ; i++)
                         {
@@ -743,6 +742,8 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
         text->setPlainText("Turn of Player 2\n");
         initial();
+        delay1 = true;
+        QTimer::singleShot(2000, this, SLOT(player2turn()));
     }
 
 
@@ -845,18 +846,19 @@ void game2_scene :: swapCards(int first, int second)
 void game2_scene :: player2turn()
 {
 
+        if (!delay1) return;
         push->setValue(25);
 
         int value, playervalue;
         bool foundless = false, foundlessfrom = false, foundswap = false;
 
-        if(piledUp)
+        if(drawn.empty())
         {
             /**
-             * take from pile if less than what he knows he has
+             * take from pile if less than what he knows he has, else discard
              */
 
-            value = (toPile->number-1) % 13;
+            value = (toPile->number-1) % 13 + 1;
 
             for(int i = 4; i < 8; i++)
             {
@@ -892,7 +894,7 @@ void game2_scene :: player2turn()
 
         }
 
-        if(!piledUp || !foundless)
+        if(!drawn.empty() || !foundless)
         {
 
             fromPile->number = pile.top().first + pile.top().second * 13 + 1;
@@ -1096,6 +1098,9 @@ void game2_scene :: player2turn()
         {
             text->setPlainText("Turn of Player 3\n");
             initial();
+            delay2 = true;
+            delay1 = false;
+            QTimer::singleShot(2000, this, SLOT(player3turn()));
         }
 
 }
@@ -1103,15 +1108,14 @@ void game2_scene :: player2turn()
 void game2_scene :: player3turn()
 {
 
-        delay1 = false;
-        delay2 = false;
+        if (!delay2) return;
 
         push->setValue(50);
 
         int value, playervalue;
         bool foundless = false, foundlessfrom = false, foundswap = false;
 
-        if(piledUp)
+        if(drawn.empty())
         {
             /**
              * take from pile if less than what he knows he has
@@ -1150,7 +1154,7 @@ void game2_scene :: player3turn()
         }
 
 
-        if(!piledUp || !foundless)
+        if(!drawn.empty() || !foundless)
         {
 
             fromPile->number = pile.top().first + pile.top().second * 13 + 1;
@@ -1344,9 +1348,9 @@ void game2_scene :: player3turn()
         if (turn == 1)
         {
             text->setPlainText("Turn of Player 1\n");
-            //text = this->addText("Turn of Player 1\n");
             text->setPos(300, 300);
             initial();
+            delay2 = false;
         }
 
 }
@@ -1403,7 +1407,7 @@ void game2_scene :: ReactToSwapOne()
 
 void  game2_scene :: initial()
 {
-    fate = choosing = delay1 = delay2 = up = down = replacingD = false;
+    fate = choosing = up = down = replacingD = false;
     this->started = false;
     nbofFlips = 0;
     AllowedFlips = 1;

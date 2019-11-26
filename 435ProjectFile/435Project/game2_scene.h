@@ -72,7 +72,7 @@ public:
      * @brief choosing is true when the user draws a card from the pile
      * @brief started is true if ...
      */
-    bool started, choosing, piledUp, fate;
+    bool started, choosing, fate;
     bool replacingD, delay1, delay2, up, down;
 
     /**
