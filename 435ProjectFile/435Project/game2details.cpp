@@ -34,15 +34,15 @@ game2details::game2details(QWidget *parent) :
     s += "\n3. Call Cabo when you believe that you have the fewest points.\n";
 
     G2_Actions = new QLabel(s);
-    G2_EndTurn = new QPushButton("I end my turn");
-    G2_TurnOf = new QLabel("");
+    //G2_EndTurn = new QPushButton("I end my turn");
+    //G2_TurnOf = new QLabel("");
     G2_H = new QGridLayout;
     G2_H->addWidget(G2_Actions, 0, 0);
-    G2_H->addWidget(G2_TurnOf, 1, 0);
-    G2_H->addWidget(G2_EndTurn, 2, 0);
+    //G2_H->addWidget(G2_TurnOf, 1, 0);
+    //G2_H->addWidget(G2_EndTurn, 2, 0);
     this->setLayout(G2_H);
 
-    PlayerTurn(1);
+    //PlayerTurn(1);
     this->resize(400,400);
     //this->setGeometry(0,400, 0,400);
     this->show();

@@ -10,7 +10,7 @@
 #include <game2_scene.h>
 #include <game2details.h>
 #include <xtostart.h>
-
+#include <g2_results.h>
 class gametwo : public QWidget
 {
     Q_OBJECT
@@ -20,11 +20,13 @@ public:
     QLabel * error;
     QString user, name;
     QVBoxLayout * VB;
-    QTimer * timer;
+    QTimer * timer, * timer_end;
     game2_scene * Game2Scene;
     QWidget * G2_Info;
     xtostart * st;
     int FirstPlayer;
+    g2_results * res;
+    bool open;
 
 
 signals:
@@ -34,6 +36,8 @@ public slots:
     void setUser(QString a, QString b);
     void update();
     void StartTwo();
+    void check_end();
+    void Results();
 
 };
 

@@ -29,6 +29,13 @@ gametwo::gametwo(QWidget *parent) :
      */
     QObject::connect(start, SIGNAL(clicked()), this, SLOT(StartTwo()));
 
+
+    /**
+      * Check for end of game
+      */
+    timer_end = new QTimer();
+    timer_end->start(1000);
+    connect(timer_end, SIGNAL(timeout()), this, SLOT(check_end()));
 }
 
 void gametwo :: setUser (QString a, QString b)
@@ -53,11 +60,30 @@ void gametwo :: StartTwo ()
 
     st = new xtostart();
     FirstPlayer = st->count;
-    Game2Scene->turn = FirstPlayer;
+    //Game2Scene->turn = FirstPlayer;
     cout << FirstPlayer << endl;
     this->close();
 
+    open = false;
 }
 
+void gametwo :: check_end()
+{
+    cout << " here \n";
+    if (Game2Scene->winner != - 1)
+    {
+        cout << "inside \n";
+        QTimer::singleShot(1000, this, SLOT(Results()));
+    }
+}
 
+void gametwo :: Results()
+{
+    Game2Scene->Game2_View->close();
+    if (!open)
+    {
+        res = new g2_results();
+        open = true;
+    }
+}
 

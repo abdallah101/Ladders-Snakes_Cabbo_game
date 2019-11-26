@@ -65,15 +65,13 @@ public:
     int nbofFlips;
     int swap[2];
 
-    int AllowedFlips;
     /**
      * @brief fate is true to go back to initial state after a certain time.
-     * @brief piledUp is false if the drawn is empty
      * @brief choosing is true when the user draws a card from the pile
      * @brief started is true if ...
      */
     bool started, choosing, fate;
-    bool replacingD, delay1, delay2, up, down;
+    bool replacingD, up, down;
 
     /**
      * @brief picked is used to prevent the player from selecting the same card twice.
@@ -88,6 +86,9 @@ public:
      */
     QGraphicsTextItem * text;
 
+    int winner;
+    bool cabo;
+
 public slots:
 
     void setUser(QString a);
@@ -97,10 +98,10 @@ public slots:
     void swapCards(int first, int second);
     void player2turn();
     void player3turn();
-    void delayfunc();
     void ReactToSwap();
     void ReactToSwapOne();
     void initial();
+    void g2_end();
 
 };
 

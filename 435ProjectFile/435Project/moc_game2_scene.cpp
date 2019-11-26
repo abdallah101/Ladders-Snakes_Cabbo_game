@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_game2_scene_t {
     QByteArrayData data[16];
-    char stringdata0[142];
+    char stringdata0[139];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,16 +43,16 @@ QT_MOC_LITERAL(8, 60, 5), // "first"
 QT_MOC_LITERAL(9, 66, 6), // "second"
 QT_MOC_LITERAL(10, 73, 11), // "player2turn"
 QT_MOC_LITERAL(11, 85, 11), // "player3turn"
-QT_MOC_LITERAL(12, 97, 9), // "delayfunc"
-QT_MOC_LITERAL(13, 107, 11), // "ReactToSwap"
-QT_MOC_LITERAL(14, 119, 14), // "ReactToSwapOne"
-QT_MOC_LITERAL(15, 134, 7) // "initial"
+QT_MOC_LITERAL(12, 97, 11), // "ReactToSwap"
+QT_MOC_LITERAL(13, 109, 14), // "ReactToSwapOne"
+QT_MOC_LITERAL(14, 124, 7), // "initial"
+QT_MOC_LITERAL(15, 132, 6) // "g2_end"
 
     },
     "game2_scene\0setUser\0\0a\0startingTurn\0"
     "change\0update\0swapCards\0first\0second\0"
-    "player2turn\0player3turn\0delayfunc\0"
-    "ReactToSwap\0ReactToSwapOne\0initial"
+    "player2turn\0player3turn\0ReactToSwap\0"
+    "ReactToSwapOne\0initial\0g2_end"
 };
 #undef QT_MOC_LITERAL
 
@@ -111,10 +111,10 @@ void game2_scene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 4: _t->swapCards((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 5: _t->player2turn(); break;
         case 6: _t->player3turn(); break;
-        case 7: _t->delayfunc(); break;
-        case 8: _t->ReactToSwap(); break;
-        case 9: _t->ReactToSwapOne(); break;
-        case 10: _t->initial(); break;
+        case 7: _t->ReactToSwap(); break;
+        case 8: _t->ReactToSwapOne(); break;
+        case 9: _t->initial(); break;
+        case 10: _t->g2_end(); break;
         default: ;
         }
     }

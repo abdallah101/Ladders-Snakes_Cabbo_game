@@ -73,7 +73,8 @@ SOURCES       = main.cpp \
 		viewgametwo.cpp \
 		game2details.cpp \
 		xtostart.cpp \
-		g2_player.cpp qrc_ProfilePics.cpp \
+		g2_player.cpp \
+		g2_results.cpp qrc_ProfilePics.cpp \
 		qrc_Images.cpp \
 		moc_user.cpp \
 		moc_registermenu.cpp \
@@ -94,7 +95,8 @@ SOURCES       = main.cpp \
 		moc_game2_scene.cpp \
 		moc_cards.cpp \
 		moc_game2details.cpp \
-		moc_xtostart.cpp
+		moc_xtostart.cpp \
+		moc_g2_results.cpp
 OBJECTS       = main.o \
 		user.o \
 		registermenu.o \
@@ -119,6 +121,7 @@ OBJECTS       = main.o \
 		game2details.o \
 		xtostart.o \
 		g2_player.o \
+		g2_results.o \
 		qrc_ProfilePics.o \
 		qrc_Images.o \
 		moc_user.o \
@@ -140,7 +143,8 @@ OBJECTS       = main.o \
 		moc_game2_scene.o \
 		moc_cards.o \
 		moc_game2details.o \
-		moc_xtostart.o
+		moc_xtostart.o \
+		moc_g2_results.o
 DIST          = UserData.txt \
 		../../../../Downloads/istockphoto-455302535-612x612.jpg \
 		../../../../Downloads/SL.jpg \
@@ -347,7 +351,8 @@ DIST          = UserData.txt \
 		viewgametwo.h \
 		game2details.h \
 		xtostart.h \
-		g2_player.h main.cpp \
+		g2_player.h \
+		g2_results.h main.cpp \
 		user.cpp \
 		registermenu.cpp \
 		mainmenu_widget.cpp \
@@ -370,7 +375,8 @@ DIST          = UserData.txt \
 		viewgametwo.cpp \
 		game2details.cpp \
 		xtostart.cpp \
-		g2_player.cpp
+		g2_player.cpp \
+		g2_results.cpp
 QMAKE_TARGET  = 435Project
 DESTDIR       = 
 TARGET        = 435Project
@@ -769,8 +775,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents UserProfilePics/ProfilePics.qrc Images/Images.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents user.h registermenu.h mainmenu_widget.h mainscreen.h settings.h gameone.h dice.h game1_scene.h players.h dicecust.h game1_scenecust.h custWid.h snakesladders.h game1_modes.h starter.h winlose.h gametwo.h game2_scene.h cards.h viewgametwo.h game2details.h xtostart.h g2_player.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp user.cpp registermenu.cpp mainmenu_widget.cpp mainscreen.cpp settings.cpp gameone.cpp players.cpp dice.cpp game1_scene.cpp dicecust.cpp game1_scenecust.cpp custWid.cpp snakesladders.cpp game1_modes.cpp starter.cpp winlose.cpp gametwo.cpp game2_scene.cpp cards.cpp viewgametwo.cpp game2details.cpp xtostart.cpp g2_player.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents user.h registermenu.h mainmenu_widget.h mainscreen.h settings.h gameone.h dice.h game1_scene.h players.h dicecust.h game1_scenecust.h custWid.h snakesladders.h game1_modes.h starter.h winlose.h gametwo.h game2_scene.h cards.h viewgametwo.h game2details.h xtostart.h g2_player.h g2_results.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp user.cpp registermenu.cpp mainmenu_widget.cpp mainscreen.cpp settings.cpp gameone.cpp players.cpp dice.cpp game1_scene.cpp dicecust.cpp game1_scenecust.cpp custWid.cpp snakesladders.cpp game1_modes.cpp starter.cpp winlose.cpp gametwo.cpp game2_scene.cpp cards.cpp viewgametwo.cpp game2details.cpp xtostart.cpp g2_player.cpp g2_results.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents dices.ui $(DISTDIR)/
 
 
@@ -812,9 +818,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../../Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h ../../../../Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_user.cpp moc_registermenu.cpp moc_mainmenu_widget.cpp moc_mainscreen.cpp moc_settings.cpp moc_gameone.cpp moc_dice.cpp moc_game1_scene.cpp moc_players.cpp moc_dicecust.cpp moc_custWid.cpp moc_snakesladders.cpp moc_game1_modes.cpp moc_starter.cpp moc_winlose.cpp moc_gametwo.cpp moc_game2_scene.cpp moc_cards.cpp moc_game2details.cpp moc_xtostart.cpp
+compiler_moc_header_make_all: moc_user.cpp moc_registermenu.cpp moc_mainmenu_widget.cpp moc_mainscreen.cpp moc_settings.cpp moc_gameone.cpp moc_dice.cpp moc_game1_scene.cpp moc_players.cpp moc_dicecust.cpp moc_custWid.cpp moc_snakesladders.cpp moc_game1_modes.cpp moc_starter.cpp moc_winlose.cpp moc_gametwo.cpp moc_game2_scene.cpp moc_cards.cpp moc_game2details.cpp moc_xtostart.cpp moc_g2_results.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_user.cpp moc_registermenu.cpp moc_mainmenu_widget.cpp moc_mainscreen.cpp moc_settings.cpp moc_gameone.cpp moc_dice.cpp moc_game1_scene.cpp moc_players.cpp moc_dicecust.cpp moc_custWid.cpp moc_snakesladders.cpp moc_game1_modes.cpp moc_starter.cpp moc_winlose.cpp moc_gametwo.cpp moc_game2_scene.cpp moc_cards.cpp moc_game2details.cpp moc_xtostart.cpp
+	-$(DEL_FILE) moc_user.cpp moc_registermenu.cpp moc_mainmenu_widget.cpp moc_mainscreen.cpp moc_settings.cpp moc_gameone.cpp moc_dice.cpp moc_game1_scene.cpp moc_players.cpp moc_dicecust.cpp moc_custWid.cpp moc_snakesladders.cpp moc_game1_modes.cpp moc_starter.cpp moc_winlose.cpp moc_gametwo.cpp moc_game2_scene.cpp moc_cards.cpp moc_game2details.cpp moc_xtostart.cpp moc_g2_results.cpp
 moc_user.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QObject \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
@@ -1330,6 +1336,7 @@ moc_registermenu.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -1801,6 +1808,7 @@ moc_mainmenu_widget.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWid
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -2271,6 +2279,7 @@ moc_mainscreen.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -3202,6 +3211,7 @@ moc_gameone.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QObject \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		xtostart.h \
@@ -3677,6 +3687,7 @@ moc_dice.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -4346,6 +4357,7 @@ moc_dicecust.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -4821,6 +4833,7 @@ moc_custWid.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -5387,6 +5400,7 @@ moc_game1_modes.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget 
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		xtostart.h \
@@ -5861,6 +5875,7 @@ moc_starter.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -6336,6 +6351,7 @@ moc_winlose.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -6803,6 +6819,7 @@ moc_gametwo.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QtWidgets \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QPushButton \
@@ -7269,6 +7286,7 @@ moc_game2_scene.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphic
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsView \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QTimer \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2_scene.h \
 		moc_predefs.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/bin/moc
@@ -7600,6 +7618,119 @@ moc_xtostart.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		moc_predefs.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/bin/moc
 	/home/eece435l/Qt5.9.1/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++ -I/home/eece435l/dna_game/project_an_group5/435ProjectFile/435Project -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/include -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include xtostart.h -o moc_xtostart.cpp
+
+moc_g2_results.cpp: ../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsView \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgraphicsview.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qscrollarea.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
+		g2_results.h \
+		moc_predefs.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/bin/moc
+	/home/eece435l/Qt5.9.1/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++ -I/home/eece435l/dna_game/project_an_group5/435ProjectFile/435Project -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/include -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/eece435l/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include g2_results.h -o moc_g2_results.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -8084,6 +8215,7 @@ main.o: main.cpp registermenu.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -8608,6 +8740,7 @@ registermenu.o: registermenu.cpp registermenu.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -9083,6 +9216,7 @@ mainmenu_widget.o: mainmenu_widget.cpp mainmenu_widget.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -9556,6 +9690,7 @@ mainscreen.o: mainscreen.cpp mainscreen.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -10033,6 +10168,7 @@ settings.o: settings.cpp settings.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -10505,6 +10641,7 @@ gameone.o: gameone.cpp gameone.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		xtostart.h \
@@ -11097,6 +11234,7 @@ dice.o: dice.cpp dice.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -11709,6 +11847,7 @@ dicecust.o: dicecust.cpp dicecust.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -12286,6 +12425,7 @@ custWid.o: custWid.cpp custWid.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -12863,6 +13003,7 @@ game1_modes.o: game1_modes.cpp game1_modes.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		xtostart.h \
@@ -13341,6 +13482,7 @@ starter.o: starter.cpp starter.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -13814,6 +13956,7 @@ winlose.o: winlose.cpp winlose.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -14279,6 +14422,7 @@ gametwo.o: gametwo.cpp gametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QPushButton \
@@ -14743,6 +14887,7 @@ game2_scene.o: game2_scene.cpp game2_scene.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsView \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QTimer \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QDir \
 		mainscreen.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
@@ -15307,6 +15452,7 @@ viewgametwo.o: viewgametwo.cpp viewgametwo.h \
 		cards.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
@@ -15780,6 +15926,7 @@ game2details.o: game2details.cpp game2details.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		viewgametwo.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/QMouseEvent \
+		g2_player.h \
 		xtostart.h \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QFile \
 		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/QTextStream \
@@ -15917,6 +16064,117 @@ xtostart.o: xtostart.cpp xtostart.h \
 g2_player.o: g2_player.cpp g2_player.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o g2_player.o g2_player.cpp
 
+g2_results.o: g2_results.cpp g2_results.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGraphicsView \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgraphicsview.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qscrollarea.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../../Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgraphicsscene.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o g2_results.o g2_results.cpp
+
 qrc_ProfilePics.o: qrc_ProfilePics.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_ProfilePics.o qrc_ProfilePics.cpp
 
@@ -15982,6 +16240,9 @@ moc_game2details.o: moc_game2details.cpp
 
 moc_xtostart.o: moc_xtostart.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_xtostart.o moc_xtostart.cpp
+
+moc_g2_results.o: moc_g2_results.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_g2_results.o moc_g2_results.cpp
 
 ####### Install
 

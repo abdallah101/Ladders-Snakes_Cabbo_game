@@ -20,8 +20,9 @@ game2_scene::game2_scene()
     initial();
     FirstTurn = true;
     turn = 1;
-
-    delay1 = false;
+    fate = started = false;
+    winner = -1;
+    cabo = false;
 
     text = new QGraphicsTextItem();
     QFont serifFont("Times", 20, QFont::Bold);
@@ -277,55 +278,9 @@ game2_scene::game2_scene()
     timer1->start(100);
     connect(timer1, SIGNAL(timeout()), this, SLOT(update()));
 
-
-
-    /**
-     * keeps checking if it's player 2's turn
-     */
-
-    player2timer = new QTimer();
-    //player2timer->start(100);
-    connect(player2timer, SIGNAL(timeout()), this, SLOT(player2turn()));
-
-
-
-    /**
-     * keeps checking if it's player 3's turn
-     */
-
-    player3timer = new QTimer();
-    //player3timer->start(100);
-    connect(player3timer, SIGNAL(timeout()), this, SLOT(player3turn()));
-
-
-
-    /**
-     * delaying actions to let user get some time to understand what is going on
-     */
-
-    delaytimer = new QTimer();
-    delaytimer->start(100);
-    connect(delaytimer, SIGNAL(timeout()), this, SLOT(delayfunc()));
-
-
+    g2_end();
+    cout << turn << "***\n";
 }
-
-
-
-void game2_scene :: delayfunc()
-{
-    if(turn == 2)
-    {
-        //turn = 3;
-
-    }
-    else if (turn == 3)
-    {
-        //turn = 1;
-        QTimer::singleShot(2000, this, SLOT(player3turn()));
-    }
-}
-
 
 
 void game2_scene :: setUser(QString a)
@@ -356,6 +311,7 @@ void game2_scene :: change()
 
 void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (turn != 1) return;
     QPoint origin = Game2_View->mapFromGlobal(QCursor::pos());
     QPointF relativeOrigin = Game2_View->mapToScene(origin);
 
@@ -382,7 +338,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
         if(FirstTurn && nbofFlips < 2 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5)
         {
             QTextStream out(stdout);
-            out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+            out << "hello" << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
 
             for(int i = 0 ; i < 4; i++)
             {
@@ -394,7 +350,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
                 {
                     //playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(playerCards[i]->number) +".png")).scaled(80,100));
                     playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(c[0][i].first + c[0][i].second * 13 + 1) +".png")).scaled(80,100));
-                    nbofFlips ++;
+                    nbofFlips++;
                     picked[i] = true;
                     break;
                 }
@@ -740,9 +696,9 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     if (turn == 2)
     {
+        g2_end();
         text->setPlainText("Turn of Player 2\n");
         initial();
-        delay1 = true;
         QTimer::singleShot(2000, this, SLOT(player2turn()));
     }
 
@@ -812,6 +768,7 @@ void game2_scene :: update()
 
 void game2_scene :: swapCards(int first, int second)
 {
+    if (first < 0 || first >= 12 || second < 0 || second >= 12) return;
     int temp = playerCards[first]->number;
     playerCards[first]->number = playerCards[second]->number;
     playerCards[second]->number = temp;
@@ -846,19 +803,20 @@ void game2_scene :: swapCards(int first, int second)
 void game2_scene :: player2turn()
 {
 
-        if (!delay1) return;
+        if (turn != 2) return;
         push->setValue(25);
 
         int value, playervalue;
-        bool foundless = false, foundlessfrom = false, foundswap = false;
+        bool foundless = false, foundlessfrom = false;
 
-        if(drawn.empty())
+        if(!drawn.empty())
         {
             /**
-             * take from pile if less than what he knows he has, else discard
+             * Player can draw from the drawn
+             * take from drawn if less than what he knows he has, else discard
              */
 
-            value = (toPile->number-1) % 13 + 1;
+            value = (toPile->number - 1) % 13 + 1;
 
             for(int i = 4; i < 8; i++)
             {
@@ -873,8 +831,8 @@ void game2_scene :: player2turn()
                     toPile->number = playerCards[i]->number;
                     playerCards[i]->number = temp;
 
-                    c[1][i-4].first = (playerCards[i]->number-1) % 13;
-                    c[1][i-4].second = (playerCards[i]->number-1) / 13;
+                    c[1][i-4].first = (playerCards[i]->number - 1) % 13;
+                    c[1][i-4].second = (playerCards[i]->number - 1) / 13;
 
                     //if(i < 8)  ::::: IT WAS 4 NOT SURE OF IT
 
@@ -882,7 +840,7 @@ void game2_scene :: player2turn()
                     playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
 
                     single = i;
-                    QTimer::singleShot(2000, this, SLOT(ReactToSwapOne()));
+                    QTimer::singleShot(1000, this, SLOT(ReactToSwapOne()));
 
                     toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
                     foundless = true;
@@ -894,12 +852,12 @@ void game2_scene :: player2turn()
 
         }
 
-        if(!drawn.empty() || !foundless)
+        if(drawn.empty() || !foundless)
         {
 
             fromPile->number = pile.top().first + pile.top().second * 13 + 1;
 
-            value = (fromPile->number - 1) % 13 + 1;
+            value = pile.top().first + 1;
 
 
 
@@ -912,7 +870,7 @@ void game2_scene :: player2turn()
 
                 for(int i = 4; i < 8; i++)
                 {
-                    playervalue = c[1][i-4].first + c[1][i-4].second * 13 + 1;
+                    playervalue = c[1][i-4].first + 1;
 
                     if(value < playervalue)
                     {
@@ -940,7 +898,7 @@ void game2_scene :: player2turn()
 
                         single = i;
 
-                        QTimer::singleShot(2000, this, SLOT(ReactToSwapOne()));
+                        QTimer::singleShot(1000, this, SLOT(ReactToSwapOne()));
 
                         toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
 
@@ -981,7 +939,7 @@ void game2_scene :: player2turn()
                 {
                     if(p[1]->card[i-4] == -1)
                     {
-                        p[1]->card[i-4] = playerCards[i]->number;
+                        p[1]->card[i-4] = 1;
 
                         break;
                     }
@@ -1071,11 +1029,12 @@ void game2_scene :: player2turn()
                     /**
                       * Swap randomly
                       */
-                    int x = rand()%2;
+                    int x = rand() % 2;
                     if (x == 1) x = 2;
-                    pair<int, int> temp = c[2][rand()%4];
-                    c[2][rand()%4] = c[x][rand()%4];
-                    c[x][rand()%4] = temp;
+                    int y = rand()%4;
+                    pair<int, int> temp = c[1][y];
+                    c[1][y] = c[x][y];
+                    c[x][y] = temp;
                 }
 
                 toPile->number = fromPile->number;
@@ -1096,11 +1055,12 @@ void game2_scene :: player2turn()
 
         if (turn == 3)
         {
+            // this needs to be edited to the known values only
+            if (c[1][0].first + c[1][1].first + c[1][2].first + c[1][3].first <= 10) cabo = true;
+            g2_end();
             text->setPlainText("Turn of Player 3\n");
             initial();
-            delay2 = true;
-            delay1 = false;
-            QTimer::singleShot(2000, this, SLOT(player3turn()));
+            QTimer::singleShot(3000, this, SLOT(player3turn()));
         }
 
 }
@@ -1108,24 +1068,24 @@ void game2_scene :: player2turn()
 void game2_scene :: player3turn()
 {
 
-        if (!delay2) return;
+        if (turn != 3) return;
 
         push->setValue(50);
 
         int value, playervalue;
-        bool foundless = false, foundlessfrom = false, foundswap = false;
+        bool foundless = false, foundlessfrom = false;
 
-        if(drawn.empty())
+        if(!drawn.empty())
         {
             /**
-             * take from pile if less than what he knows he has
+             * take from drawn if less than what he knows he has
              */
 
-            value = (toPile->number-1) % 13;
+            value = (toPile->number-1) % 13 + 1;
 
             for(int i = 8; i < 12; i++)
             {
-                playervalue = c[2][i-8].first + c[2][i-8].second*13;
+                playervalue = c[2][i-8].first + 1;
 
                 if(value < playervalue)
                 {
@@ -1133,6 +1093,8 @@ void game2_scene :: player3turn()
                     toPile->number = playerCards[i]->number;
                     playerCards[i]->number = temp;
 
+                    drawn.pop();
+                    drawn.push(c[2][i-8]);
                     c[2][i-8].first = (playerCards[i]->number-1) % 13;
                     c[2][i-8].second = (playerCards[i]->number-1) / 13;
 
@@ -1146,7 +1108,7 @@ void game2_scene :: player3turn()
 
                     toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
                     foundless = true;
-
+                    turn = 1;
                     break;
                 }
             }
@@ -1154,7 +1116,7 @@ void game2_scene :: player3turn()
         }
 
 
-        if(!drawn.empty() || !foundless)
+        if(drawn.empty() || !foundless)
         {
 
             fromPile->number = pile.top().first + pile.top().second * 13 + 1;
@@ -1172,7 +1134,7 @@ void game2_scene :: player3turn()
 
                 for(int i = 8; i < 12; i++)
                 {
-                    playervalue = c[2][i-8].first + c[2][i-8].second * 13 + 1;
+                    playervalue = c[2][i-8].first + 1;
 
                     if(value < playervalue)
                     {
@@ -1186,18 +1148,19 @@ void game2_scene :: player3turn()
                         foundlessfrom = true;
 
                         toPile->number = fromPile->number;
-                        drawn.push(pile.top());
+                        drawn.push(make_pair((toPile->number - 1) % 13, (toPile->number - 1) /13));
                         pile.pop();
                         fromPile->number = pile.top().first + pile.top().second * 13 + 1;
 
                         playerCards[i]->y = playerCards[i]->y + 50;
-                        playerCards[i]->setPos(playerCards[i]->x,playerCards[i]->y);
+                        playerCards[i]->setPos(playerCards[i]->x, playerCards[i]->y);
 
                         single = i;
 
-                        QTimer::singleShot(2000, this, SLOT(ReactToSwapOne()));
+                        QTimer::singleShot(1000, this, SLOT(ReactToSwapOne()));
 
                         toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+                        turn = 1;
 
                         break;
                     }
@@ -1211,6 +1174,7 @@ void game2_scene :: player3turn()
                     fromPile->number = pile.top().first + pile.top().second * 13 + 1;
 
                     toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+                    turn = 1;
                 }
 
             }
@@ -1251,7 +1215,7 @@ void game2_scene :: player3turn()
                   * Check from right to left opponent cards alternating between opponents untill player 2 finds an unknown card: seet it then break
                   */
 
-                for(int i = 4 ; i >= 0; i--)
+                for(int i = 3; i >= 0; i--)
                 {
                     if(p[2]->memory1[i] == -1)
                     {
@@ -1274,6 +1238,7 @@ void game2_scene :: player3turn()
 
 
                 toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+                turn = 1;
 
             }
             else if (value == 10 && value == 12)
@@ -1287,22 +1252,22 @@ void game2_scene :: player3turn()
                 bool where = false;
                 for (int i = 0; i < 4; i++)
                 {
-                    if (p[2]->card[i] == 1 && c[2][i].first > maxi)
+                    if (p[2]->card[i] == 1 && c[2][i].first + 1 > maxi)
                     {
-                        maxi = c[2][i].first;
+                        maxi = c[2][i].first + 1;
                         ind_maxi = i;
                     }
 
-                    if (p[2]->memory1[i] == 1 && c[0][i].first  < mini)
+                    if (p[2]->memory1[i] == 1 && c[0][i].first + 1 < mini)
                     {
-                        maxi = c[0][i].first;
+                        mini = c[0][i].first + 1;
                         ind_mini = i;
                         where = true;
                     }
 
-                    if (p[2]->memory2[i] == 1 && c[1][i].first < mini)
+                    if (p[2]->memory2[i] == 1 && c[1][i].first + 1 < mini)
                     {
-                        mini = c[1][i].first;
+                        mini = c[1][i].first + 1;
                         ind_mini = i;
                     }
 
@@ -1322,9 +1287,10 @@ void game2_scene :: player3turn()
                     /**
                       * Swap randomly
                       */
-                    pair<int, int> temp = c[2][rand()%4];
-                    c[2][rand()%4] = c[rand()%2][rand()%4];
-                    c[rand()%2][rand()%4] = temp;
+                    int x = rand()%2, y = rand()%4;
+                    pair<int, int> temp = c[2][y];
+                    c[2][y] = c[x][y];
+                    c[x][y] = temp;
 
                 }
                 toPile->number = fromPile->number;
@@ -1333,6 +1299,7 @@ void game2_scene :: player3turn()
                 fromPile->number = pile.top().first + pile.top().second * 13 + 1;
 
                 toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
+                turn = 1;
 
             }
 
@@ -1342,15 +1309,14 @@ void game2_scene :: player3turn()
           * End Turn 3
           */
 
-        turn = 1;
+
         push->setValue(100);
 
         if (turn == 1)
         {
+            if (c[2][0].first + c[2][1].first + c[2][2].first + c[2][3].first <= 5) cabo = true;
             text->setPlainText("Turn of Player 1\n");
-            text->setPos(300, 300);
             initial();
-            delay2 = false;
         }
 
 }
@@ -1362,7 +1328,7 @@ void game2_scene :: ReactToSwap()
       * 2 cards
       */
 
-    if(un < 4)
+    if(un >= 0 && un < 4  && deux >= 0 && deux < 12)
     {
         playerCards[un]->y = playerCards[un]->y + 50;
         playerCards[deux]->y = playerCards[deux]->y - 50;
@@ -1372,7 +1338,7 @@ void game2_scene :: ReactToSwap()
 
     }
 
-    else
+    else if(un >= 0 && un < 12 && deux >= 0 && deux < 12)
     {
         playerCards[un]->y = playerCards[un]->y - 50;
         playerCards[deux]->y = playerCards[deux]->y + 50;
@@ -1389,14 +1355,14 @@ void game2_scene :: ReactToSwapOne()
       * 1 card
       */
 
-    if(single < 4)
+    if(single < 4 && single >= 0)
     {
         playerCards[single]->y = playerCards[single]->y + 50;
         playerCards[single]->setPos(playerCards[single]->x,playerCards[single]->y);
 
     }
 
-    else
+    else if(single >= 0 && single < 12)
     {
         playerCards[single]->y = playerCards[single]->y - 50;
         playerCards[single]->setPos(playerCards[single]->x,playerCards[single]->y);
@@ -1407,13 +1373,43 @@ void game2_scene :: ReactToSwapOne()
 
 void  game2_scene :: initial()
 {
-    fate = choosing = up = down = replacingD = false;
-    this->started = false;
-    nbofFlips = 0;
-    AllowedFlips = 1;
+    choosing = replacingD = false;
+
     for(int i = 0 ; i < 4 ; i++)
     {
         picked[i] = false;
     }
-    swap[0] = swap[1] = un = deux = single = -1;
+
 }
+
+void  game2_scene ::g2_end()
+{
+    if (cabo || pile.empty())
+    {
+        int s[3] ={0,0,0};
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                s[i] += c[i][j].first;
+            }
+        }
+        if (s[0] < s[1] && s[0] < s[2]) winner = 1;
+        else if (s[1] < s[0] && s[1] < s[2]) winner = 2;
+        else if (s[2] < s[1] && s[2] < s[0]) winner = 3;
+        else if(s[0] > s[1] && s[0] > s[2]) winner = 4;  // tie 2-3
+        else if(s[1] > s[0] && s[1] > s[2]) winner = 5;  // tie 1-3
+        else if(s[2] > s[1] && s[2] > s[0]) winner = 6;  // tie 2-1
+        else winner = 7; //all tie
+    }
+}
+
+
+
+
+
+
+
+
+
+
