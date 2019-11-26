@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_game2_scene_t {
-    QByteArrayData data[15];
-    char stringdata0[134];
+    QByteArrayData data[16];
+    char stringdata0[142];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,13 +45,14 @@ QT_MOC_LITERAL(10, 73, 11), // "player2turn"
 QT_MOC_LITERAL(11, 85, 11), // "player3turn"
 QT_MOC_LITERAL(12, 97, 9), // "delayfunc"
 QT_MOC_LITERAL(13, 107, 11), // "ReactToSwap"
-QT_MOC_LITERAL(14, 119, 14) // "ReactToSwapOne"
+QT_MOC_LITERAL(14, 119, 14), // "ReactToSwapOne"
+QT_MOC_LITERAL(15, 134, 7) // "initial"
 
     },
     "game2_scene\0setUser\0\0a\0startingTurn\0"
     "change\0update\0swapCards\0first\0second\0"
     "player2turn\0player3turn\0delayfunc\0"
-    "ReactToSwap\0ReactToSwapOne"
+    "ReactToSwap\0ReactToSwapOne\0initial"
 };
 #undef QT_MOC_LITERAL
 
@@ -61,7 +62,7 @@ static const uint qt_meta_data_game2_scene[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -69,16 +70,17 @@ static const uint qt_meta_data_game2_scene[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   64,    2, 0x0a /* Public */,
-       4,    0,   67,    2, 0x0a /* Public */,
-       5,    0,   68,    2, 0x0a /* Public */,
-       6,    0,   69,    2, 0x0a /* Public */,
-       7,    2,   70,    2, 0x0a /* Public */,
-      10,    0,   75,    2, 0x0a /* Public */,
-      11,    0,   76,    2, 0x0a /* Public */,
-      12,    0,   77,    2, 0x0a /* Public */,
-      13,    0,   78,    2, 0x0a /* Public */,
-      14,    0,   79,    2, 0x0a /* Public */,
+       1,    1,   69,    2, 0x0a /* Public */,
+       4,    0,   72,    2, 0x0a /* Public */,
+       5,    0,   73,    2, 0x0a /* Public */,
+       6,    0,   74,    2, 0x0a /* Public */,
+       7,    2,   75,    2, 0x0a /* Public */,
+      10,    0,   80,    2, 0x0a /* Public */,
+      11,    0,   81,    2, 0x0a /* Public */,
+      12,    0,   82,    2, 0x0a /* Public */,
+      13,    0,   83,    2, 0x0a /* Public */,
+      14,    0,   84,    2, 0x0a /* Public */,
+      15,    0,   85,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -86,6 +88,7 @@ static const uint qt_meta_data_game2_scene[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,    8,    9,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -111,6 +114,7 @@ void game2_scene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 7: _t->delayfunc(); break;
         case 8: _t->ReactToSwap(); break;
         case 9: _t->ReactToSwapOne(); break;
+        case 10: _t->initial(); break;
         default: ;
         }
     }
@@ -141,13 +145,13 @@ int game2_scene::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }

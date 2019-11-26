@@ -100,6 +100,7 @@ public slots:
     void delayfunc();
     void ReactToSwap();
     void ReactToSwapOne();
+    void initial();
 
 };
 
