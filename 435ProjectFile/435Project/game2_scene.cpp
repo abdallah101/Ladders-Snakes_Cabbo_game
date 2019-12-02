@@ -24,13 +24,14 @@ game2_scene::game2_scene()
     winner = -1;
     cabo = false;
     nbofFlips = 0;
-
+    swap[0] = swap[1] = -1;
     text = new QGraphicsTextItem();
     QFont serifFont("Times", 20, QFont::Bold);
     text->setFont(serifFont);
     text->setDefaultTextColor("#D4AF37");
     text->setPos(300, 300);
     this->addItem(text);
+    deleted = false;
 
     /**
       * Create players
@@ -123,6 +124,12 @@ game2_scene::game2_scene()
     exitB->setPixmap((QPixmap(QDir::currentPath() + "/Images/ExitB.png")).scaled(100,100));
     this->addItem(exitB);
     exitB->setPos(800,800);
+
+
+    CallCabbo = new QGraphicsPixmapItem();
+    CallCabbo->setPixmap((QPixmap(QDir::currentPath() + "/Images/EndButton.png")).scaled(100,100));
+    this->addItem(CallCabbo);
+    CallCabbo->setPos(0,400);
 
 
 
@@ -279,8 +286,16 @@ game2_scene::game2_scene()
     timer1->start(100);
     connect(timer1, SIGNAL(timeout()), this, SLOT(update()));
 
-    g2_end();
-    cout << turn << "***\n";
+
+    /**
+     * changes variables to keep game going
+     */
+
+    timer2 = new QTimer();
+    timer2->start(100);
+    connect(timer2, SIGNAL(timeout()), this, SLOT(g2_end()));
+
+    //cout << turn << "***\n";
 }
 
 
@@ -304,6 +319,7 @@ void game2_scene :: change()
     {
         playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
     }
+
 
     //timer->stop();
 }
@@ -359,26 +375,6 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
 
 
-        if(this->itemAt(relativeOrigin,QTransform()) != NULL)
-        {
-            /**
-             * Here user gets to see what is at the top of the deck (fromPile)
-             */
-
-            if (!FirstTurn && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && turn == 1 && !choosing && this->itemAt(relativeOrigin,QTransform())->x() == 387.5)
-            {
-                QTextStream out(stdout);
-                out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
-
-                int x = pile.top().first + pile.top().second * 13;
-
-                fromPile->number = x + 1;
-                fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(x + 1) +".png")).scaled(80,100));
-
-                choosing = true;
-
-            }
-        }
 
 
 
@@ -503,7 +499,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
                     if(this->itemAt(relativeOrigin,QTransform())->x() == playerCards[i]->x && this->itemAt(relativeOrigin,QTransform())->y() == playerCards[i]->y)
                     {
                         fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
-                        playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(c[1+i/4][i%4].first + c[1+i/4][i%4].second * 13 +1) +".png")).scaled(80,100));
+                        playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(c[i/4][i%4].first + c[i/4][i%4].second * 13 +1) +".png")).scaled(80,100));
 
                         fate = true;
                         choosing = false;
@@ -678,25 +674,58 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
 
                 }
 
-                if(this->itemAt(relativeOrigin,QTransform()) != NULL)
-                {               
-                    if(this->itemAt(relativeOrigin,QTransform())->x() == 800 && this->itemAt(relativeOrigin,QTransform())->y() == 800)
-                    {
-                        this->Game2_View->close();
-                        MainScreen * BacktoMain = new MainScreen();
-                        BacktoMain->setUser(this->user);
-                        BacktoMain->show();
-                        this->clear();
-                        delete this;
 
-
-                    }
-                }
 
         }
 
+
+
+    if(this->itemAt(relativeOrigin,QTransform()) != NULL)
+    {
+        if(this->itemAt(relativeOrigin,QTransform())->x() == 800 && this->itemAt(relativeOrigin,QTransform())->y() == 800)
+        {
+
+            deleted = true;
+
+
+
+        }
+    }
+
+    if(this->itemAt(relativeOrigin,QTransform()) != NULL)
+    {
+        if(this->itemAt(relativeOrigin,QTransform())->x() == 0 && this->itemAt(relativeOrigin,QTransform())->y() == 400)
+        {
+            this->cabo = true;
+            this->g2_end();
+        }
+    }
+
+    if(this->itemAt(relativeOrigin,QTransform()) != NULL)
+    {
+        /**
+         * Here user gets to see what is at the top of the deck (fromPile)
+         */
+
+        if (!FirstTurn && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && turn == 1 && !choosing && this->itemAt(relativeOrigin,QTransform())->x() == 387.5)
+        {
+            QTextStream out(stdout);
+            out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
+
+            int x = pile.top().first + pile.top().second * 13;
+            //x = 8;
+            fromPile->number = x + 1;
+            fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(x + 1) +".png")).scaled(80,100));
+
+            choosing = true;
+
+        }
+    }
+
     if (turn == 2)
     {
+
+
         g2_end();
         text->setPlainText("Turn of Player 2\n");
         initial();
@@ -776,6 +805,39 @@ void game2_scene :: swapCards(int first, int second)
 
     if(first < 4)
     {
+        c[0][first].first = playerCards[first]->number%13+1;
+        c[0][first].second = playerCards[first]->number/13;
+    }
+    else if ( first >4 && first < 8)
+    {
+        c[1][first-4].first = playerCards[first]->number%13+1;
+        c[1][first-4].second = playerCards[first]->number/13;
+
+    }
+    else
+    {
+        c[2][first-8].first = playerCards[first]->number%13+1;
+         c[2][first-8].second = playerCards[first]->number/13;
+    }
+
+    if(second < 4)
+    {
+        c[0][second].first = playerCards[second]->number%13+1;
+         c[0][second].second = playerCards[second]->number/13;
+    }
+    else if ( second >4 && second < 8)
+    {
+        c[1][second-4].first = playerCards[second]->number%13+1;
+        c[1][second-4].second = playerCards[second]->number/13;
+    }
+    else
+    {
+        c[2][second-8].first = playerCards[second]->number%13+1;
+        c[2][second-8].second = playerCards[second]->number/13;
+    }
+
+    if(first < 4)
+    {
         playerCards[first]->y = playerCards[first]->y - 50;
         playerCards[second]->y = playerCards[second]->y + 50;
         playerCards[first]->setPos(playerCards[first]->x,playerCards[first]->y);
@@ -804,12 +866,23 @@ void game2_scene :: swapCards(int first, int second)
 void game2_scene :: player2turn()
 {
 
+
         if (turn != 2) return;
         push->setValue(25);
+
 
         int value, playervalue;
         bool foundless = false, foundlessfrom = false;
 
+
+        value = (toPile->number - 1) % 13 + 1;
+
+        QTextStream out(stdout);
+        out << "PLAYER2: Top Card (from): " << (fromPile->number -1)%13 + 1 << ", ToPile top Card: " << value << endl;
+        for(int i = 4; i < 8; i++)
+        {
+            out << "Value known " << i-4 << " " <<  c[1][i-4].first + 1 << "**" << p[1]->card[i-4] << endl;
+        }
         if(!drawn.empty())
         {
             /**
@@ -817,10 +890,12 @@ void game2_scene :: player2turn()
              * take from drawn if less than what he knows he has, else discard
              */
 
-            value = (toPile->number - 1) % 13 + 1;
+
 
             for(int i = 4; i < 8; i++)
             {
+                 if(p[1]->card[i-4] != -1)
+                 {
                 playervalue = c[1][i-4].first + 1;
 
                 if(value < playervalue)
@@ -850,7 +925,7 @@ void game2_scene :: player2turn()
                     break;
                 }
             }
-
+            }
         }
 
         if(drawn.empty() || !foundless)
@@ -871,6 +946,8 @@ void game2_scene :: player2turn()
 
                 for(int i = 4; i < 8; i++)
                 {
+                    if(p[1]->card[i-4] != -1)
+                    {
                     playervalue = c[1][i-4].first + 1;
 
                     if(value < playervalue)
@@ -906,6 +983,7 @@ void game2_scene :: player2turn()
                         turn = 3;
                         break;
                     }
+                    }
                 }
 
                 if(!foundlessfrom)
@@ -917,7 +995,7 @@ void game2_scene :: player2turn()
                     drawn.push(pile.top());
                     pile.pop();
                     fromPile->number = pile.top().first + pile.top().second * 13 + 1;
-
+                    //toPile->number = drawn.top();
                     toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
                     turn = 3;
                 }
@@ -986,7 +1064,7 @@ void game2_scene :: player2turn()
                 toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
 
             }
-            else if (value == 10 && value == 12)
+            else if (value == 11 || value == 12)
             {
                 /**
                  * check for every known card of player2 with every known card from other players, known by player 2, compare and swap if less then break
@@ -1057,7 +1135,22 @@ void game2_scene :: player2turn()
         if (turn == 3)
         {
             // this needs to be edited to the known values only
-            if (c[1][0].first + c[1][1].first + c[1][2].first + c[1][3].first <= 10) cabo = true;
+
+            int sum = 0;
+            int known = 0;
+            for(int i = 0 ; i < 4 ; i++)
+            {
+                if(p[1]->card[i] != -1)
+                {
+                    sum = sum + c[1][i].first;
+                    known += 1;
+                }
+            }
+            if((sum <= 10 && known == 4) || (sum <= 3 && known >= 2))
+            {
+
+                cabo = true;
+            }
             g2_end();
             text->setPlainText("Turn of Player 3\n");
             initial();
@@ -1076,16 +1169,25 @@ void game2_scene :: player3turn()
         int value, playervalue;
         bool foundless = false, foundlessfrom = false;
 
+        value = (toPile->number-1) % 13 + 1;
+        QTextStream out(stdout);
+        out << "PLAYER3: Top Card (from): " << (fromPile->number -1)%13 + 1 << ", ToPile top Card: " << value << endl;
+        for(int i = 8; i < 12; i++)
+        {
+            out << "Value known " << i-8 << " " <<  c[2][i-8].first + 1 << "**" << p[2]->card[i-8] <<   endl;
+        }
         if(!drawn.empty())
         {
             /**
              * take from drawn if less than what he knows he has
              */
 
-            value = (toPile->number-1) % 13 + 1;
+
 
             for(int i = 8; i < 12; i++)
             {
+                 if(p[2]->card[i-8] != -1)
+                 {
                 playervalue = c[2][i-8].first + 1;
 
                 if(value < playervalue)
@@ -1113,7 +1215,7 @@ void game2_scene :: player3turn()
                     break;
                 }
             }
-
+            }
         }
 
 
@@ -1135,6 +1237,8 @@ void game2_scene :: player3turn()
 
                 for(int i = 8; i < 12; i++)
                 {
+                    if(p[2]->card[i-8] != -1)
+                    {
                     playervalue = c[2][i-8].first + 1;
 
                     if(value < playervalue)
@@ -1164,6 +1268,7 @@ void game2_scene :: player3turn()
                         turn = 1;
 
                         break;
+                    }
                     }
                 }
 
@@ -1201,6 +1306,7 @@ void game2_scene :: player3turn()
                         break;
                     }
                 }
+                turn = 1;
             }
 
 
@@ -1242,7 +1348,7 @@ void game2_scene :: player3turn()
                 turn = 1;
 
             }
-            else if (value == 10 && value == 12)
+            else if (value == 11 || value == 12)
             {
                 /**
                  * Swap the minimum opponent card that he knows with his maximum card that he knows
@@ -1315,7 +1421,23 @@ void game2_scene :: player3turn()
 
         if (turn == 1)
         {
-            if (c[2][0].first + c[2][1].first + c[2][2].first + c[2][3].first <= 5) cabo = true;
+            //if (c[2][0].first + c[2][1].first + c[2][2].first + c[2][3].first <= 5) cabo = true;
+
+            int sum = 0;
+            int known = 0 ;
+            for(int i = 0 ; i < 4 ; i++)
+            {
+                if(p[2]->card[i] != -1)
+                {
+                    sum = sum + c[2][i].first;
+                    known += 1;
+                }
+            }
+            if(sum <= 8 && known >= 3)
+            {
+                cabo = true;
+            }
+            this->g2_end();
             text->setPlainText("Turn of Player 1\n");
             initial();
         }
@@ -1387,6 +1509,7 @@ void  game2_scene ::g2_end()
 {
     if (cabo || pile.empty())
     {
+        cabo = false;
         int s[3] ={0,0,0};
         for (int i = 0; i < 3; i++)
         {

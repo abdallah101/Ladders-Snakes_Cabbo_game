@@ -86,6 +86,10 @@ MainMenu_Widget::MainMenu_Widget(QWidget *parent) :
      */
     QObject::connect(Login_Button, SIGNAL(clicked()), this, SLOT(Open_GameSelection()) );
 
+    /**
+     * Signal connector to mainscreen as guest
+     */
+    QObject::connect(LoginGuest_Button, SIGNAL(clicked()), this, SLOT(Open_GameSelection_Guest()) );
 
 
     /**
@@ -161,6 +165,25 @@ void MainMenu_Widget :: Open_GameSelection()
 }
 
 /**
+ * \brief Function that opens GAME SELECTION MENU for guests
+ * \param Takes no parameter
+ * \return nothing (type: void)
+ */
+
+void MainMenu_Widget :: Open_GameSelection_Guest()
+{
+
+
+        partner2 = new MainScreen();
+        //partner2->user = Username->text();
+        partner2->setUser("Guest");
+        this->close();
+        partner2->show();
+
+
+}
+
+/**
  * \brief Function that removes error message
  * \param Takes no parameter
  * \return nothing (type: void)
@@ -184,6 +207,7 @@ void MainMenu_Widget :: keyPressEvent (QKeyEvent * event)
         this->Open_GameSelection();
     }
 }
+
 
 
 /**

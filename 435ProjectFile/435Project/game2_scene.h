@@ -54,9 +54,10 @@ public:
     Cards * fromPile, * toPile;
     ViewGameTwo * Game2_View;
     QString user;
-    QTimer * timer, *timer1, * player2timer, * player3timer, * delaytimer;
+    QTimer * timer, *timer1, * player2timer, * player3timer, * delaytimer, *timer2;
     QProgressBar *push;
-    QGraphicsPixmapItem * exitB;
+    QGraphicsPixmapItem * exitB, *CallCabbo;
+    bool deleted;
 
     /**
      * @brief FirstTurn is true if we're in the first turn in the game

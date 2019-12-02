@@ -8,6 +8,9 @@ class g2_results : public QGraphicsScene
 public:
     g2_results();
     QGraphicsView * g2_resultsView;
+    int winner;
+    QGraphicsTextItem * text;
+    void setUser(int win);
 };
 
 #endif // G2_RESULTS_H

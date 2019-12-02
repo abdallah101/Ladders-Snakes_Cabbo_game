@@ -41,6 +41,7 @@ public slots:
     void keyPressEvent (QKeyEvent * event);
     void update();
     void RegSuccess();
+    void Open_GameSelection_Guest();
 
 };
 
