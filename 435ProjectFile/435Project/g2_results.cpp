@@ -2,6 +2,7 @@
 #include <QGraphicsTextItem>
 #include <set>
 #include <QFont>
+#include <QMediaPlayer>
 
 g2_results::g2_results()
 {
@@ -17,7 +18,7 @@ g2_results::g2_results()
     //text->setFont(serifFont);
     text->setDefaultTextColor("#D4AF37");
 
-        text->setPos(230, 220);
+        text->setPos(100, 100);
         this->addItem(text);
     /**
      * Setting the background
@@ -31,38 +32,53 @@ g2_results::g2_results()
     }
     g2_resultsView->show();
 
+    QMediaPlayer * player = new QMediaPlayer;
+    player->setMedia(QUrl::fromLocalFile(QDir::currentPath() + "/Sounds/victory.mp3"));
+    player->setVolume(50);
+    player->play();
+
 }
 
-void g2_results :: setUser (int win)
+void g2_results :: setUser (int a, int b, int c)
 {
-    this->winner = win;
+    if (a < b && a < c) winner= 1;
+    else if (b < a && b < c) winner = 2;
+    else if (c < b && c < a) winner = 3;
+    else if (a > b && a > c) winner = 4;  // tie 2-3
+    else if (b > a && b > c) winner = 5;  // tie 1-3
+    else if (c > b && c > a) winner = 6;  // tie 2-1
+    else winner = 7; //all tie
+
+
+    QString str = "Payer1: " + QString::number(a) + "\n" + "Payer2: " + QString::number(b) + "\n" + "Payer3: " + QString::number(c) + "\n";
+
     if(winner == 1)
     {
-       text->setPlainText("Player 1 won!");
+       str = str + "Player 1 won!";
     }
     else if (winner == 2)
     {
-                    text->setPlainText("Player 2 won!");
+         str = str +"Player 2 won!";
     }
     else if (winner == 3)
     {
-        text->setPlainText("Player 3 won!");
+       str = str + "Player 3 won!";
     }
     else if (winner == 4)
     {
-        text->setPlainText("Players 2 and 3 tied!");
+         str = str + "Players 2 and 3 tied!";
     }
     else if (winner == 5)
     {
-        text->setPlainText("Players 1 and 3 tied!");
+         str = str + "Players 1 and 3 tied!";
     }
     else if (winner == 6)
     {
-        text->setPlainText("Players 2 and 1 tied!");
+         str = str + "Players 2 and 1 tied!";
     }
-    else
+    else if (winner == 7)
     {
-        text->setPlainText("What are the Odds! EEVERYONE TIED");
+        str = str + "What are the Odds! EVERYONE TIED";
     }
-
+    text->setPlainText(str);
 }

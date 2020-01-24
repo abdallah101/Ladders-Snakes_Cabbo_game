@@ -26,9 +26,9 @@ game2details::game2details(QWidget *parent) :
     QWidget(parent)
 {
     QString s = "You can make one of the following possible actions:\n";
-    s += "\n1. Pick up the top card from the discard pile and replace, face down, one of your cards or matching cards.\n";
+    s += "\n1. Pick up the top card from the discard pile and replace, face down, one of your cards.\n";
     s += "\n2. Pick up the top card from the draw pile, look at it and do one of the following:\n";
-    s += "(a) replace, face down, one of your cards or matching cards.\n";
+    s += "(a) replace, face down, one of your cards.\n";
     s += "(b) discard it.\n";
     s += "(c) if it's a choice card, carry out the action and then discard it.\n";
     s += "\n3. Call Cabo when you believe that you have the fewest points.\n";

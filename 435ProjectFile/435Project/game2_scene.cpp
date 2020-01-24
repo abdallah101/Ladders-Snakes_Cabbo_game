@@ -32,6 +32,8 @@ game2_scene::game2_scene()
     text->setPos(300, 300);
     this->addItem(text);
     deleted = false;
+    special = false;
+    cabo = false;
 
     /**
       * Create players
@@ -293,7 +295,7 @@ game2_scene::game2_scene()
 
     timer2 = new QTimer();
     timer2->start(100);
-    connect(timer2, SIGNAL(timeout()), this, SLOT(g2_end()));
+    //connect(timer2, SIGNAL(timeout()), this, SLOT(g2_end()));
 
     //cout << turn << "***\n";
 }
@@ -315,6 +317,8 @@ void game2_scene :: setUser(QString a)
 void game2_scene :: change()
 {
 
+    if (cabo || pile.empty()) return;
+
     for(int i = 0 ; i < 12 ; i++)
     {
         playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/CardBack.png")).scaled(125,125));
@@ -328,7 +332,7 @@ void game2_scene :: change()
 
 void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (turn != 1) return;
+    if (turn != 1 || pile.empty() || cabo) return;
     QPoint origin = Game2_View->mapFromGlobal(QCursor::pos());
     QPointF relativeOrigin = Game2_View->mapToScene(origin);
 
@@ -387,7 +391,8 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
             /**
              * puts card into discard pile
              */
-            if(!FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
+
+            if(!FirstTurn && !special && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && this->itemAt(relativeOrigin,QTransform())->x() == 600)
             {
                 QTextStream out(stdout);
                 out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
@@ -401,7 +406,18 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
                 drawn.push(pile.top());
                 pile.pop();
                 fromPile->number = pile.top().first + pile.top().second * 13 + 1;
-                turn = 2;
+
+                out << "her wer are bata: " << (toPile->number-1)%13 + 1 << endl;
+
+                if ( (toPile->number-1)% 13 + 1 > 6 && (toPile->number-1)% 13 + 1 < 13)
+                {
+                    choosing = true;
+                    special = true;
+                }
+                else
+                {
+                    turn = 2;
+                }
             }
 
 
@@ -410,7 +426,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
              * replaces card with one of his cards
              */
 
-            else if (!FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && fromPile->number % 13 <= 6)
+            else if (!special && !FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5)
             {
                 QTextStream out(stdout);
 
@@ -457,7 +473,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
              * Sees 1 of his cards
              */
 
-            else if(!FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && (fromPile->number%13 == 7 || fromPile->number%13 == 8 ))
+            else if(special && !FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() > 510.5 && ((toPile->number - 1) % 13 + 1 == 7 || (toPile->number - 1) % 13 + 1 == 8))
 
             {
                 for(int i = 0 ; i < 4 ; i++)
@@ -469,6 +485,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
 
                         fate = true;
                         choosing = false;
+                        special = false;
                         turn = 2;
                         toPile->number = fromPile->number;
 
@@ -490,7 +507,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
             /**
               * Sees 1 card from other players
               */
-            else if (!FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() < 370 && (fromPile->number%13 == 9 || fromPile->number%13 == 10))
+            else if (special && !FirstTurn && choosing && turn == 1 && this->itemAt(relativeOrigin,QTransform())->y() < 370 && ((toPile->number - 1) % 13 + 1 == 9 || (toPile->number - 1) % 13 + 1 == 10))
             {
 
 
@@ -503,6 +520,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
 
                         fate = true;
                         choosing = false;
+                        special = false;
                         turn = 2;
                         toPile->number = fromPile->number;
 
@@ -525,7 +543,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
              * swaps 2 cards
              */
 
-            else if (!FirstTurn  && choosing && turn == 1 &&  (fromPile->number%13 == 11 || fromPile->number%13 == 12))
+            else if (special && !FirstTurn  && choosing && turn == 1 &&  ( (toPile->number - 1) % 13 + 1 == 11 || (toPile->number - 1) % 13 + 1 == 12) )
             {
                 if(this->itemAt(relativeOrigin,QTransform()) != NULL)
                 {
@@ -583,6 +601,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
 
                                             swap[0] = swap[1] = -1;
                                             choosing = false;
+                                            special = false;
 
 
 
@@ -620,6 +639,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
 
                                             swap[0] = swap[1] = -1;
                                             choosing = false;
+                                            special = false;
 
 
 
@@ -707,13 +727,13 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
          * Here user gets to see what is at the top of the deck (fromPile)
          */
 
-        if (!FirstTurn && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && turn == 1 && !choosing && this->itemAt(relativeOrigin,QTransform())->x() == 387.5)
+        if (!special && !FirstTurn && this->itemAt(relativeOrigin,QTransform())->y() == 387.5 && turn == 1 && !choosing && this->itemAt(relativeOrigin,QTransform())->x() == 387.5)
         {
             QTextStream out(stdout);
             out << this->itemAt(relativeOrigin,QTransform())->x() << " : " << this->itemAt(relativeOrigin,QTransform())->y() << endl;
 
             int x = pile.top().first + pile.top().second * 13;
-            //x = 8;
+            //x = 11;
             fromPile->number = x + 1;
             fromPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(x + 1) +".png")).scaled(80,100));
 
@@ -726,7 +746,7 @@ void game2_scene :: mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
 
 
-        g2_end();
+        //g2_end();
         text->setPlainText("Turn of Player 2\n");
         initial();
         QTimer::singleShot(2000, this, SLOT(player2turn()));
@@ -867,7 +887,7 @@ void game2_scene :: player2turn()
 {
 
 
-        if (turn != 2) return;
+        if (turn != 2 || pile.empty() || cabo) return;
         push->setValue(25);
 
 
@@ -921,7 +941,7 @@ void game2_scene :: player2turn()
                     toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
                     foundless = true;
 
-                    turn = 3;
+                    turn = 4;
                     break;
                 }
             }
@@ -980,7 +1000,7 @@ void game2_scene :: player2turn()
 
                         toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
 
-                        turn = 3;
+                        turn = 4;
                         break;
                     }
                     }
@@ -997,7 +1017,7 @@ void game2_scene :: player2turn()
                     fromPile->number = pile.top().first + pile.top().second * 13 + 1;
                     //toPile->number = drawn.top();
                     toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
-                    turn = 3;
+                    turn = 4;
                 }
 
             }
@@ -1023,7 +1043,7 @@ void game2_scene :: player2turn()
                         break;
                     }
                 }
-                turn = 3;
+                turn = 4;
             }
 
 
@@ -1060,7 +1080,7 @@ void game2_scene :: player2turn()
                 pile.pop();
                 fromPile->number = pile.top().first + pile.top().second * 13 + 1;
 
-                turn = 3;
+                turn = 4;
                 toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
 
             }
@@ -1121,7 +1141,7 @@ void game2_scene :: player2turn()
                 pile.pop();
                 fromPile->number = pile.top().first + pile.top().second * 13 + 1;
 
-                turn = 3;
+                turn = 4;
                 toPile->setPixmap((QPixmap(QDir::currentPath() + "/Images/" + QString::number(toPile->number) + ".png")).scaled(80,100));
 
             }
@@ -1132,7 +1152,7 @@ void game2_scene :: player2turn()
           * End Turn 2
           */
 
-        if (turn == 3)
+        if (turn == 4)
         {
             // this needs to be edited to the known values only
 
@@ -1154,6 +1174,7 @@ void game2_scene :: player2turn()
             g2_end();
             text->setPlainText("Turn of Player 3\n");
             initial();
+            turn = 3;
             QTimer::singleShot(3000, this, SLOT(player3turn()));
         }
 
@@ -1162,7 +1183,7 @@ void game2_scene :: player2turn()
 void game2_scene :: player3turn()
 {
 
-        if (turn != 3) return;
+        if (turn != 3 || pile.empty() || cabo) return;
 
         push->setValue(50);
 
@@ -1421,8 +1442,6 @@ void game2_scene :: player3turn()
 
         if (turn == 1)
         {
-            //if (c[2][0].first + c[2][1].first + c[2][2].first + c[2][3].first <= 5) cabo = true;
-
             int sum = 0;
             int known = 0 ;
             for(int i = 0 ; i < 4 ; i++)
@@ -1496,6 +1515,7 @@ void game2_scene :: ReactToSwapOne()
 
 void  game2_scene :: initial()
 {
+
     choosing = replacingD = false;
 
     for(int i = 0 ; i < 4 ; i++)
@@ -1509,8 +1529,8 @@ void  game2_scene ::g2_end()
 {
     if (cabo || pile.empty())
     {
-        cabo = false;
-        int s[3] ={0,0,0};
+
+        s[0] = s[1] = s[2] = 0;
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 4; j++)
@@ -1525,6 +1545,11 @@ void  game2_scene ::g2_end()
         else if(s[1] > s[0] && s[1] > s[2]) winner = 5;  // tie 1-3
         else if(s[2] > s[1] && s[2] > s[0]) winner = 6;  // tie 2-1
         else winner = 7; //all tie
+
+        for (int i = 0; i < 12; i++)
+        {
+            playerCards[i]->setPixmap((QPixmap(QDir::currentPath() + "/Images/"+ QString::number(c[i/4][i%4].first + c[i/4][i%4].second*13 + 1) +".png")).scaled(80,100));
+        }
     }
 }
 

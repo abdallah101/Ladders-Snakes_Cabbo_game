@@ -5,6 +5,7 @@
 #include <settings.h>
 #include <gameone.h>
 #include <game1_scene.h>
+#include <historywidget.h>
 
 /**
   *\file mainscreen.cpp
@@ -69,6 +70,11 @@ MainScreen::MainScreen(QWidget *parent) :
      * Signal connector to Game 1
      */
     QObject::connect(GameTwo, SIGNAL(clicked()), this, SLOT(GotoTwo()) );
+
+    /**
+     * Signal connector to history of player
+     */
+    QObject::connect(History, SIGNAL(clicked()), this, SLOT(history()) );
 
 
 }
@@ -183,4 +189,12 @@ void MainScreen :: goBack()
     this->close();
     partner->show();
 
+}
+
+void MainScreen :: history()
+{
+    HistoryWidget * partner = new HistoryWidget();
+    partner->setUser(this->user);
+    this->close();
+    partner->show();
 }

@@ -236,6 +236,15 @@ void RegisterMenu :: RegisterUser()
        streamhis.flush();
        filehis.close();
 
+       QFile filehis2(QDir::currentPath() + "/history1.txt");
+       filehis2.open(QIODevice::Append|QIODevice::Text);
+       QTextStream streamhis2(&filehis2);
+
+       //the -1 indicates that the user still doesn't have any history (aka fresh account)
+       streamhis2 << username->text() << ",-3,"  <<  endl;
+       streamhis2.flush();
+       filehis2.close();
+
 
       file.open(QIODevice::Append|QIODevice::Text);
       QTextStream stream(&file);

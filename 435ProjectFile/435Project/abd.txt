@@ -1,0 +1,1186 @@
+Script started on Thu 05 Dec 2019 12:38:23 AM EET
+]0;warpeace101@eece435l-VirtualBox: ~/Documents/project_an_group5/435ProjectFile/435Projectwarpeace101@eece435l-VirtualBox:~/Documents/project_an_group5/435ProjectFile/435PProject$  g++ *.cpp *.h -o program
+In file included from cards.cpp:1:0:
+cards.h:5:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from custWid.cpp:1:0:
+custWid.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from dice.cpp:1:0:
+dice.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from dicecust.cpp:1:0:
+dicecust.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from g2_results.cpp:1:0:
+g2_results.h:3:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+In file included from game1_modes.cpp:1:0:
+game1_modes.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from game1_scene.cpp:1:0:
+game1_scene.h:3:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from game1_scenecust.cpp:1:0:
+game1_scenecust.h:3:21: fatal error: players.h: No such file or directory
+ #include <players.h>
+                     ^
+compilation terminated.
+In file included from game2details.cpp:1:0:
+game2details.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from game2_scene.cpp:1:0:
+game2_scene.h:4:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from gameone.cpp:1:0:
+gameone.h:4:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from gametwo.cpp:1:0:
+gametwo.h:4:21: fatal error: QtWidgets: No such file or directory
+ #include <QtWidgets>
+                     ^
+compilation terminated.
+In file included from historywidget.cpp:1:0:
+historywidget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+main.cpp:1:26: fatal error: registermenu.h: No such file or directory
+ #include <registermenu.h>
+                          ^
+compilation terminated.
+In file included from mainmenu_widget.cpp:1:0:
+mainmenu_widget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from mainscreen.cpp:1:0:
+mainscreen.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_cards.cpp:9:0:
+cards.h:5:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from moc_custWid.cpp:9:0:
+custWid.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_dice.cpp:9:0:
+dice.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_dicecust.cpp:9:0:
+dicecust.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_g2_results.cpp:9:0:
+g2_results.h:3:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+In file included from moc_game1_modes.cpp:9:0:
+game1_modes.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_game1_scene.cpp:9:0:
+game1_scene.h:3:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from moc_game2details.cpp:9:0:
+game2details.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_game2_scene.cpp:9:0:
+game2_scene.h:4:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from moc_gameone.cpp:9:0:
+gameone.h:4:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from moc_gametwo.cpp:9:0:
+gametwo.h:4:21: fatal error: QtWidgets: No such file or directory
+ #include <QtWidgets>
+                     ^
+compilation terminated.
+In file included from moc_mainmenu_widget.cpp:9:0:
+mainmenu_widget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_mainscreen.cpp:9:0:
+mainscreen.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_players.cpp:9:0:
+players.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from moc_registermenu.cpp:9:0:
+registermenu.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_settings.cpp:9:0:
+settings.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_snakesladders.cpp:9:0:
+snakesladders.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from moc_starter.cpp:9:0:
+starter.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_user.cpp:9:0:
+user.h:3:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from moc_winlose.cpp:9:0:
+winlose.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_xtostart.cpp:9:0:
+xtostart.h:3:18: fatal error: QLabel: No such file or directory
+ #include <QLabel>
+                  ^
+compilation terminated.
+In file included from players.cpp:1:0:
+players.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from registermenu.cpp:1:0:
+registermenu.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from settings.cpp:1:0:
+settings.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from snakesladders.cpp:1:0:
+snakesladders.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from starter.cpp:1:0:
+starter.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from user.cpp:1:0:
+user.h:3:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from viewgametwo.cpp:1:0:
+viewgametwo.h:4:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+In file included from winlose.cpp:1:0:
+winlose.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from xtostart.cpp:1:0:
+xtostart.h:3:18: fatal error: QLabel: No such file or directory
+ #include <QLabel>
+                  ^
+compilation terminated.
+cards.h:5:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+custWid.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+dicecust.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+dice.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+g2_results.h:3:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+game1_modes.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+game1_scenecust.h:3:21: fatal error: players.h: No such file or directory
+ #include <players.h>
+                     ^
+compilation terminated.
+game1_scene.h:3:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+game2details.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+game2_scene.h:4:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+gameone.h:4:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+gametwo.h:4:21: fatal error: QtWidgets: No such file or directory
+ #include <QtWidgets>
+                     ^
+compilation terminated.
+historywidget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+mainmenu_widget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+mainscreen.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+moc_predefs.h:54:0: warning: "__STDC_HOSTED__" redefined [enabled by default]
+ #define __STDC_HOSTED__ 1
+ ^
+<built-in>:0:0: note: this is the location of the previous definition
+moc_predefs.h:62:0: warning: "__STDC_IEC_559__" redefined [enabled by default]
+ #define __STDC_IEC_559__ 1
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:41:0: note: this is the location of the previous definition
+ # define __STDC_IEC_559__  1
+ ^
+moc_predefs.h:63:0: warning: "__STDC_ISO_10646__" redefined [enabled by default]
+ #define __STDC_ISO_10646__ 201103L
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:54:0: note: this is the location of the previous definition
+ #define __STDC_ISO_10646__  201103L
+ ^
+moc_predefs.h:81:0: warning: "__cplusplus" redefined [enabled by default]
+ #define __cplusplus 201103L
+ ^
+<built-in>:0:0: note: this is the location of the previous definition
+moc_predefs.h:92:0: warning: "__STDC_NO_THREADS__" redefined [enabled by default]
+ #define __STDC_NO_THREADS__ 1
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:57:0: note: this is the location of the previous definition
+ #define __STDC_NO_THREADS__  1
+ ^
+moc_predefs.h:117:0: warning: "__STDC_IEC_559_COMPLEX__" redefined [enabled by default]
+ #define __STDC_IEC_559_COMPLEX__ 1
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:49:0: note: this is the location of the previous definition
+ # define __STDC_IEC_559_COMPLEX__ 1
+ ^
+moc_predefs.h:228:0: warning: "__STDC__" redefined [enabled by default]
+ #define __STDC__ 1
+ ^
+<built-in>:0:0: note: this is the location of the previous definition
+players.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+registermenu.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+settings.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+snakesladders.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+starter.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+ui_dices.h:12:27: fatal error: QtCore/QVariant: No such file or directory
+ #include <QtCore/QVariant>
+                           ^
+compilation terminated.
+user.h:3:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+viewgametwo.h:4:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+winlose.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+xtostart.h:3:18: fatal error: QLabel: No such file or directory
+ #include <QLabel>
+                  ^
+compilation terminated.
+]0;warpeace101@eece435l-VirtualBox: ~/Documents/project_an_group5/435ProjectFile/435Projectwarpeace101@eece435l-VirtualBox:~/Documents/project_an_group5/435ProjectFile/435PProject$ [K[A]0;warpeace101@eece435l-VirtualBox: ~/Documents/project_an_group5/435ProjectFile/435Projectwarpeace101@eece435l-VirtualBox:~/Documents/project_an_group5/435ProjectFile/435Project$ git push[Kgit push[1P--vpush[K g++ *.cpp *.h -o program[K[K[K[K[K[K[K435Project
+In file included from cards.cpp:1:0:
+cards.h:5:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from custWid.cpp:1:0:
+custWid.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from dice.cpp:1:0:
+dice.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from dicecust.cpp:1:0:
+dicecust.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from g2_results.cpp:1:0:
+g2_results.h:3:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+In file included from game1_modes.cpp:1:0:
+game1_modes.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from game1_scene.cpp:1:0:
+game1_scene.h:3:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from game1_scenecust.cpp:1:0:
+game1_scenecust.h:3:21: fatal error: players.h: No such file or directory
+ #include <players.h>
+                     ^
+compilation terminated.
+In file included from game2details.cpp:1:0:
+game2details.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from game2_scene.cpp:1:0:
+game2_scene.h:4:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from gameone.cpp:1:0:
+gameone.h:4:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from gametwo.cpp:1:0:
+gametwo.h:4:21: fatal error: QtWidgets: No such file or directory
+ #include <QtWidgets>
+                     ^
+compilation terminated.
+In file included from historywidget.cpp:1:0:
+historywidget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+main.cpp:1:26: fatal error: registermenu.h: No such file or directory
+ #include <registermenu.h>
+                          ^
+compilation terminated.
+In file included from mainmenu_widget.cpp:1:0:
+mainmenu_widget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from mainscreen.cpp:1:0:
+mainscreen.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_cards.cpp:9:0:
+cards.h:5:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from moc_custWid.cpp:9:0:
+custWid.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_dice.cpp:9:0:
+dice.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_dicecust.cpp:9:0:
+dicecust.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_g2_results.cpp:9:0:
+g2_results.h:3:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+In file included from moc_game1_modes.cpp:9:0:
+game1_modes.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_game1_scene.cpp:9:0:
+game1_scene.h:3:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from moc_game2details.cpp:9:0:
+game2details.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_game2_scene.cpp:9:0:
+game2_scene.h:4:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from moc_gameone.cpp:9:0:
+gameone.h:4:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from moc_gametwo.cpp:9:0:
+gametwo.h:4:21: fatal error: QtWidgets: No such file or directory
+ #include <QtWidgets>
+                     ^
+compilation terminated.
+In file included from moc_mainmenu_widget.cpp:9:0:
+mainmenu_widget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_mainscreen.cpp:9:0:
+mainscreen.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_players.cpp:9:0:
+players.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from moc_registermenu.cpp:9:0:
+registermenu.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_settings.cpp:9:0:
+settings.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_snakesladders.cpp:9:0:
+snakesladders.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from moc_starter.cpp:9:0:
+starter.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_user.cpp:9:0:
+user.h:3:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from moc_winlose.cpp:9:0:
+winlose.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_xtostart.cpp:9:0:
+xtostart.h:3:18: fatal error: QLabel: No such file or directory
+ #include <QLabel>
+                  ^
+compilation terminated.
+In file included from players.cpp:1:0:
+players.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from registermenu.cpp:1:0:
+registermenu.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from settings.cpp:1:0:
+settings.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from snakesladders.cpp:1:0:
+snakesladders.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from starter.cpp:1:0:
+starter.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from user.cpp:1:0:
+user.h:3:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from viewgametwo.cpp:1:0:
+viewgametwo.h:4:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+In file included from winlose.cpp:1:0:
+winlose.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from xtostart.cpp:1:0:
+xtostart.h:3:18: fatal error: QLabel: No such file or directory
+ #include <QLabel>
+                  ^
+compilation terminated.
+cards.h:5:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+custWid.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+dicecust.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+dice.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+g2_results.h:3:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+game1_modes.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+game1_scenecust.h:3:21: fatal error: players.h: No such file or directory
+ #include <players.h>
+                     ^
+compilation terminated.
+game1_scene.h:3:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+game2details.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+game2_scene.h:4:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+gameone.h:4:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+gametwo.h:4:21: fatal error: QtWidgets: No such file or directory
+ #include <QtWidgets>
+                     ^
+compilation terminated.
+historywidget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+mainmenu_widget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+mainscreen.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+moc_predefs.h:54:0: warning: "__STDC_HOSTED__" redefined [enabled by default]
+ #define __STDC_HOSTED__ 1
+ ^
+<built-in>:0:0: note: this is the location of the previous definition
+moc_predefs.h:62:0: warning: "__STDC_IEC_559__" redefined [enabled by default]
+ #define __STDC_IEC_559__ 1
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:41:0: note: this is the location of the previous definition
+ # define __STDC_IEC_559__  1
+ ^
+moc_predefs.h:63:0: warning: "__STDC_ISO_10646__" redefined [enabled by default]
+ #define __STDC_ISO_10646__ 201103L
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:54:0: note: this is the location of the previous definition
+ #define __STDC_ISO_10646__  201103L
+ ^
+moc_predefs.h:81:0: warning: "__cplusplus" redefined [enabled by default]
+ #define __cplusplus 201103L
+ ^
+<built-in>:0:0: note: this is the location of the previous definition
+moc_predefs.h:92:0: warning: "__STDC_NO_THREADS__" redefined [enabled by default]
+ #define __STDC_NO_THREADS__ 1
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:57:0: note: this is the location of the previous definition
+ #define __STDC_NO_THREADS__  1
+ ^
+moc_predefs.h:117:0: warning: "__STDC_IEC_559_COMPLEX__" redefined [enabled by default]
+ #define __STDC_IEC_559_COMPLEX__ 1
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:49:0: note: this is the location of the previous definition
+ # define __STDC_IEC_559_COMPLEX__ 1
+ ^
+moc_predefs.h:228:0: warning: "__STDC__" redefined [enabled by default]
+ #define __STDC__ 1
+ ^
+<built-in>:0:0: note: this is the location of the previous definition
+players.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+registermenu.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+settings.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+snakesladders.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+starter.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+ui_dices.h:12:27: fatal error: QtCore/QVariant: No such file or directory
+ #include <QtCore/QVariant>
+                           ^
+compilation terminated.
+user.h:3:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+viewgametwo.h:4:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+winlose.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+xtostart.h:3:18: fatal error: QLabel: No such file or directory
+ #include <QLabel>
+                  ^
+compilation terminated.
+]0;warpeace101@eece435l-VirtualBox: ~/Documents/project_an_group5/435ProjectFile/435Projectwarpeace101@eece435l-VirtualBox:~/Documents/project_an_group5/435ProjectFile/435Project$ ls -l
+total 1736
+-rw-rw-r-- 1 warpeace101 warpeace101    1360 Dec  4 23:23 435Project.pro
+-rw-rw-r-- 1 warpeace101 warpeace101   18291 Dec  5 00:18 435Project.pro.user
+-rw-rw-r-- 1 warpeace101 warpeace101   24223 Nov 17 19:00 435Project.pro.user.18
+-rw-rw-r-- 1 warpeace101 warpeace101   18291 Nov 17 19:00 435Project.pro.user.3.2-pre1
+-rw-rw-r-- 1 warpeace101 warpeace101   28672 Dec  5 00:40 abd.txt
+-rw-rw-r-- 1 warpeace101 warpeace101      78 Nov 18 15:00 cards.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     228 Dec  4 23:03 cards.h
+-rw-rw-r-- 1 warpeace101 warpeace101       0 Nov 17 19:00 Custom~
+-rw-rw-r-- 1 warpeace101 warpeace101      47 Nov 17 19:00 Custom.txt
+-rw-rw-r-- 1 warpeace101 warpeace101      31 Nov 17 19:00 Custom.txt~
+-rw-rw-r-- 1 warpeace101 warpeace101   43501 Nov 17 19:00 custWid.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     941 Nov 17 19:00 custWid.h
+-rw-rw-r-- 1 warpeace101 warpeace101   33502 Dec  2 19:16 dice.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    3725 Nov 17 19:00 dicecust.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     895 Nov 17 19:00 dicecust.h
+-rw-rw-r-- 1 warpeace101 warpeace101    1974 Nov 17 19:00 dice.h
+-rw-rw-r-- 1 warpeace101 warpeace101     380 Nov 17 19:00 dices.ui
+-rw-rw-r-- 1 warpeace101 warpeace101    2335 Nov 17 19:00 dices.ui.autosave
+-rw-rw-r-- 1 warpeace101 warpeace101      52 Dec  2 19:16 g2_player.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     418 Dec  2 19:16 g2_player.h
+-rw-rw-r-- 1 warpeace101 warpeace101    2192 Dec  4 23:03 g2_results.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     328 Dec  4 23:03 g2_results.h
+-rw-rw-r-- 1 warpeace101 warpeace101    1664 Nov 17 19:00 game1_modes.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     541 Nov 17 19:00 game1_modes.h
+-rw-rw-r-- 1 warpeace101 warpeace101    8992 Nov 17 19:00 game1_scene.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    1340 Nov 17 19:00 game1_scenecust.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     365 Nov 17 19:00 game1_scenecust.h
+-rw-rw-r-- 1 warpeace101 warpeace101     678 Nov 17 19:00 game1_scene.h
+-rw-rw-r-- 1 warpeace101 warpeace101    1747 Dec  4 23:03 game2details.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     464 Dec  2 19:16 game2details.h
+-rw-rw-r-- 1 warpeace101 warpeace101   47608 Dec  4 23:03 game2_scene.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    2527 Dec  4 23:03 game2_scene.h
+-rw-rw-r-- 1 warpeace101 warpeace101    5591 Nov 17 19:00 gameone.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    1069 Nov 17 19:00 gameone.h
+-rw-rw-r-- 1 warpeace101 warpeace101   11166 Dec  4 23:03 gametwo.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     817 Dec  3 00:35 gametwo.h
+-rw-rw-r-- 1 warpeace101 warpeace101     227 Dec  3 02:01 history1.txt
+-rw-rw-r-- 1 warpeace101 warpeace101    3954 Dec  5 00:26 history2.txt
+-rw-rw-r-- 1 warpeace101 warpeace101     464 Dec  3 02:32 history2.txt~
+-rw-rw-r-- 1 warpeace101 warpeace101    1936 Dec  2 23:49 history.txt
+-rw-rw-r-- 1 warpeace101 warpeace101    1926 Dec  2 19:16 history.txt~
+-rw-rw-r-- 1 warpeace101 warpeace101    3645 Dec  5 00:37 historywidget.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    3641 Dec  5 00:38 historywidget.cpp.autosave
+-rw-rw-r-- 1 warpeace101 warpeace101     601 Dec  5 00:32 historywidget.h
+drwxrwxr-x 2 warpeace101 warpeace101    4096 Dec  2 22:59 [0m[01;34mImages[0m
+-rw-rw-r-- 1 warpeace101 warpeace101     593 Nov 17 19:00 main.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    5412 Dec  2 23:52 mainmenu_widget.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     998 Dec  2 23:52 mainmenu_widget.h
+-rw-rw-r-- 1 warpeace101 warpeace101    4587 Dec  4 23:32 mainscreen.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     813 Dec  4 23:29 mainscreen.h
+-rw-rw-r-- 1 warpeace101 warpeace101 1082025 Dec  4 23:03 Makefile
+-rw-rw-r-- 1 warpeace101 warpeace101    2659 Dec  2 19:16 moc_cards.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    4489 Dec  2 19:16 moc_custWid.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    5077 Dec  2 19:16 moc_dice.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    4073 Nov 17 19:00 moc_dicecust.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    3634 Dec  4 23:03 moc_g2_results.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    4016 Dec  2 19:16 moc_game1_modes.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    5559 Dec  2 19:16 moc_game1_scene.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    3441 Dec  2 19:16 moc_game2details.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    5331 Dec  2 19:16 moc_game2_scene.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    4246 Dec  2 19:16 moc_gameone.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    4264 Dec  4 23:03 moc_gametwo.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    4534 Dec  4 23:03 moc_mainmenu_widget.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    4069 Nov 17 19:00 moc_mainscreen.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    8489 Dec  2 19:16 moc_players.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    8388 Nov 17 19:00 moc_predefs.h
+-rw-rw-r-- 1 warpeace101 warpeace101    5128 Dec  2 19:16 moc_registermenu.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    4355 Nov 17 19:00 moc_settings.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    2821 Nov 17 19:00 moc_snakesladders.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    3950 Dec  2 19:16 moc_starter.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    2513 Nov 17 19:00 moc_user.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    3610 Dec  2 19:16 moc_winlose.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    3679 Dec  2 19:16 moc_xtostart.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101   14588 Dec  2 19:16 players.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    1340 Nov 17 19:00 players.h
+-rw-rw-r-- 1 warpeace101 warpeace101    1344 Nov 17 19:00 qrc_Images.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    1374 Nov 17 19:00 qrc_ProfilePics.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101   12112 Dec  3 00:35 registermenu.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101    1286 Nov 17 19:00 registermenu.h
+-rw-rw-r-- 1 warpeace101 warpeace101    8095 Nov 17 19:00 settings.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     827 Nov 17 19:00 settings.h
+-rw-rw-r-- 1 warpeace101 warpeace101     274 Nov 17 19:00 snakesladders.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     274 Nov 17 19:00 snakesladders.h
+-rw-rw-r-- 1 warpeace101 warpeace101    2571 Nov 17 19:00 starter.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     724 Nov 17 19:00 starter.h
+-rw-rw-r-- 1 warpeace101 warpeace101    1169 Nov 17 19:00 ui_dices.h
+-rw-rw-r-- 1 warpeace101 warpeace101      37 Nov 17 19:00 user.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     294 Dec  2 23:51 UserData.txt
+-rw-rw-r-- 1 warpeace101 warpeace101     316 Dec  2 23:51 UserData.txt~
+-rw-rw-r-- 1 warpeace101 warpeace101     162 Nov 17 19:00 user.h
+drwxrwxr-x 2 warpeace101 warpeace101    4096 Nov 17 19:00 [01;34mUserProfilePics[0m
+-rw-rw-r-- 1 warpeace101 warpeace101     633 Nov 18 12:28 viewgametwo.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     301 Nov 18 12:28 viewgametwo.h
+-rw-rw-r-- 1 warpeace101 warpeace101     631 Nov 17 19:00 winlose.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     460 Nov 17 19:00 winlose.h
+-rw-rw-r-- 1 warpeace101 warpeace101    1447 Dec  2 19:16 xtostart.cpp
+-rw-rw-r-- 1 warpeace101 warpeace101     553 Dec  2 19:16 xtostart.h
+]0;warpeace101@eece435l-VirtualBox: ~/Documents/project_an_group5/435ProjectFile/435Projectwarpeace101@eece435l-VirtualBox:~/Documents/project_an_group5/435ProjectFile/435Project$ ls -lgit push[1P--vpush[3Pls -l[K g++ *.cpp *.h -o program
+In file included from cards.cpp:1:0:
+cards.h:5:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from custWid.cpp:1:0:
+custWid.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from dice.cpp:1:0:
+dice.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from dicecust.cpp:1:0:
+dicecust.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from g2_results.cpp:1:0:
+g2_results.h:3:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+In file included from game1_modes.cpp:1:0:
+game1_modes.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from game1_scene.cpp:1:0:
+game1_scene.h:3:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from game1_scenecust.cpp:1:0:
+game1_scenecust.h:3:21: fatal error: players.h: No such file or directory
+ #include <players.h>
+                     ^
+compilation terminated.
+In file included from game2details.cpp:1:0:
+game2details.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from game2_scene.cpp:1:0:
+game2_scene.h:4:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from gameone.cpp:1:0:
+gameone.h:4:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from gametwo.cpp:1:0:
+gametwo.h:4:21: fatal error: QtWidgets: No such file or directory
+ #include <QtWidgets>
+                     ^
+compilation terminated.
+In file included from historywidget.cpp:1:0:
+historywidget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+main.cpp:1:26: fatal error: registermenu.h: No such file or directory
+ #include <registermenu.h>
+                          ^
+compilation terminated.
+In file included from mainmenu_widget.cpp:1:0:
+mainmenu_widget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from mainscreen.cpp:1:0:
+mainscreen.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_cards.cpp:9:0:
+cards.h:5:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from moc_custWid.cpp:9:0:
+custWid.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_dice.cpp:9:0:
+dice.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_dicecust.cpp:9:0:
+dicecust.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_g2_results.cpp:9:0:
+g2_results.h:3:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+In file included from moc_game1_modes.cpp:9:0:
+game1_modes.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_game1_scene.cpp:9:0:
+game1_scene.h:3:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from moc_game2details.cpp:9:0:
+game2details.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_game2_scene.cpp:9:0:
+game2_scene.h:4:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+In file included from moc_gameone.cpp:9:0:
+gameone.h:4:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from moc_gametwo.cpp:9:0:
+gametwo.h:4:21: fatal error: QtWidgets: No such file or directory
+ #include <QtWidgets>
+                     ^
+compilation terminated.
+In file included from moc_mainmenu_widget.cpp:9:0:
+mainmenu_widget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_mainscreen.cpp:9:0:
+mainscreen.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_players.cpp:9:0:
+players.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from moc_registermenu.cpp:9:0:
+registermenu.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_settings.cpp:9:0:
+settings.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_snakesladders.cpp:9:0:
+snakesladders.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from moc_starter.cpp:9:0:
+starter.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_user.cpp:9:0:
+user.h:3:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from moc_winlose.cpp:9:0:
+winlose.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from moc_xtostart.cpp:9:0:
+xtostart.h:3:18: fatal error: QLabel: No such file or directory
+ #include <QLabel>
+                  ^
+compilation terminated.
+In file included from players.cpp:1:0:
+players.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from registermenu.cpp:1:0:
+registermenu.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from settings.cpp:1:0:
+settings.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from snakesladders.cpp:1:0:
+snakesladders.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+In file included from starter.cpp:1:0:
+starter.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from user.cpp:1:0:
+user.h:3:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+In file included from viewgametwo.cpp:1:0:
+viewgametwo.h:4:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+In file included from winlose.cpp:1:0:
+winlose.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+In file included from xtostart.cpp:1:0:
+xtostart.h:3:18: fatal error: QLabel: No such file or directory
+ #include <QLabel>
+                  ^
+compilation terminated.
+cards.h:5:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+custWid.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+dicecust.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+dice.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+g2_results.h:3:25: fatal error: QGraphicsView: No such file or directory
+ #include <QGraphicsView>
+                         ^
+compilation terminated.
+game1_modes.h:3:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+game1_scenecust.h:3:21: fatal error: players.h: No such file or directory
+ #include <players.h>
+                     ^
+compilation terminated.
+game1_scene.h:3:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+game2details.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+game2_scene.h:4:26: fatal error: QGraphicsScene: No such file or directory
+ #include <QGraphicsScene>
+                          ^
+compilation terminated.
+gameone.h:4:19: fatal error: QObject: No such file or directory
+ #include <QObject>
+                   ^
+compilation terminated.
+gametwo.h:4:21: fatal error: QtWidgets: No such file or directory
+ #include <QtWidgets>
+                     ^
+compilation terminated.
+historywidget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+mainmenu_widget.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+mainscreen.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+moc_predefs.h:54:0: warning: "__STDC_HOSTED__" redefined [enabled by default]
+ #define __STDC_HOSTED__ 1
+ ^
+<built-in>:0:0: note: this is the location of the previous definition
+moc_predefs.h:62:0: warning: "__STDC_IEC_559__" redefined [enabled by default]
+ #define __STDC_IEC_559__ 1
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:41:0: note: this is the location of the previous definition
+ # define __STDC_IEC_559__  1
+ ^
+moc_predefs.h:63:0: warning: "__STDC_ISO_10646__" redefined [enabled by default]
+ #define __STDC_ISO_10646__ 201103L
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:54:0: note: this is the location of the previous definition
+ #define __STDC_ISO_10646__  201103L
+ ^
+moc_predefs.h:81:0: warning: "__cplusplus" redefined [enabled by default]
+ #define __cplusplus 201103L
+ ^
+<built-in>:0:0: note: this is the location of the previous definition
+moc_predefs.h:92:0: warning: "__STDC_NO_THREADS__" redefined [enabled by default]
+ #define __STDC_NO_THREADS__ 1
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:57:0: note: this is the location of the previous definition
+ #define __STDC_NO_THREADS__  1
+ ^
+moc_predefs.h:117:0: warning: "__STDC_IEC_559_COMPLEX__" redefined [enabled by default]
+ #define __STDC_IEC_559_COMPLEX__ 1
+ ^
+In file included from <command-line>:0:0:
+/usr/include/stdc-predef.h:49:0: note: this is the location of the previous definition
+ # define __STDC_IEC_559_COMPLEX__ 1
+ ^
+moc_predefs.h:228:0: warning: "__STDC__" redefined [enabled by default]
+ #define __STDC__ 1
+ ^
+<built-in>:0:0: note: this is the location of the previous definition
+players.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation terminated.
+registermenu.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+settings.h:4:19: fatal error: QWidget: No such file or directory
+ #include <QWidget>
+                   ^
+compilation terminated.
+snakesladders.h:4:31: fatal error: QGraphicsPixmapItem: No such file or directory
+ #include <QGraphicsPixmapItem>
+                               ^
+compilation termin
